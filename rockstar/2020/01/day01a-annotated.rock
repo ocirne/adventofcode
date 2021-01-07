@@ -1,36 +1,36 @@
 
-Rock the Corona                                          (
-A Human is an abstinence of discipline                   (
-Zen is underrated                                        (
-                                                         (
-(Prelude)                                                (
-The People takes the Sickness and (are) broken           (
-While the Sickness                                       (
-Roll the Sickness into the World                         (
-If the World is broken                                   (
-Give ok                                                  (
-                                                         (
-(Chorus)                                                 (
-Send lies                                                (
-Send lies                                                (
-Send lies                                                (
-Send lies                                                (
-Send lies                                                (
-                                                         (
-(The Idiot)                                              (
-Listen to the Idiot                                      (
-Until the Idiot is gone                                  (
-Cast the Idiot into the Void                             (
-Rock the Corona with the Void                            (
-Listen to the Idiot                                      (
-                                                         (
-(Consequences)                                           (
-While the Corona                                         (
-Roll the Corona into Friends                             (
-Put a Human without Friends into Loneliness              (
-If the People taking the Corona & Loneliness is right    (
-Shout Friends of Loneliness                              (
-Give Zen                                                 (
-                                                         (
-                                                         (
-This is the End.                                         (
+Rock the Corona                                              (create an array for the data)
+A Human is an abstinence of discipline                       (value 2020)
+Zen is underrated                                            (value 0)
+                                                             (noop)
+(Prelude)                                                    (noop)
+The People takes the Sickness and (are) broken               (function with parameter array and x, "contains")
+While the Sickness                                           (loop over array)
+    Roll the Sickness into the World                         (pop first element of array in y)
+    If the World is broken                                   (if x == y)
+        Give ok                                              (return true)
+                                                             (end block if)
+(Chorus)                                                     (end block loop)
+Send lies                                                    (return false)
+Send lies                                                    (noop)
+Send lies                                                    (noop)
+Send lies                                                    (noop)
+Send lies                                                    (noop)
+                                                             (noop)
+(The Idiot)                                                  (noop)
+Listen to the Idiot                                          (read a line)
+Until the Idiot is gone                                      (loop over lines)
+    Cast the Idiot into the Void                             (str -> int)
+    Rock the Corona with the Void                            (put value in data array)
+    Listen to the Idiot                                      (read next line
+                                                             (end block loop)
+(Consequences)                                               (noop)
+While the Corona                                             (loop over data)
+    Roll the Corona into Friends                             (pop first element into x)
+    Put a Human without Friends into Loneliness              (y = 2020 - x)
+    If the People taking the Corona & Loneliness is right    (if array contains y)
+        Shout Friends of Loneliness                          (print x * y)
+        Give Zen                                             (return 0)
+                                                             (end block if)
+                                                             (end block loop)
+This is the End.                                             (noop, ensure blocks are ended)
