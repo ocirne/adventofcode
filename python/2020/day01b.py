@@ -18,6 +18,6 @@ def run(data):
             return x * p[y]
 
 
-assert run(puzzleInput('2020/01/reference')) == 241861950
+assert run(puzzleInput('01/reference')) == 241861950
 
-print(run(puzzleInput('2020/01/input')))
+print(run(puzzleInput('01/input')))

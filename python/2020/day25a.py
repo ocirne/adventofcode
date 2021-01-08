@@ -22,6 +22,6 @@ def run(data):
     return pow(S, e1*e2, M)
 
 
-assert run(puzzleInput('2020/25/reference')) == 14897079
+assert run(puzzleInput('25/reference')) == 14897079
 
-print(run(puzzleInput('2020/25/input')))
+print(run(puzzleInput('25/input')))

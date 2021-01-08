@@ -12,6 +12,6 @@ def run(data):
             return x * y
 
 
-assert run(puzzleInput('2020/01/reference')) == 514579
+assert run(puzzleInput('01/reference')) == 514579
 
-print(run(puzzleInput('2020/01/input')))
+print(run(puzzleInput('01/input')))
