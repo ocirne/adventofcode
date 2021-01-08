@@ -1,4 +1,6 @@
 
+from aoc2020 import puzzleInput
+
 M = 20201227
 S = 7
 
@@ -20,12 +22,6 @@ def run(data):
     return pow(S, e1*e2, M)
 
 
-def data(filename):
-    path = '../../../../adventofcode-input/' + filename
-    file = open(path, 'r')
-    return file.readlines()
+assert run(puzzleInput('2020/25/reference')) == 14897079
 
-
-assert run(data('2020/25/reference')) == 14897079
-
-print(run(data('2020/25/input')))
+print(run(puzzleInput('2020/25/input')))
