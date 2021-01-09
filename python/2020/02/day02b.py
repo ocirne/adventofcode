@@ -1,8 +1,6 @@
 
-from aoc2020 import puzzleInput
-
-
-def run(data):
+def run(filename):
+    data = open(filename, 'r').readlines()
     total_valid = 0
     for line in data:
         range, letterw, password = line.split()
@@ -18,6 +16,6 @@ def run(data):
     return total_valid
 
 
-assert run(puzzleInput('02/reference')) == 1
+assert run('reference') == 1
 
-print(run(puzzleInput('02/input')))
+print(run('input'))

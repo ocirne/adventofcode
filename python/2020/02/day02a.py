@@ -1,9 +1,9 @@
 
-from aoc2020 import puzzleInput
 from collections import Counter
 
 
-def run(data):
+def run(filename):
+    data = open(filename, 'r').readlines()
     total_valid = 0
     for line in data:
         range, letterw, password = line.split()
@@ -16,6 +16,6 @@ def run(data):
     return total_valid
 
 
-assert run(puzzleInput('02/reference')) == 2
+assert run('reference') == 2
 
-print(run(puzzleInput('02/input')))
+print(run('input'))
