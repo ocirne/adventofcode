@@ -1,10 +1,9 @@
 
-from aoc2020 import puzzleInput
-
 M = 2020
 
 
-def run(data):
+def run(filename):
+    data = open(filename, 'r').readlines()
     d = [int(s) for s in data]
     p = {}
     for i in range(len(d)):
@@ -18,6 +17,6 @@ def run(data):
             return x * p[y]
 
 
-assert run(puzzleInput('01/reference')) == 241861950
+assert run('reference') == 241861950
 
-print(run(puzzleInput('01/input')))
+print(run('input'))
