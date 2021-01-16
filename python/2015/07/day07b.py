@@ -1,4 +1,6 @@
 
+import day07a
+
 M = 2**16
 
 
@@ -8,6 +10,7 @@ def read_rules(filename):
     for line in f.readlines():
         l, r = line.strip().split(' -> ')
         rules[r] = l.split()
+    rules['b'] = day07a.run(filename, 'a')
     return rules
 
 
@@ -54,14 +57,5 @@ def run(filename, wire):
     rules = read_rules(filename)
     return deduct(rules, wire)
 
-if __name__ == '__main__':
-    assert run('reference', 'd') == 72
-    assert run('reference', 'e') == 507
-    assert run('reference', 'f') == 492
-    assert run('reference', 'g') == 114
-    assert run('reference', 'h') == 65412
-    assert run('reference', 'i') == 65079
-    assert run('reference', 'x') == 123
-    assert run('reference', 'y') == 456
 
-    print(run('input', 'a'))
+print(run('input', 'a'))
