@@ -54,6 +54,7 @@ def run(filename, wire):
     rules = read_rules(filename)
     return deduct(rules, wire)
 
+
 if __name__ == '__main__':
     assert run('reference', 'd') == 72
     assert run('reference', 'e') == 507
