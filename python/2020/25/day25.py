@@ -24,3 +24,9 @@ def run(filename):
 assert run('reference') == 14897079
 
 print(run('input'))
+
+
+
+if __name__ == '__main__':
+    print(part1('input'))
+    print(part2('input'))
