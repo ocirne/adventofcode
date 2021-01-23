@@ -1,35 +1,41 @@
 
+def extract(line):
+    """
+    >>> extract('1x2x3')
+    [1, 2, 3]
+    >>> extract('3x2x1')
+    [1, 2, 3]
+    """
+    return sorted(map(int, line.split('x')))
+
+
 def calc_wrapping_paper(line):
-    h, l, w = sorted(map(int, line.split('x')))
+    """
+    >>> calc_wrapping_paper('2x3x4')
+    58
+    >>> calc_wrapping_paper('1x1x10')
+    43
+    """
+    h, l, w = extract(line)
     return 3*h*l + 2*h*w + 2*l*w
 
 
-def run(filename):
-    f = open(filename, 'r')
-    return sum(calc_wrapping_paper(line) for line in f.readlines())
-
-
-assert run('reference') == 101
-
-print(run('input'))
-
-
-
-
-if __name__ == '__main__':
-    print(part1('input'))
-    print(part2('input'))
-
-def calc_wrapping_paper(line):
-    h, l, w = sorted(map(int, line.split('x')))
+def calc_ribbon(line):
+    """
+    >>> calc_ribbon('2x3x4')
+    34
+    >>> calc_ribbon('1x1x10')
+    14
+    """
+    h, l, w = extract(line)
     return 2*(h+l) + h*l*w
 
 
-def run(filename):
-    f = open(filename, 'r')
-    return sum(calc_wrapping_paper(line) for line in f.readlines())
+def fun_and_sum(filename, fun):
+    data = open(filename, 'r').readlines()
+    return sum(fun(line) for line in data)
 
 
-assert run('reference') == 48
-
-print(run('input'))
+if __name__ == '__main__':
+    print(fun_and_sum('input', calc_wrapping_paper))
+    print(fun_and_sum('input', calc_ribbon))
