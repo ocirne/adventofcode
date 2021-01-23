@@ -30,6 +30,10 @@ def run(filename, fun):
     return fun(calc_distance(distances, route) for route in permutations(locations))
 
 
+def test_foo():
+    assert 1 == 2, "foo"
+
+
 if __name__ == '__main__':
     print(run('input', min))
     print(run('input', max))
