@@ -3,29 +3,37 @@ from collections import Counter
 
 
 def part1(data):
+    """
+    >>> part1('(())')
+    0
+    >>> part1('()()')
+    0
+    >>> part1('(((')
+    3
+    >>> part1('(()(()(')
+    3
+    >>> part1('))(((((')
+    3
+    >>> part1('())')
+    -1
+    >>> part1('))(')
+    -1
+    >>> part1(')))')
+    -3
+    >>> part1(')())())')
+    -3
+    """
     c = Counter(data)
     return c['('] - c[')']
 
 
-assert run('(())') == 0
-assert run('()()') == 0
-assert run('(((') == 3
-assert run('(()(()(') == 3
-assert run('))(((((') == 3
-assert run('())') == -1
-assert run('))(') == -1
-assert run(')))') == -3
-assert run(')())())') == -3
-
-data = open('input', 'r').readline()
-print(part1(data))
-
-
-
-
-
-
 def part2(data):
+    """
+    >>> part2(')')
+    1
+    >>> part2('()())')
+    5
+    """
     floor = 0
     for index, b in enumerate(data):
         if b == '(':
@@ -38,18 +46,7 @@ def part2(data):
             return index + 1
 
 
-assert run(')') == 1
-assert run('()())') == 5
-
-data = open('input', 'r').readline()
-print(run(data))
-
-
-
-
-
-
-
 if __name__ == '__main__':
-    print(part1('input'))
-    print(part2('input'))
+    inputData = open('input', 'r').readline()
+    print(part1(inputData))
+    print(part2(inputData))
