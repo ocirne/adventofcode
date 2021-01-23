@@ -1,5 +1,15 @@
 
-def count(line):
+def shrink(line):
+    """
+    >>> shrink('""')
+    (2, 0)
+    >>> shrink('"abc"')
+    (5, 3)
+    >>> shrink('"aaa\\\\"aaa"')
+    (10, 7)
+    >>> shrink('"\\\\x27"')
+    (6, 1)
+    """
     result = 0
     index = 0
     while index < len(line):
@@ -18,30 +28,20 @@ def count(line):
                     raise
             result += 1
         index += 1
-    return result
+    return len(line), result
 
 
-def run(filename):
-    f = open(filename, 'r')
-    before, after = 0, 0
-    for line in map(str.strip, f.readlines()):
-        before += len(line)
-        after += count(line)
-    return before - after
-
-
-assert run('reference') == 12
-
-print(run('input'))
-
-
-
-
-if __name__ == '__main__':
-    print(part1('input'))
-    print(part2('input'))
-
-def count(line):
+def expand(line):
+    """
+    >>> expand('""')
+    (6, 2)
+    >>> expand('"abc"')
+    (9, 5)
+    >>> expand('"aaa\\\\"aaa"')
+    (16, 10)
+    >>> expand('"\\\\x27"')
+    (11, 6)
+    """
     result = 0
     index = 0
     while index < len(line):
@@ -55,19 +55,19 @@ def count(line):
         else:
             result += 1
         index += 1
-    return result + 2
+    return result + 2, len(line)
 
 
-def run(filename):
-    f = open(filename, 'r')
-    before, after = 0, 0
-    for line in map(str.strip, f.readlines()):
-        before += len(line)
-        after += count(line)
-        print(before, after)
-    return after - before
+def loop_sum(data, fun):
+    greater, lower = 0, 0
+    for line in map(str.strip, data):
+        gre, low = fun(line)
+        greater += gre
+        lower += low
+    return greater - lower
 
 
-assert run('reference') == 19
-
-print(run('input'))
+if __name__ == '__main__':
+    inputData = open('input', 'r').readlines()
+    print(loop_sum(inputData, shrink))
+    print(loop_sum(inputData, expand))
