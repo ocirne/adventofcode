@@ -1,5 +1,13 @@
 
-def run(line):
+def part1(line):
+    """
+    >>> part1('>')
+    2
+    >>> part1('^>v<')
+    4
+    >>> part1('^v^v^v^v^v')
+    2
+    """
     x, y = 0, 0
     houses = {(0, 0): True}
     for d in line:
@@ -17,20 +25,6 @@ def run(line):
     return len(houses)
 
 
-assert run('>') == 2
-assert run('^>v<') == 4
-assert run('^v^v^v^v^v') == 2
-
-data = open('input', 'r').readline()
-print(run(data))
-
-
-
-
-if __name__ == '__main__':
-    print(part1('input'))
-    print(part2('input'))
-
 def move(d, x, y):
     if d == '>':
         return x + 1, y
@@ -43,7 +37,15 @@ def move(d, x, y):
     raise
 
 
-def run(line):
+def part2(line):
+    """
+    >>> part2('^v')
+    3
+    >>> part2('^>v<')
+    3
+    >>> part2('^v^v^v^v^v')
+    11
+    """
     sx, sy, rx, ry = 0, 0, 0, 0
     houses = {(0, 0): True}
     for index, d in enumerate(line):
@@ -56,10 +58,7 @@ def run(line):
     return len(houses)
 
 
-assert run('^v') == 3
-assert run('^>v<') == 3
-assert run('^v^v^v^v^v') == 11
-
-
-data = open('input', 'r').readline()
-print(run(data))
+if __name__ == '__main__':
+    inputData = open('input', 'r').readline()
+    print(part1(inputData))
+    print(part2(inputData))
