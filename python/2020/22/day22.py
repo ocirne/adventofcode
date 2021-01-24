@@ -1,11 +1,12 @@
-
 from collections import deque
+from pathlib import Path
 
 
-def readData(filename):
+def read_data(filename):
     f = open(filename, 'r')
     cards1 = deque()
     cards2 = deque()
+    player = None
     for line in f.readlines():
         if line.isspace():
             continue
@@ -31,53 +32,22 @@ def turn(cards1, cards2):
         cards2.append(val1)
 
 
-def calcScore(cards):
+def calc_score(cards):
     return sum((i+1) * cards.pop() for i in range(len(cards)))
 
 
-def run(filename):
-    cards1, cards2 = readData(filename)
+def part1(filename):
+    """
+    >>> part1(Path(__file__).parent / 'reference')
+    306
+    """
+    cards1, cards2 = read_data(filename)
     while True:
         turn(cards1, cards2)
         if len(cards1) == 0:
-            return calcScore(cards2)
+            return calc_score(cards2)
         if len(cards2) == 0:
-            return calcScore(cards1)
-
-
-assert run('reference') == 306
-
-print(run('input'))
-
-
-
-if __name__ == '__main__':
-    print(part1('input'))
-    print(part2('input'))
-
-from collections import deque
-
-
-def readData(filename):
-    f = open(filename, 'r')
-    cards1 = deque()
-    cards2 = deque()
-    for line in f.readlines():
-        if line.isspace():
-            continue
-        elif line.startswith('Player'):
-            player = int(line.split()[1].split(':')[0])
-        else:
-            num = int(line)
-            if player == 1:
-                cards1.append(num)
-            else:
-                cards2.append(num)
-    return cards1, cards2
-
-
-def calcScore(cards):
-    return sum((i+1) * cards.pop() for i in range(len(cards)))
+            return calc_score(cards1)
 
 
 def game(cards1, cards2):
@@ -111,13 +81,17 @@ def game(cards1, cards2):
         history_cards2[tuple(cards2)] = True
 
 
-def run(filename):
-    cards1, cards2 = readData(filename)
+def part2(filename):
+    """
+    >>> part2(Path(__file__).parent / 'reference')
+    291
+    """
+    cards1, cards2 = read_data(filename)
     winner, cards = game(cards1, cards2)
-    score = calcScore(cards)
+    score = calc_score(cards)
     return score
 
 
-assert run('reference') == 291
-
-print(run('input'))
+if __name__ == '__main__':
+    print(part1('input'))
+    print(part2('input'))
