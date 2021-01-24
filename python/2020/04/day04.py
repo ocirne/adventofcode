@@ -1,8 +1,10 @@
+from pathlib import Path
 
 MAN_KEYS = 'byr iyr eyr hgt hcl ecl pid'.split()
+ECL = 'amb blu brn gry grn hzl oth'.split()
 
 
-def check(passport):
+def check_part1(passport):
     for key in passport:
         if key == 'cid':
             continue
@@ -15,59 +17,28 @@ def check(passport):
     return True
 
 
-def run(filename):
-    f = open(filename, 'r')
-    passports = []
-    p = {}
-    for line in f.readlines():
-        if not line.strip():
-            passports.append(p)
-            p = {}
-        else:
-            for k, v in [token.split(':') for token in line.split(' ')]:
-                p[k] = v.strip()
-    passports.append(p)
-
-    return sum(check(passport) for passport in passports)
-
-
-assert run('reference') == 2
-
-print(run('input'))
-
-
-
-if __name__ == '__main__':
-    print(part1('input'))
-    print(part2('input'))
-
-MAN_KEYS = 'byr iyr eyr hgt hcl ecl pid'.split()
-
-ECL = 'amb blu brn gry grn hzl oth'.split()
-
-
-def checkByr(byr):
+def check_byr(byr):
     """byr (Birth Year) - four digits; at least 1920 and at most 2002."""
     year = int(byr)
     if year < 1920 or 2002 < year:
         raise
 
 
-def checkIyr(iyr):
+def check_iyr(iyr):
     """iyr (Issue Year) - four digits; at least 2010 and at most 2020."""
     year = int(iyr)
     if year < 2010 or 2020 < year:
         raise
 
 
-def checkEyr(eyr):
+def check_eyr(eyr):
     """eyr (Expiration Year) - four digits; at least 2020 and at most 2030."""
     year = int(eyr)
     if year < 2020 or 2030 < year:
         raise
 
 
-def checkHgt(hgt):
+def check_hgt(hgt):
     """hgt (Height) - a number followed by either cm or in:
 
     If cm, the number must be at least 150 and at most 193.
@@ -85,26 +56,26 @@ def checkHgt(hgt):
         raise
 
 
-def checkHcl(hcl):
+def check_hcl(hcl):
     """ hcl (Hair Color) - a # followed by exactly six characters 0-9 or a-f. """
     if len(hcl) == 7 and hcl.startswith('#'):
-        num = int(hcl[1:], 16)
+        int(hcl[1:], 16)
     else:
         raise
 
 
-def checkEcl(ecl):
+def check_ecl(ecl):
     if ecl not in ECL:
         raise
 
 
-def checkPid(pid):
+def check_pid(pid):
     if len(pid) != 9:
         raise
     int(pid)
 
 
-def check(passport):
+def check_part2(passport):
     for key in passport:
         if key == 'cid':
             continue
@@ -115,19 +86,25 @@ def check(passport):
         if key not in passport:
             return False
     try:
-        checkByr(passport['byr'])
-        checkEyr(passport['eyr'])
-        checkIyr(passport['iyr'])
-        checkHgt(passport['hgt'])
-        checkHcl(passport['hcl'])
-        checkEcl(passport['ecl'])
-        checkPid(passport['pid'])
+        check_byr(passport['byr'])
+        check_eyr(passport['eyr'])
+        check_iyr(passport['iyr'])
+        check_hgt(passport['hgt'])
+        check_hcl(passport['hcl'])
+        check_ecl(passport['ecl'])
+        check_pid(passport['pid'])
     except Exception:
         return False
     return True
 
 
-def run(filename):
+def run(filename, check):
+    """
+    >>> run(Path(__file__).parent / 'reference', check_part1)
+    2
+    >>> run(Path(__file__).parent / 'reference', check_part2)
+    2
+    """
     f = open(filename, 'r')
     passports = []
     p = {}
@@ -142,6 +119,6 @@ def run(filename):
     return sum(check(passport) for passport in passports)
 
 
-assert run('reference') == 2
-
-print(run('input'))
+if __name__ == '__main__':
+    print(run('input', check_part1))
+    print(run('input', check_part2))
