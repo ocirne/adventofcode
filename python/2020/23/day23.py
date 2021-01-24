@@ -1,5 +1,5 @@
 
-def prepareData(input):
+def prepare_data_part1(input):
     values = list(map(int, input))
     result = {values[len(values)-1]: values[0]}
     for i in range(1, len(values)):
@@ -7,13 +7,13 @@ def prepareData(input):
     return result
 
 
-def dec(t):
+def dec(t, m):
     if t == 1:
-        return 9
+        return m
     return t - 1
 
 
-def collectAnswer(d):
+def collect_answer_part1(d):
     result = ''
     i = 1
     while d[i] != 1:
@@ -27,9 +27,14 @@ def read_data(filename):
     return file.readline().strip()
 
 
-def run(filename, rounds):
-    data = read_data(filename)
-    d = prepareData(data)
+def part1(data, rounds):
+    """
+    >>> part1('389125467', 10)
+    '92658374'
+    >>> part1('389125467', 100)
+    '67384529'
+    """
+    d = prepare_data_part1(data)
     current = int(data[0])
     for _ in range(rounds):
         # pick three
@@ -39,64 +44,36 @@ def run(filename, rounds):
         fourth = d[third]
         fifth = d[fourth]
         # nächstkleinere Zahl identifizieren
-        t = dec(current)
+        t = dec(current, 9)
         while t in [one, second, third]:
-            t = dec(t)
+            t = dec(t, 9)
         # umsortieren
         d[current], d[t], d[third] = fourth, one, d[t]
         # current weiterschieben
         current = d[current]
-    answer = collectAnswer(d)
+    answer = collect_answer_part1(d)
     return answer
 
 
-assert run('reference', 10) == '92658374'
-assert run('reference', 100) == '67384529'
-
-print(run('input', 100))
-
-
-
-
-if __name__ == '__main__':
-    print(part1('input'))
-    print(part2('input'))
-
-M = 10**6
-
-
-def prepareData(input):
+def prepare_data_part2(input):
+    m = 10**6
     values = list(map(int, input))
-    result = list(range(M+1))
+    result = list(range(m+1))
     for i in range(1, len(values)):
         result[values[i-1]] = values[i]
     result[values[len(values)-1]] = 10
-    for i in range(11, M+1):
+    for i in range(11, m+1):
         result[i-1] = i
-    result[M] = values[0]
+    result[m] = values[0]
     return result
 
 
-def dec(t):
-    if t == 1:
-        return M
-    return t - 1
-
-
-def collectAnswer(d):
-    a = d[1]
-    b = d[d[1]]
-    return a*b
-
-
-def read_data(filename):
-    file = open(filename, 'r')
-    return file.readline().strip()
-
-
-def run(filename, rounds):
-    data = read_data(filename)
-    d = prepareData(data)
+def part2(data, rounds):
+    """
+    >>> part2('389125467', 10**7)
+    149245887792
+    """
+    d = prepare_data_part2(data)
     current = int(data[0])
     for it in range(rounds):
         one = d[current]
@@ -104,18 +81,17 @@ def run(filename, rounds):
         third = d[second]
         fourth = d[third]
         # nächstkleinere Zahl identifizieren
-        t = dec(current)
+        t = dec(current, 10**6)
         while t in [one, second, third]:
-            t = dec(t)
+            t = dec(t, 10**6)
         # umsortieren
         d[current], d[t], d[third] = fourth, one, d[t]
         # current weiterschieben
         current = d[current]
-    answer = collectAnswer(d)
-    return answer
+    return d[1] * d[d[1]]
 
 
-assert run('reference', 10**7) == 149245887792
-
-
-print(run('input', 10**7))
+if __name__ == '__main__':
+    inputData = open('input', 'r').readline().strip()
+    print(part1(inputData, 100))
+    print(part2(inputData, 10**7))
