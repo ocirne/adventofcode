@@ -1,3 +1,4 @@
+from pathlib import Path
 
 from collections import defaultdict
 
@@ -6,7 +7,7 @@ SG = 'shiny gold'
 
 def part1(filename):
     """
-    >>> part1('reference_a')
+    >>> part1(Path(__file__).parent / 'reference_a')
     4
     """
     f = open(filename, 'r')
@@ -41,7 +42,7 @@ def count_color_tree(color_tree, color):
 
 def part2(filename):
     """
-    >>> part2('reference_b')
+    >>> part2(Path(__file__).parent / 'reference_b')
     126
     """
     f = open(filename, 'r')
