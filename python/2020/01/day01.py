@@ -1,8 +1,13 @@
+from pathlib import Path
 
 M = 2020
 
 
-def run(filename):
+def part1(filename):
+    """
+    >>> part1(Path(__file__).parent / 'reference')
+    514579
+    """
     data = open(filename, 'r').readlines()
     d = {int(s) for s in data}
     for x in d:
@@ -11,21 +16,11 @@ def run(filename):
             return x * y
 
 
-assert run('reference') == 514579
-
-print(run('input'))
-
-
-
-
-if __name__ == '__main__':
-    print(part1('input'))
-    print(part2('input'))
-
-M = 2020
-
-
-def run(filename):
+def part2(filename):
+    """
+    >>> part2(Path(__file__).parent / 'reference')
+    241861950
+    """
     data = open(filename, 'r').readlines()
     d = [int(s) for s in data]
     p = {}
@@ -40,6 +35,6 @@ def run(filename):
             return x * p[y]
 
 
-assert run('reference') == 241861950
-
-print(run('input'))
+if __name__ == '__main__':
+    print(part1('input'))
+    print(part2('input'))
