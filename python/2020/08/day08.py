@@ -1,3 +1,5 @@
+from pathlib import Path
+
 
 def read_ops(filename):
     ops = []
@@ -35,7 +37,7 @@ def run_program(ops, part):
 
 def part1(filename):
     """
-    >>> part1('reference')
+    >>> part1(Path(__file__).parent / 'reference')
     5
     """
     ops = read_ops(filename)
@@ -56,7 +58,7 @@ def modify_op(ops, i):
 
 def part2(filename):
     """
-    >>> part2('reference')
+    >>> part2(Path(__file__).parent / 'reference')
     8
     """
     ops = read_ops(filename)
