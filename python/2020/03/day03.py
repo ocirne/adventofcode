@@ -1,38 +1,18 @@
+from pathlib import Path
 
-def run(filename):
+
+def read_data(filename):
     f = open(filename, 'r')
-    lines = list(map(str.strip, f.readlines()))
-    X = len(lines[0])
-    countTrees = 0
-    x = 0
-    y = 0
-    while y < len(lines):
-        g = lines[y][x % X]
-        if g == '#':
-            countTrees += 1
-        x += 3
-        y += 1
-    return countTrees
+    return list(map(str.strip, f.readlines()))
 
 
-assert run('reference') == 7
-
-print(run('input'))
-
-
-
-
-if __name__ == '__main__':
-    print(part1('input'))
-    print(part2('input'))
-
-def countTrees(lines, right, down):
-    X = len(lines[0])
+def count_trees(lines, right, down):
+    max_x = len(lines[0])
     count = 0
     x = 0
     y = 0
     while y < len(lines):
-        g = lines[y][x % X]
+        g = lines[y][x % max_x]
         if g == '#':
             count += 1
         x += right
@@ -40,17 +20,29 @@ def countTrees(lines, right, down):
     return count
 
 
-def run(filename):
-    f = open(filename, 'r')
-    lines = list(map(str.strip, f.readlines()))
-    a = countTrees(lines, 1, 1)
-    b = countTrees(lines, 3, 1)
-    c = countTrees(lines, 5, 1)
-    d = countTrees(lines, 7, 1)
-    e = countTrees(lines, 1, 2)
+def part1(filename):
+    """
+    >>> part1(Path(__file__).parent / 'reference')
+    7
+    """
+    lines = read_data(filename)
+    return count_trees(lines, 3, 1)
+
+
+def part2(filename):
+    """
+    >>> part2(Path(__file__).parent / 'reference')
+    336
+    """
+    lines = read_data(filename)
+    a = count_trees(lines, 1, 1)
+    b = count_trees(lines, 3, 1)
+    c = count_trees(lines, 5, 1)
+    d = count_trees(lines, 7, 1)
+    e = count_trees(lines, 1, 2)
     return a*b*c*d*e
 
 
-assert run('reference') == 336
-
-print(run('input'))
+if __name__ == '__main__':
+    print(part1('input'))
+    print(part2('input'))
