@@ -1,3 +1,5 @@
+from pathlib import Path
+
 
 def step_part1(pos_x, pos_y, face, action, value):
     dx, dy, df = 0, 0, 0
@@ -29,7 +31,7 @@ def step_part1(pos_x, pos_y, face, action, value):
 
 def part1(filename):
     """
-    >>> part1('reference')
+    >>> part1(Path(__file__).parent / 'reference')
     25
     """
     f = open(filename, 'r')
@@ -41,7 +43,7 @@ def part1(filename):
 
 
 def rotate(x, y, degree):
-    count = ((degree + 360) % 360) / 90
+    count = ((degree + 360) % 360) // 90
     for i in range(count):
         x, y = -y, x
     return x, y
@@ -69,7 +71,7 @@ def step_part2(pos_x, pos_y, way_x, way_y, face, action, value):
 
 def part2(filename):
     """
-    >>> part2('reference')
+    >>> part2(Path(__file__).parent / 'reference')
     286
     """
     f = open(filename, 'r')
