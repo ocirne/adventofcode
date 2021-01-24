@@ -1,5 +1,5 @@
-
 from itertools import permutations
+from pathlib import Path
 
 
 def read_data(filename):
@@ -21,17 +21,13 @@ def calc_distance(distances, route):
 
 def run(filename, fun):
     """
-    >>> run('reference', min)
+    >>> run(Path(__file__).parent / 'reference', min)
     605
-    >>> run('reference', max)
+    >>> run(Path(__file__).parent / 'reference', max)
     982
     """
     locations, distances = read_data(filename)
     return fun(calc_distance(distances, route) for route in permutations(locations))
-
-
-def test_foo():
-    assert 1 == 2, "foo"
 
 
 if __name__ == '__main__':

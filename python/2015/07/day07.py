@@ -1,3 +1,4 @@
+from pathlib import Path
 
 M = 2**16
 
@@ -52,21 +53,21 @@ def deduct(rules, wire):
 
 def run(filename, wire, new_rule_b=None):
     """
-    >>> run('reference', 'd')
+    >>> run(Path(__file__).parent / 'reference', 'd')
     72
-    >>> run('reference', 'e')
+    >>> run(Path(__file__).parent / 'reference', 'e')
     507
-    >>> run('reference', 'f')
+    >>> run(Path(__file__).parent / 'reference', 'f')
     492
-    >>> run('reference', 'g')
+    >>> run(Path(__file__).parent / 'reference', 'g')
     114
-    >>> run('reference', 'h')
+    >>> run(Path(__file__).parent / 'reference', 'h')
     65412
-    >>> run('reference', 'i')
+    >>> run(Path(__file__).parent / 'reference', 'i')
     65079
-    >>> run('reference', 'x')
+    >>> run(Path(__file__).parent / 'reference', 'x')
     123
-    >>> run('reference', 'y')
+    >>> run(Path(__file__).parent / 'reference', 'y')
     456
     """
     rules = read_rules(filename)

@@ -37,4 +37,4 @@ jobs:
     - name: Test with pytest
       run: |
         pytest --doctest-modules
-      working-directory: python
+      working-directory: python/2015
