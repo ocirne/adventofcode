@@ -1,13 +1,19 @@
+from pathlib import Path
 
-def check(preamble, slice, total):
+
+def check(preamble, my_slice, total):
     for i in range(preamble):
         for j in range(i):
-            if slice[i] + slice[j] == total:
+            if my_slice[i] + my_slice[j] == total:
                 return True
     return False
 
 
-def run(filename, preamble):
+def part1(filename, preamble):
+    """
+    >>> part1(Path(__file__).parent / 'reference', 5)
+    127
+    """
     f = open(filename, 'r')
     nums = list(map(int, f.readlines()))
 
@@ -15,32 +21,22 @@ def run(filename, preamble):
         if not check(preamble, nums[i-preamble:i], nums[i]):
             return nums[i]
 
-if __name__ == '__main__':
-    assert run('reference', 5) == 127
-
-    print(run('input', 25))
-
-
-
-
-if __name__ == '__main__':
-    print(part1('input'))
-    print(part2('input'))
-
-import day09a
-
 
 def search(nums, target):
     for start in range(len(nums)):
         for length in range(len(nums)):
-            slice = nums[start:length]
-            if sum(slice) == target:
-                return slice
+            my_slice = nums[start:length]
+            if sum(my_slice) == target:
+                return my_slice
     raise Exception
 
 
-def run(filename, preamble):
-    target = day09a.run(filename, preamble)
+def part2(filename, preamble):
+    """
+    >>> part2(Path(__file__).parent / 'reference', 5)
+    62
+    """
+    target = part1(filename, preamble)
     f = open(filename, 'r')
     nums = list(map(int, f.readlines()))
 
@@ -48,6 +44,6 @@ def run(filename, preamble):
     return min(result) + max(result)
 
 
-assert run('reference', 5) == 62
-
-print(run('input', 25))
+if __name__ == '__main__':
+    print(part1('input', 25))
+    print(part2('input', 25))
