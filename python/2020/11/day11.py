@@ -1,5 +1,5 @@
-
 from collections import Counter
+from pathlib import Path
 
 
 def count_adjacent_occupied_part1(y, x, d):
@@ -44,7 +44,7 @@ def count_seats(d):
 
 def part1(filename):
     """
-    >>> part1('reference')
+    >>> part1(Path(__file__).parent / 'reference')
     37
     """
     f = open(filename, 'r')
@@ -102,7 +102,7 @@ def step_part2(d):
 
 def part2(filename):
     """
-    >>> part2('reference')
+    >>> part2(Path(__file__).parent / 'reference')
     26
     """
     f = open(filename, 'r')
