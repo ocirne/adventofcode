@@ -1,15 +1,15 @@
-
 from collections import Counter
 from math import prod
+from pathlib import Path
 
 MATCH = {0: 1, 1: 1, 2: 2, 3: 4, 4: 7}
 
 
 def part1(filename):
     """
-    >>> part1('reference_a')
+    >>> part1(Path(__file__).parent / 'reference_a')
     35
-    >>> part1('reference_b')
+    >>> part1(Path(__file__).parent / 'reference_b')
     220
     """
     f = open(filename, 'r')
@@ -33,9 +33,9 @@ def run_detection(diffs):
 
 def part2(filename):
     """
-    >>> part2('reference_a')
+    >>> part2(Path(__file__).parent / 'reference_a')
     8
-    >>> part2('reference_b')
+    >>> part2(Path(__file__).parent / 'reference_b')
     19208
     """
     f = open(filename, 'r')
