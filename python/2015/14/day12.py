@@ -1,40 +1,66 @@
+from collections import defaultdict
+from itertools import groupby
+from operator import itemgetter
+
+ROUNDS = 2503
+
 
 def extract(line):
     """
     >>> extract('Comet can fly 14 km/s for 10 seconds, but then must rest for 127 seconds.')
-    [14, 10, 127]
+    ('Comet', 14, 10, 127)
     """
     token = line.split()
-    return [int(token[i]) for i in [3, 6, 13]]
+    return token[0], int(token[3]), int(token[6]), int(token[13])
 
 
 def race(line, seconds):
     """
     >>> race('Comet can fly 14 km/s for 10 seconds, but then must rest for 127 seconds.', 0)
-    0
+    ('Comet', 0)
     >>> race('Comet can fly 14 km/s for 10 seconds, but then must rest for 127 seconds.', 9)
-    126
+    ('Comet', 126)
     >>> race('Comet can fly 14 km/s for 10 seconds, but then must rest for 127 seconds.', 10)
-    140
+    ('Comet', 140)
     >>> race('Comet can fly 14 km/s for 10 seconds, but then must rest for 127 seconds.', 137)
-    140
+    ('Comet', 140)
     >>> race('Comet can fly 14 km/s for 10 seconds, but then must rest for 127 seconds.', 138)
-    154
+    ('Comet', 154)
     >>> race('Comet can fly 14 km/s for 10 seconds, but then must rest for 127 seconds.', 1000)
-    1120
+    ('Comet', 1120)
     >>> race('Dancer can fly 16 km/s for 11 seconds, but then must rest for 162 seconds.', 1000)
-    1056
+    ('Dancer', 1056)
     """
-    speed, flying, resting = extract(line)
+    reindeer, speed, flying, resting = extract(line)
     full, rest = divmod(seconds, flying + resting)
-    return speed * (full * flying + min(flying, rest))
+    return reindeer, speed * (full * flying + min(flying, rest))
 
 
-def part1(data):
-    return max(race(line, 2503) for line in data)
+def part1(data, rounds):
+    """
+    >>> part1(['Comet can fly 14 km/s for 10 seconds, but then must rest for 127 seconds.', \
+               'Dancer can fly 16 km/s for 11 seconds, but then must rest for 162 seconds.'], 1000)
+    1120
+    """
+    return max((race(line, rounds) for line in data), key=itemgetter(1))[1]
+
+
+def part2(data, rounds):
+    """
+    >>> part2(['Comet can fly 14 km/s for 10 seconds, but then must rest for 127 seconds.', \
+               'Dancer can fly 16 km/s for 11 seconds, but then must rest for 162 seconds.'], 1000)
+    689
+    """
+    points = defaultdict(lambda: 0)
+    for i in range(1, rounds + 1):
+        groups = groupby((race(line, i) for line in data), itemgetter(1))
+        first_group = max(((key, [item for item in data]) for key, data in groups), key=itemgetter(0))
+        for name, _ in first_group[1]:
+            points[name] += 1
+    return max(points.values())
 
 
 if __name__ == '__main__':
     inputData = open('input', 'r').readlines()
-    print(part1(inputData))
-#    print(part2(inputData))
+    print(part1(inputData, ROUNDS))
+    print(part2(inputData, ROUNDS))
