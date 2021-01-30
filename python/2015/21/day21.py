@@ -55,27 +55,40 @@ def pick(von, bis, equipment: list):
             yield c
 
 
-def player_wins(player, boss):
+def first_wins(player, boss):
     needed_player_hits = math.ceil(boss.hit_points / max(1, player.damage - boss.armor))
     needed_boss_hits = math.ceil(player.hit_points / max(1, boss.damage - player.armor))
     return needed_player_hits <= needed_boss_hits
 
 
-def all_fights(boss):
+def player_wins(player, boss):
+    return first_wins(player, boss)
+
+
+def boss_wins(player, boss):
+    return first_wins(boss, player)
+
+
+def all_fights(boss, who_wins):
     for weapon in pick(1, 2, WEAPONS):
         for armor in pick(0, 2, ARMOR):
             for rings in pick(0, 3, RINGS):
                 total_damage = sum(eq.damage for eq in chain.from_iterable([weapon, armor, rings]))
                 total_armor = sum(eq.armor for eq in chain.from_iterable([weapon, armor, rings]))
                 player = Stats(100, total_damage, total_armor)
-                if player_wins(player, boss):
+                if who_wins(player, boss):
                     yield sum(eq.cost for eq in chain.from_iterable([weapon, armor, rings]))
 
 
-def part1(filename):
-    boss = read_boss_stats(filename)
-    return min(all_fights(boss))
+def part1(boss):
+    return min(all_fights(boss, player_wins))
+
+
+def part2(boss):
+    return max(all_fights(boss, boss_wins))
 
 
 if __name__ == '__main__':
-    print(part1('input'))
+    inputBoss = read_boss_stats('input')
+    print(part1(inputBoss))
+    print(part2(inputBoss))
