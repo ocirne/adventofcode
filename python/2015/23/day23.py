@@ -10,8 +10,13 @@ def read_program(filename):
     return program
 
 
-def run(program):
-    reg = {'a': 0, 'b': 0}
+def run(filename, init_a=0):
+    """
+    >>> run(Path(__file__).parent / 'reference')['a']
+    2
+    """
+    program = read_program(filename)
+    reg = {'a': init_a, 'b': 0}
     pp = 0
     while True:
         if pp >= len(program):
@@ -40,14 +45,6 @@ def run(program):
         pp += 1
 
 
-def part1(filename, register):
-    """
-    >>> part1(Path(__file__).parent / 'reference', 'a')
-    2
-    """
-    program = read_program(filename)
-    return run(program)[register]
-
-
 if __name__ == '__main__':
-    print(part1('input', 'b'))
+    print(run('input')['b'])
+    print(run('input', 1)['b'])
