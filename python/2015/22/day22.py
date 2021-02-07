@@ -1,7 +1,30 @@
+from dataclasses import dataclass
+
 
 def read_boss(filename):
     f = open(filename, 'r')
     return (int(line.split(':')[1]) for line in f.readlines())
+
+
+@dataclass
+class Spell:
+    name: str
+    mana_cost: int
+    boss_hit: int = 0
+    player_hp: int = 0
+    armor: int = 0
+    shield_timer: int = 0
+    poison_timer: int = 0
+    recharge_timer: int = 0
+
+
+SPELLS = [
+    Spell('magic missile', 53, boss_hit=4),
+    Spell('drain',         73, boss_hit=2, player_hp=2),
+    Spell('shield',       113, armor=7, shield_timer=6),
+    Spell('poison',       173, poison_timer=6),
+    Spell('recharge',     229, recharge_timer=5),
+]
 
 
 class Node:
@@ -45,8 +68,7 @@ class Node:
             self.win = True
         return self.win
 
-    def magic_missile(self):
-        """ Magic Missile costs 53 mana. It instantly does 4 damage. """
+    def next_spell(self, spell: Spell):
         node = self.copy()
         if node.hard:
             node.hp -= 1
@@ -55,154 +77,42 @@ class Node:
         node.apply_effects()
         if node.check_win_condition():
             return node
-        node.spell = 'magic missile'
-        if not node.win and node.mana <= 53:
+        if node.mana <= spell.mana_cost:
             return None
-        node.mana -= 53
-        node.boss_hp -= 4
-        node.cost = 53
-        if node.check_win_condition():
-            return node
-        node.apply_effects()
-        if node.check_win_condition():
-            return node
-        if not node.win and node.boss_damage_kills():
-            return None
-        if node.check_win_condition():
-            return node
-        return node
-
-    def drain(self):
-        """ Drain costs 73 mana. It instantly does 2 damage and heals you for 2 hit points. """
-        node = self.copy()
-        if node.hard:
-            node.hp -= 1
-            if node.hp <= 0:
+        node.spell = spell.name
+        node.mana -= spell.mana_cost
+        node.boss_hp -= spell.boss_hit
+        node.hp += spell.player_hp
+        node.ar += spell.armor
+        if spell.shield_timer > 0:
+            if node.st > 0:
                 return None
-        node.apply_effects()
-        if node.check_win_condition():
-            return node
-        node.spell = 'drain'
-        if not node.win and node.mana <= 73:
-            return None
-        node.mana -= 73
-        node.boss_hp -= 2
-        node.hp += 2
-        node.cost = 73
-        if node.check_win_condition():
-            return node
-        node.apply_effects()
-        if node.check_win_condition():
-            return node
-        if not node.win and node.boss_damage_kills():
-            return None
-        if node.check_win_condition():
-            return node
-        return node
-
-    def shield(self):
-        """ Shield costs 113 mana. It starts an effect that lasts for 6 turns. While it is active, your armor is
-            increased by 7.
-        """
-        if self.st > 1:
-            return None
-        node = self.copy()
-        if node.hard:
-            node.hp -= 1
-            if node.hp <= 0:
+            node.st = spell.shield_timer
+        if spell.poison_timer > 0:
+            if node.pt > 0:
                 return None
-        node.apply_effects()
-        if node.check_win_condition():
-            return node
-        node.spell = 'shield'
-        if not node.win and node.mana <= 113:
-            return None
-        node.mana -= 113
-        node.ar += 7
-        node.st = 6
-        node.cost = 113
-        if node.check_win_condition():
-            return node
-        node.apply_effects()
-        if node.check_win_condition():
-            return node
-        if not node.win and node.boss_damage_kills():
-            return None
-        if node.check_win_condition():
-            return node
-        return node
-
-    def poison(self):
-        """ Poison costs 173 mana. It starts an effect that lasts for 6 turns. At the start of each turn while it is
-            active, it deals the boss 3 damage.
-        """
-        if self.pt > 1:
-            return None
-        node = self.copy()
-        if node.hard:
-            node.hp -= 1
-            if node.hp <= 0:
+            node.pt = spell.poison_timer
+        if spell.recharge_timer > 0:
+            if node.rt > 0:
                 return None
-        node.apply_effects()
-        if node.check_win_condition():
-            return node
-        node.spell = 'poison'
-        if not node.win and node.mana <= 173:
-            return None
-        node.mana -= 173
-        node.pt = 6
-        node.cost = 173
+            node.rt = spell.recharge_timer
+        node.cost = spell.mana_cost
         if node.check_win_condition():
             return node
         node.apply_effects()
         if node.check_win_condition():
             return node
-        if not node.win and node.boss_damage_kills():
+        if node.boss_damage_kills():
             return None
-        if node.check_win_condition():
-            return node
-        return node
-
-    def recharge(self):
-        """ Recharge costs 229 mana. It starts an effect that lasts for 5 turns. At the start of each turn while it is
-            active, it gives you 101 new mana.
-        """
-        if self.rt > 1:
-            return None
-        node = self.copy()
-        if node.hard:
-            node.hp -= 1
-            if node.hp <= 0:
-                return None
-        node.apply_effects()
-        if node.check_win_condition():
-            return node
-        node.spell = 'recharge'
-        if not node.win and node.mana <= 229:
-            return None
-        node.mana -= 229
-        node.rt = 5
-        node.cost = 229
-        if node.check_win_condition():
-            return node
-        node.apply_effects()
-        if node.check_win_condition():
-            return node
-        if not node.win and node.boss_damage_kills():
-            return None
-        if node.check_win_condition():
-            return node
+        node.check_win_condition()
         return node
 
 
 def next_spell(current: Node):
-    if current.hp <= 0 or current.mana <= 0:
-        return []
-    return [node for node in (current.magic_missile(), current.drain(), current.shield(), current.poison(),
-                              current.recharge()) if node]
+    return (node for node in (current.next_spell(spell) for spell in SPELLS) if node)
 
 
-def dijkstra(start):
+def search(start):
     open_set = set()
     result_list = []
     best_result = 2000
@@ -210,7 +120,7 @@ def dijkstra(start):
     open_set.add(current)
     while open_set:
         current = min(open_set, key=lambda o: o.G)
-        if current.win:  # player wins
+        if current.win:
             path = []
             backtrack = current
             while backtrack.parent:
@@ -238,7 +148,7 @@ def run(boss_hp, boss_da, hp, mana, hard=False):
     641
     """
     start = Node(boss_hp, boss_da, hp, mana, hard)
-    results, best_result = dijkstra(start)
+    results, best_result = search(start)
     for path in results:
         if best_result == sum(node.cost for node in path):
             print(' -> '.join(node.spell for node in path if node.spell))
