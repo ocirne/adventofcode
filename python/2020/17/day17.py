@@ -1,18 +1,18 @@
-from collections import defaultdict
 from pathlib import Path
 
 
 def read_start_grid(filename):
     f = open(filename)
-    cube = defaultdict(lambda: '.')
+    cube = set()
     for y, line in enumerate(map(str.strip, f.readlines())):
         for x in range(len(line)):
-            cube[(x-5, y-5, 0, 0)] = line[x]
+            if line[x] == '#':
+                cube.add((x-5, y-5, 0, 0))
     return cube
 
 
 def count_cells(cube):
-    return sum(1 for value in cube.values() if value == '#')
+    return len(cube)
 
 
 def count_env(cube, x, y, z, w, dim):
@@ -24,24 +24,26 @@ def count_env(cube, x, y, z, w, dim):
                 for dw in dw_range:
                     if dx == dy == dz == dw == 0:
                         continue
-                    if cube[(x+dx, y+dy, z+dz, w+dw)] == '#':
+                    if (x+dx, y+dy, z+dz, w+dw) in cube:
                         count += 1
     return count
 
 
 def step(i, cube, dim):
     w_range = {3: [0], 4: range(-7-i, 8+i)}[dim]
-    result = defaultdict(lambda: '.')
+    result = set()
     for x in range(-7-i, 8+i):
         for y in range(-7-i, 8+i):
             for z in range(-7-i, 8+i):
                 for w in w_range:
                     count = count_env(cube, x, y, z, w, dim)
                     coordinates = (x, y, z, w)
-                    if cube[coordinates] == '#' and 1 < count < 4:
-                        result[coordinates] = '#'
-                    elif cube[coordinates] == '.' and count == 3:
-                        result[coordinates] = '#'
+                    if coordinates in cube:
+                        if 1 < count < 4:
+                            result.add(coordinates)
+                    else:
+                        if count == 3:
+                            result.add(coordinates)
     return result
 
 
