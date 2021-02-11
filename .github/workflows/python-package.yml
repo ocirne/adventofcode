@@ -40,4 +40,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        PY_IGNORE_IMPORTMISMATCH=1 pytest --doctest-modules
+        pytest --doctest-modules 2015/
+        pytest --doctest-modules 2017/
+        pytest --doctest-modules 2018/
+        pytest --doctest-modules 2020/
