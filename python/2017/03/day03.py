@@ -1,3 +1,4 @@
+import itertools
 from math import sqrt
 
 
@@ -58,7 +59,58 @@ def part1(target):
     return manhattan_distance(x, y, middle)
 
 
+def walk_the_grid():
+    """
+    >>> list(itertools.islice(walk_the_grid(), 9))
+    [(1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (2, 1)]
+    """
+    x = y = 0
+    diameter = 1
+    while True:
+        while x < diameter:
+            x += 1
+            yield x, y
+        while y > -diameter:
+            y -= 1
+            yield x, y
+        while x > -diameter:
+            x -= 1
+            yield x, y
+        while y < diameter:
+            y += 1
+            yield x, y
+        diameter += 1
+
+
+def sum_adjacent(grid, x, y):
+    result = 0
+    for i in range(x-1, x+2):
+        for j in range(y-1, y+2):
+            if (i, j) in grid:
+                result += grid[i, j]
+    return result
+
+
+def part2(target):
+    """
+    >>> part2(4)
+    5
+    >>> part2(58)
+    59
+    >>> part2(59)
+    122
+    >>> part2(800)
+    806
+    """
+    grid = {(0, 0): 1}
+    for x, y in walk_the_grid():
+        value = sum_adjacent(grid, x, y)
+        if value > target:
+            return value
+        grid[x, y] = value
+
+
 if __name__ == '__main__':
     inputData = int(open('input', 'r').readline())
     print(part1(inputData))
-#    print(part2(inputData))
+    print(part2(inputData))
