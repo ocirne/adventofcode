@@ -9,6 +9,7 @@ for P in */*; do
     INPUT_PATH="$INPUT_BASE_PATH$P"
     if [ -d $INPUT_PATH ]; then
       for F in "$INPUT_PATH"/*; do
+        [ -e $F ] || continue
         ln -s $F .
       done
     fi
