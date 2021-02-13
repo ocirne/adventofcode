@@ -11,23 +11,33 @@ def redistribute(banks):
     return tuple(result)
 
 
-def run(filename):
+# noinspection PyUnusedLocal
+def part1(second, first):
+    return second
+
+
+def part2(second, first):
+    return second - first
+
+
+def run(filename, result):
     """
-    >>> run(Path(__file__).parent / 'reference')
+    >>> run(Path(__file__).parent / 'reference', part1)
     5
+    >>> run(Path(__file__).parent / 'reference', part2)
+    4
     """
     banks = tuple(int(line) for line in open(filename, 'r').readline().split())
-    known = set()
+    known = {}
     count = 1
     while True:
-#        print(banks)
         banks = redistribute(banks)
         if banks in known:
-            return count
-        known.add(banks)
+            return result(count, known[banks])
+        known[banks] = count
         count += 1
 
 
 if __name__ == '__main__':
-    assert run('reference') == 5
-    print(run('input'))
+    print(run('input', part1))
+    print(run('input', part2))
