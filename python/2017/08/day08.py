@@ -9,7 +9,7 @@ class Instruction:
     register: str
     change: int
     condition_register: str
-    condition: Callable[[str], bool]
+    condition: Callable[[int], bool]
 
 
 def create_change(direction, value):
@@ -58,11 +58,24 @@ def part1(filename):
     for ins in instructions:
         if ins.condition(register_bank[ins.condition_register]):
             register_bank[ins.register] += ins.change
-        print (ins)
-        print (register_bank)
     return max(register_bank.values())
 
 
+def part2(filename):
+    """
+    >>> part2(Path(__file__).parent / 'reference')
+    10
+    """
+    instructions = read_instructions(filename)
+    register_bank = defaultdict(lambda: 0)
+    register_max = 0
+    for ins in instructions:
+        if ins.condition(register_bank[ins.condition_register]):
+            register_bank[ins.register] += ins.change
+        register_max = max(register_max, max(register_bank.values()))
+    return register_max
+
+
 if __name__ == '__main__':
-    print(part1('reference'))
     print(part1('input'))
+    print(part2('input'))
