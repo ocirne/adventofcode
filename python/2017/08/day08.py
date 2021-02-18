@@ -1,3 +1,4 @@
+import operator
 from collections import defaultdict
 from typing import Callable
 from dataclasses import dataclass
@@ -12,35 +13,22 @@ class Instruction:
     condition: Callable[[int], bool]
 
 
-def create_change(direction, value):
-    if direction == 'inc':
-        return value
-    if direction == 'dec':
-        return -value
-    raise
+SIGN = {'inc': 1, 'dec': -1}
 
-
-def create_condition(op, value):
-    if op == '!=':
-        return lambda r: r != value
-    if op == '<':
-        return lambda r: r < value
-    if op == '<=':
-        return lambda r: r <= value
-    if op == '==':
-        return lambda r: r == value
-    if op == '>':
-        return lambda r: r > value
-    if op == '>=':
-        return lambda r: r >= value
-    raise
+OPERATORS = {
+    '!=': operator.ne,
+    '<': operator.lt,
+    '<=': operator.le,
+    '==': operator.eq,
+    '>': operator.gt,
+    '>=': operator.ge,
+}
 
 
 def create_instruction(line):
     register, direction, value, _, condition_register, op, condition_value = line.split()
-    change = create_change(direction, int(value))
-    condition = create_condition(op, int(condition_value))
-    return Instruction(register, change, condition_register, condition)
+    change = SIGN[direction] * int(value)
+    return Instruction(register, change, condition_register, lambda r: OPERATORS[op](r, int(condition_value)))
 
 
 def read_instructions(filename):
