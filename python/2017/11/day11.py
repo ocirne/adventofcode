@@ -10,7 +10,7 @@ TRANSLATE = {
 
 
 def distance(x, y):
-    return max(abs(y), abs(x))
+    return max(abs(y), abs(x), abs(x+y))
 
 
 def run(data):
