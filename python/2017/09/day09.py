@@ -1,38 +1,5 @@
 
 def run(stream):
-    """
-    >>> run('{}')[0]
-    1
-    >>> run('{{{}}}')[0]
-    6
-    >>> run('{{},{}}')[0]
-    5
-    >>> run('{{{},{},{{}}}}')[0]
-    16
-    >>> run('{<a>,<a>,<a>,<a>}')[0]
-    1
-    >>> run('{{<ab>},{<ab>},{<ab>},{<ab>}}')[0]
-    9
-    >>> run('{{<!!>},{<!!>},{<!!>},{<!!>}}')[0]
-    9
-    >>> run('{{<a!>},{<a!>},{<a!>},{<ab>}}')[0]
-    3
-
-    >>> run('<>')[1]
-    0
-    >>> run('<random characters>')[1]
-    17
-    >>> run('<<<<>')[1]
-    3
-    >>> run('<{!>}>')[1]
-    2
-    >>> run('<!!>')[1]
-    0
-    >>> run('<!!!>>')[1]
-    0
-    >>> run('<{o"i!a,<{i<a>')[1]
-    10
-    """
     i = 0
     depth = 0
     garbage = False
@@ -59,8 +26,49 @@ def run(stream):
     return count_groups, count_garbage
 
 
+def part1(stream):
+    """
+    >>> part1('{}')
+    1
+    >>> part1('{{{}}}')
+    6
+    >>> part1('{{},{}}')
+    5
+    >>> part1('{{{},{},{{}}}}')
+    16
+    >>> part1('{<a>,<a>,<a>,<a>}')
+    1
+    >>> part1('{{<ab>},{<ab>},{<ab>},{<ab>}}')
+    9
+    >>> part1('{{<!!>},{<!!>},{<!!>},{<!!>}}')
+    9
+    >>> part1('{{<a!>},{<a!>},{<a!>},{<ab>}}')
+    3
+    """
+    return run(stream)[0]
+
+
+def part2(stream):
+    """
+    >>> part2('<>')
+    0
+    >>> part2('<random characters>')
+    17
+    >>> part2('<<<<>')
+    3
+    >>> part2('<{!>}>')
+    2
+    >>> part2('<!!>')
+    0
+    >>> part2('<!!!>>')
+    0
+    >>> part2('<{o"i!a,<{i<a>')
+    10
+    """
+    return run(stream)[1]
+
+
 if __name__ == '__main__':
     input_data = open('input', 'r').readline().strip()
-    answer1, answer2 = run(input_data)
-    print(answer1)
-    print(answer2)
+    print(part1(input_data))
+    print(part2(input_data))
