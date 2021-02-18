@@ -1,29 +1,41 @@
 
+def run_rounds(data, rounds, size):
+    lengths = [int(length) for length in data.split(',')]
+    elements = list(range(size))
+    skip_size = 0
+    for r in range(rounds):
+        for length in lengths:
+            # reverse
+            elements = list(reversed(elements[:length])) + elements[length:]
+            # rotate
+            r = (length + skip_size) % size
+            elements = elements[r:] + elements[:r]
+            skip_size += 1
+    # revert rotations
+    s = rounds * len(lengths)
+    sum_skip_size = s*(s-1)//2
+    x = size - ((rounds * sum(lengths) + sum_skip_size) % size)
+    return elements[x:] + elements[:x]
+
+
+def sparse_hash():
+    pass
+
+def dense_hash():
+    pass
+
+def knot_hash():
+    pass
+
+
 def part1(data, size=256):
     """
     >>> part1("3,4,1,5", 5)
     12
     """
-    lengths = [int(length) for length in data.split(',')]
-    elements = list(range(size))
-    for skip_size, length in enumerate(lengths):
-        # reverse
-        elements = list(reversed(elements[:length])) + elements[length:]
-        # rotate
-        r = (length + skip_size) % size
-        elements = elements[r:] + elements[:r]
-    # revert rotations
-    s = len(lengths)
-    x = size - ((sum(lengths) + (s*(s-1)//2)) % size)
-    elements = elements[x:] + elements[:x]
+    elements = run_rounds(data, 1, size)
     return elements[0] * elements[1]
 
-
-def sparse_hash():
-
-def dense_hash():
-
-def knot_hash():
 
 def part2(data):
     """
@@ -36,7 +48,7 @@ def part2(data):
     >>> part2('1,2,4')
     63960835bcdc130f0b66d7ff4f6a5a8e
     """
-
+    pass
 
 if __name__ == '__main__':
     input_data = open('input', 'r').readline().strip()

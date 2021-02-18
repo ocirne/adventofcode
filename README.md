@@ -1,4 +1,4 @@
 
 # Lösungen für Probleme aus Advent Of Code
 
-https://adventofcode.com/
+Problembeschreibungen siehe https://adventofcode.com/
