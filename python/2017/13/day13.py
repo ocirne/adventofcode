@@ -1,3 +1,4 @@
+from itertools import count
 from pathlib import Path
 
 
@@ -14,5 +15,18 @@ def part1(filename):
     return sum(d*r for d, r in read_data(filename) if 0 == d % ((r - 1)*2))
 
 
+def part2(filename):
+    """
+    >>> part2(Path(__file__).parent / 'reference')
+    10
+    """
+    data = list(read_data(filename))
+    moduli = [(d, (r-1)*2) for d, r in data]
+    for i in count():
+        if all((d+i) % m != 0 for d, m in moduli):
+            return i
+
+
 if __name__ == '__main__':
     print(part1('input'))
+    print(part2('input'))
