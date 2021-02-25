@@ -2,7 +2,7 @@ from pathlib import Path
 
 
 def read_data(filename):
-    f = open(filename, 'r')
+    f = open(filename)
     return list(map(str.strip, f.readlines()))
 
 

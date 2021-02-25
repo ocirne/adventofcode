@@ -30,7 +30,7 @@ def part2(lines):
 
 
 if __name__ == '__main__':
-    f = open('input', 'r')
+    f = open('input')
     inputData = list(map(str.strip, f.readlines()))
     print(part1(inputData))
     print(part2(inputData))

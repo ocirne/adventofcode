@@ -108,7 +108,7 @@ def part2(expression):
 
 
 def run(filename, solve):
-    f = open(filename, 'r')
+    f = open(filename)
     return sum(solve(line.strip()) for line in f.readlines())
 
 

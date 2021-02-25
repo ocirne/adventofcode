@@ -4,7 +4,7 @@ RESULTS = []
 
 
 def read_data(filename):
-    f = open(filename, 'r')
+    f = open(filename)
     return sorted(int(line) for line in f.readlines())
 
 

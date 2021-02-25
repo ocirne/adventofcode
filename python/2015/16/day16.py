@@ -16,7 +16,7 @@ FEWER_THAN_ITEMS = ['pomeranians', 'goldfish']
 
 def read_data(filename):
     result = []
-    f = open(filename, 'r')
+    f = open(filename)
     for line in f.readlines():
         _, things_part = line.split(': ', 1)
         things = {}

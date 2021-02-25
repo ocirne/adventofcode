@@ -3,7 +3,7 @@ from pathlib import Path
 
 def read_data(filename):
     replacements = []
-    f = open(filename, 'r')
+    f = open(filename)
     while True:
         line = f.readline()
         if line.isspace():

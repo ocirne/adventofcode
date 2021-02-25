@@ -15,7 +15,7 @@ class Node:
 def read_tree(filename):
     parents = {}
     nodes = {}
-    f = open(filename, 'r')
+    f = open(filename)
     for line in f.readlines():
         name_weight = line.split(')')[0]
         name, weight = name_weight.split(' (')

@@ -40,6 +40,6 @@ def part2(data):
 
 
 if __name__ == '__main__':
-    input_data = open('input', 'r').readline().strip()
+    input_data = open('input').readline().strip()
     print(part1(input_data))
     print(part2(input_data))

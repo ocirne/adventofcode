@@ -3,7 +3,7 @@ from pathlib import Path
 
 def read_data(filename):
     edges = {}
-    f = open(filename, 'r')
+    f = open(filename)
     for line in f.readlines():
         root, children = line.strip().split(' <-> ')
         edges[int(root)] = [int(c) for c in children.split(', ')]

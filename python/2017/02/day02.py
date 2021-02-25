@@ -3,7 +3,7 @@ from pathlib import Path
 
 
 def read_lines(filename):
-    f = open(filename, "r")
+    f = open(filename)
     return f.readlines()
 
 

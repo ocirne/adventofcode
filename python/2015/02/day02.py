@@ -32,7 +32,7 @@ def calc_ribbon(line):
 
 
 def fun_and_sum(filename, fun):
-    data = open(filename, 'r').readlines()
+    data = open(filename).readlines()
     return sum(fun(line) for line in data)
 
 

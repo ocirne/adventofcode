@@ -45,7 +45,7 @@ RINGS = [
 
 
 def read_boss_stats(filename):
-    f = open(filename, 'r')
+    f = open(filename)
     return Stats(*(int(line.split(':')[1]) for line in f.readlines()))
 
 

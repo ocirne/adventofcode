@@ -4,7 +4,7 @@ M = 2**16
 
 
 def read_rules(filename):
-    f = open(filename, 'r')
+    f = open(filename)
     rules = {}
     for line in f.readlines():
         l, r = line.strip().split(' -> ')

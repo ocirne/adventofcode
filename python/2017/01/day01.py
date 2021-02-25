@@ -31,6 +31,6 @@ def part2(line):
 
 
 if __name__ == '__main__':
-    inputData = open('input', 'r').readline().strip()
+    inputData = open('input').readline().strip()
     print(part1(inputData))
     print(part2(inputData))

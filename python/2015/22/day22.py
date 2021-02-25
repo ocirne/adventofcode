@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 
 def read_boss(filename):
-    f = open(filename, 'r')
+    f = open(filename)
     return (int(line.split(':')[1]) for line in f.readlines())
 
 

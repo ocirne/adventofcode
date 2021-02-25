@@ -47,6 +47,6 @@ def part2(data):
 
 
 if __name__ == '__main__':
-    inputData = open('input', 'r').readline()
+    inputData = open('input').readline()
     print(part1(inputData))
     print(part2(inputData))

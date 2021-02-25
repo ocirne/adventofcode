@@ -20,6 +20,6 @@ def run(target, count_presents):
 
 
 if __name__ == '__main__':
-    puzzleInput = int(open('input', 'r').readline())
+    puzzleInput = int(open('input').readline())
     print(run(puzzleInput, count_part1))
     print(run(puzzleInput, count_part2))

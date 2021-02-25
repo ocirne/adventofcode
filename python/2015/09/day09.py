@@ -3,7 +3,7 @@ from pathlib import Path
 
 
 def read_data(filename):
-    f = open(filename, 'r')
+    f = open(filename)
     locations = {}
     distances = {}
     for line in f.readlines():

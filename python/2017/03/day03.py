@@ -111,6 +111,6 @@ def part2(target):
 
 
 if __name__ == '__main__':
-    inputData = int(open('input', 'r').readline())
+    inputData = int(open('input').readline())
     print(part1(inputData))
     print(part2(inputData))

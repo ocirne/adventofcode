@@ -34,7 +34,7 @@ def part1(filename):
     >>> part1(Path(__file__).parent / 'reference')
     25
     """
-    f = open(filename, 'r')
+    f = open(filename)
     pos_x, pos_y, face = 0, 0, 0
     for line in f.readlines():
         action, value = line[0], int(line[1:])
@@ -74,7 +74,7 @@ def part2(filename):
     >>> part2(Path(__file__).parent / 'reference')
     286
     """
-    f = open(filename, 'r')
+    f = open(filename)
     pos_x, pos_y, way_x, way_y, face = 0, 0, 10, -1, 0
     for line in f.readlines():
         action, value = line[0], int(line[1:])

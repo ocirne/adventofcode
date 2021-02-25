@@ -3,7 +3,7 @@ from sage.all import CRT_list
 
 
 def read_data(filename):
-    f = open(filename, 'r')
+    f = open(filename)
     f.readline()
     return f.readline().strip()
 

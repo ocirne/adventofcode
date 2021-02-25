@@ -8,7 +8,7 @@ def part1(filename):
     >>> part1(Path(__file__).parent / 'reference_a')
     12
     """
-    data = open(filename, 'r').readlines()
+    data = open(filename).readlines()
     count_two = 0
     count_three = 0
     for line in data:
@@ -36,7 +36,7 @@ def part2(filename):
     >>> part2(Path(__file__).parent / 'reference_b')
     'fgij'
     """
-    data = open(filename, 'r').readlines()
+    data = open(filename).readlines()
     for line1, line2 in combinations(data, 2):
         count, common = count_diff(line1.strip(), line2.strip())
         if count == 1:

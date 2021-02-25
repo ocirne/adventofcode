@@ -26,6 +26,6 @@ def run(data, toogle, turn_on, turn_off):
 
 
 if __name__ == '__main__':
-    inputData = open('input', 'r').readlines()
+    inputData = open('input').readlines()
     print(run(inputData, lambda v: not v, lambda _: True, lambda _: False))
     print(run(inputData, lambda x: x + 2, lambda x: x + 1, lambda x: max(0, x - 1)))

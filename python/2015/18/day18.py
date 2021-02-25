@@ -11,7 +11,7 @@ def corners_on(stay_on, grid, size):
 
 def read_data(filename):
     grid = {}
-    f = open(filename, 'r')
+    f = open(filename)
     for y, line in enumerate(f.readlines()):
         for x, light in enumerate(line.strip()):
             if light == '#':

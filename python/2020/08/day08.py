@@ -3,7 +3,7 @@ from pathlib import Path
 
 def read_ops(filename):
     ops = []
-    for line in open(filename, 'r').readlines():
+    for line in open(filename).readlines():
         op, arg = line.strip().split()
         ops.append((op, int(arg)))
     return ops

@@ -27,7 +27,7 @@ def run(filename, result):
     >>> run(Path(__file__).parent / 'reference', part2)
     4
     """
-    banks = tuple(int(line) for line in open(filename, 'r').readline().split())
+    banks = tuple(int(line) for line in open(filename).readline().split())
     known = {}
     count = 1
     while True:

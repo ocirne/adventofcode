@@ -68,6 +68,6 @@ def loop_sum(data, fun):
 
 
 if __name__ == '__main__':
-    inputData = open('input', 'r').readlines()
+    inputData = open('input').readlines()
     print(loop_sum(inputData, shrink))
     print(loop_sum(inputData, expand))

@@ -47,7 +47,7 @@ def part1(filename):
     >>> part1(Path(__file__).parent / 'reference')
     37
     """
-    f = open(filename, 'r')
+    f = open(filename)
     d = list(map(str.strip, f.readlines()))
     changed = True
     while changed:
@@ -105,7 +105,7 @@ def part2(filename):
     >>> part2(Path(__file__).parent / 'reference')
     26
     """
-    f = open(filename, 'r')
+    f = open(filename)
     d = list(map(str.strip, f.readlines()))
     changed = True
     while changed:

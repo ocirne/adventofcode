@@ -46,7 +46,7 @@ def is_valid_part2(line):
 
 
 def run(filename, is_valid):
-    data = open(filename, 'r').readlines()
+    data = open(filename).readlines()
     return sum(is_valid(line) for line in data)
 
 

@@ -7,7 +7,7 @@ def part1(filename):
     >>> part1(Path(__file__).parent / 'reference')
     11
     """
-    f = open(filename, 'r')
+    f = open(filename)
     answers = []
     a = {}
     for line in f.readlines():
@@ -26,7 +26,7 @@ def part2(filename):
     >>> part2(Path(__file__).parent / 'reference')
     6
     """
-    f = open(filename, 'r')
+    f = open(filename)
     answers = []
     a = defaultdict(lambda: 0)
     count_people = 0

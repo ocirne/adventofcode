@@ -26,7 +26,7 @@ def endpoint(line, x=0, y=0):
 
 
 def read_endpoints(filename):
-    f = open(filename, 'r')
+    f = open(filename)
     return (endpoint(line.strip()) for line in f.readlines())
 
 

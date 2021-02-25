@@ -61,6 +61,6 @@ def part2(data, rounds):
 
 
 if __name__ == '__main__':
-    inputData = open('input', 'r').readlines()
+    inputData = open('input').readlines()
     print(part1(inputData, ROUNDS))
     print(part2(inputData, ROUNDS))

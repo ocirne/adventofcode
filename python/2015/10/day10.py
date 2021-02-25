@@ -42,6 +42,6 @@ def part2(start_seq):
 
 
 if __name__ == '__main__':
-    data = open('input', 'r').readline()
+    data = open('input').readline()
     print(part1(data))
     print(part2(data))

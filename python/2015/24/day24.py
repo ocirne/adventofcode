@@ -5,7 +5,7 @@ from sys import maxsize
 
 
 def read_data(filename):
-    f = open(filename, 'r')
+    f = open(filename)
     return [int(line) for line in f.readlines()]
 
 

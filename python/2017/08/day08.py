@@ -32,7 +32,7 @@ def create_instruction(line):
 
 
 def read_instructions(filename):
-    f = open(filename, 'r')
+    f = open(filename)
     return [create_instruction(line) for line in f.readlines()]
 
 

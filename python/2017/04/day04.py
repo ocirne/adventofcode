@@ -34,6 +34,6 @@ def run(data, is_valid):
 
 
 if __name__ == '__main__':
-    inputData = open('input', 'r').readlines()
+    inputData = open('input').readlines()
     print(run(inputData, is_valid_part1))
     print(run(inputData, is_valid_part2))

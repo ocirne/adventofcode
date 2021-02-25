@@ -21,6 +21,6 @@ def search(base, zeros):
 
 
 if __name__ == '__main__':
-    data = open('input', 'r').readline()
+    data = open('input').readline()
     print(search(data, 5))
     print(search(data, 6))

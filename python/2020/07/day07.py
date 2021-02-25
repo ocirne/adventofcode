@@ -10,7 +10,7 @@ def part1(filename):
     >>> part1(Path(__file__).parent / 'reference_a')
     4
     """
-    f = open(filename, 'r')
+    f = open(filename)
     parent_colors = defaultdict(list)
     for line in f.readlines():
         trim_line = line.strip()
@@ -45,7 +45,7 @@ def part2(filename):
     >>> part2(Path(__file__).parent / 'reference_b')
     126
     """
-    f = open(filename, 'r')
+    f = open(filename)
     parent_colors = defaultdict(list)
     for line in f.readlines():
         trim_line = line.strip()

@@ -2,7 +2,7 @@ from pathlib import Path
 
 
 def read_program(filename):
-    f = open(filename, 'r')
+    f = open(filename)
     program = []
     for line in f.readlines():
         instruction, ops = line.strip().split(' ', maxsplit=1)

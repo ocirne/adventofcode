@@ -6,7 +6,7 @@ def part1(filename):
     >>> part1(Path(__file__).parent / 'reference_a')
     71
     """
-    f = open(filename, 'r')
+    f = open(filename)
     d = set()
     line = f.readline()
     while not line.isspace():
@@ -54,7 +54,7 @@ def find_fields(pinned, index, valid_tickets, ranges):
 
 
 def part2(filename):
-    f = open(filename, 'r')
+    f = open(filename)
     ranges = {}
     line = f.readline()
     while not line.isspace():

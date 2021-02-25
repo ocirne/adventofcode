@@ -18,7 +18,7 @@ def run(filename, offset_mod):
     >>> run(Path(__file__).parent / 'reference', part2)
     10
     """
-    instructions = [int(line) for line in open(filename, 'r').readlines()]
+    instructions = [int(line) for line in open(filename).readlines()]
     count = 1
     p = 0
     while True:

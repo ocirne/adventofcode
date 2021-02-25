@@ -5,7 +5,7 @@ MOD = 33554393
 
 
 def read_data(filename):
-    f = open(filename, 'r')
+    f = open(filename)
     token = f.readline().split()
     return int(token[15].strip(',')), int(token[17].strip('.'))
 

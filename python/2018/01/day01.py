@@ -33,6 +33,6 @@ def part2(data):
 
 
 if __name__ == "__main__":
-    input_data = [int(line) for line in open('input', 'r').readlines()]
+    input_data = [int(line) for line in open('input').readlines()]
     print(part1(input_data))
     print(part2(input_data))

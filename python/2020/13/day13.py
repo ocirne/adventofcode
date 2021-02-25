@@ -2,7 +2,7 @@ from pathlib import Path
 
 
 def read_data(filename):
-    f = open(filename, 'r')
+    f = open(filename)
     n = int(f.readline())
     ids = [int(x) for x in filter(lambda x: x != 'x', f.readline().strip().split(','))]
     return n, ids

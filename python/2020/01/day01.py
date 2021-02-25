@@ -8,7 +8,7 @@ def part1(filename):
     >>> part1(Path(__file__).parent / 'reference')
     514579
     """
-    data = open(filename, 'r').readlines()
+    data = open(filename).readlines()
     d = {int(s) for s in data}
     for x in d:
         y = M - x
@@ -21,7 +21,7 @@ def part2(filename):
     >>> part2(Path(__file__).parent / 'reference')
     241861950
     """
-    data = open(filename, 'r').readlines()
+    data = open(filename).readlines()
     d = [int(s) for s in data]
     p = {}
     for i in range(len(d)):

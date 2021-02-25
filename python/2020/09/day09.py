@@ -14,7 +14,7 @@ def part1(filename, preamble):
     >>> part1(Path(__file__).parent / 'reference', 5)
     127
     """
-    f = open(filename, 'r')
+    f = open(filename)
     nums = list(map(int, f.readlines()))
 
     for i in range(preamble, len(nums)):
@@ -37,7 +37,7 @@ def part2(filename, preamble):
     62
     """
     target = part1(filename, preamble)
-    f = open(filename, 'r')
+    f = open(filename)
     nums = list(map(int, f.readlines()))
 
     result = search(nums, target)

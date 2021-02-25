@@ -105,7 +105,7 @@ def run(filename, check):
     >>> run(Path(__file__).parent / 'reference', check_part2)
     2
     """
-    f = open(filename, 'r')
+    f = open(filename)
     passports = []
     p = {}
     for line in f.readlines():

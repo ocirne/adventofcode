@@ -22,7 +22,7 @@ def union(a, x, y):
 
 def run(filename, count):
     a = [i for i in range(count)]
-    f = open(filename, 'r')
+    f = open(filename)
     for line in f.readlines():
         root, children = line.strip().split(' <-> ')
         p = [int(root)] + [int(c) for c in children.split(', ')]

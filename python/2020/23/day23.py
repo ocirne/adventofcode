@@ -1,6 +1,6 @@
 
 def read_data(filename):
-    file = open(filename, 'r')
+    file = open(filename)
     return file.readline().strip()
 
 
@@ -73,6 +73,6 @@ def run(data, rounds, m, prepare_data, collect_answer):
 
 
 if __name__ == '__main__':
-    inputData = open('input', 'r').readline().strip()
+    inputData = open('input').readline().strip()
     print(run(inputData, 100, 9, prepare_part1, answer_part1))
     print(run(inputData, 10**7, 10**6, prepare_part2, answer_part2))

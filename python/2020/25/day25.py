@@ -19,7 +19,7 @@ def part1(filename):
     >>> part1(Path(__file__).parent / 'reference')
     14897079
     """
-    data = open(filename, 'r').readlines()
+    data = open(filename).readlines()
     key1, key2 = (int(v) for v in data)
     e1 = decrypt(key1)
     e2 = decrypt(key2)

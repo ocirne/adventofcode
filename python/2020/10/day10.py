@@ -12,7 +12,7 @@ def part1(filename):
     >>> part1(Path(__file__).parent / 'reference_b')
     220
     """
-    f = open(filename, 'r')
+    f = open(filename)
     nums = sorted(map(int, f.readlines()))
     diffs = [nums[i] - nums[i-1] for i in range(1, len(nums))]
     c = Counter(diffs)
@@ -38,7 +38,7 @@ def part2(filename):
     >>> part2(Path(__file__).parent / 'reference_b')
     19208
     """
-    f = open(filename, 'r')
+    f = open(filename)
     raw_nums = list(map(int, f.readlines()))
     nums = sorted([0, max(raw_nums)+3] + raw_nums)
     diffs = [nums[i] - nums[i-1] for i in range(1, len(nums))]

@@ -12,7 +12,7 @@ def intersect(d):
 
 
 def read_data(filename):
-    f = open(filename, 'r')
+    f = open(filename)
     data = defaultdict(list)
     for line in f.readlines():
         ingredients_string, allergens_string = line.split(' (contains ')
@@ -28,7 +28,7 @@ def part1(filename, known_allergens):
     >>> part1(Path(__file__).parent / 'reference', INGREDIENTS_WITH_ALLERGENS_REFERENCE)
     5
     """
-    f = open(filename, 'r')
+    f = open(filename)
     total = 0
     for line in f.readlines():
         ingredients = line.split(' (contains ')[0].split()

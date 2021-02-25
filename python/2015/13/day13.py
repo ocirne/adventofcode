@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 def read_data(filename, with_me):
-    f = open(filename, 'r')
+    f = open(filename)
     guests = {}
     happiness = defaultdict(lambda: 0)
     for line in f.readlines():

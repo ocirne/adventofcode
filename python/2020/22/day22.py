@@ -3,7 +3,7 @@ from pathlib import Path
 
 
 def read_data(filename):
-    f = open(filename, 'r')
+    f = open(filename)
     cards1 = deque()
     cards2 = deque()
     player = None

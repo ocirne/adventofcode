@@ -7,7 +7,7 @@ def part1(filename):
     >>> part1(Path(__file__).parent / 'reference')
     4
     """
-    data = open(filename, 'r').readlines()
+    data = open(filename).readlines()
     d = defaultdict(lambda: 0)
     for line in data:
         number, _, pos, size = line.split(' ')
@@ -24,7 +24,7 @@ def part2(filename):
     >>> part2(Path(__file__).parent / 'reference')
     3
     """
-    data = open(filename, 'r').readlines()
+    data = open(filename).readlines()
     all_numbers = {}
     d = {}
     for line in data:

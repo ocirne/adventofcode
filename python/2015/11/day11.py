@@ -122,7 +122,7 @@ def next_password(spw, is_valid):
 
 
 if __name__ == '__main__':
-    data = open('input', 'r').readline()
+    data = open('input').readline()
     answer1 = next_password(data, False)
     answer2 = next_password(answer1, True)
     print(answer1)

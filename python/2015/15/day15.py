@@ -3,7 +3,7 @@ from pathlib import Path
 
 def read_data(filename):
     result = []
-    f = open(filename, 'r')
+    f = open(filename)
     for line in f.readlines():
         result.append([int(ingredient.split()[1]) for ingredient in line.split(':')[1].split(',')])
     return result
