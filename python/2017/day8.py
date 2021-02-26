@@ -62,8 +62,3 @@ def part2(filename):
             register_bank[ins.register] += ins.change
         register_max = max(register_max, max(register_bank.values()))
     return register_max
-
-
-if __name__ == '__main__':
-    print(part1('input'))
-    print(part2('input'))

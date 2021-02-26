@@ -1,6 +1,6 @@
 
 
-def part1(line):
+def part1(lines):
     """
     >>> part1('1122')
     3
@@ -14,7 +14,7 @@ def part1(line):
     return sum(int(c) for i, c in enumerate(line) if line[i-1] == c)
 
 
-def part2(line):
+def part2(lines):
     """
     >>> part2('1212')
     6

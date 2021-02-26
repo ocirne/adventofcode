@@ -69,8 +69,3 @@ def part2(filename):
     tree = read_tree(filename)
     root = get_root(tree)
     return calc_correction_weight(tree, root)
-
-
-if __name__ == '__main__':
-    print(part1('input'))
-    print(part2('input'))

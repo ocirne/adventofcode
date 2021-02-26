@@ -48,8 +48,3 @@ def part2(filename):
         open_set.difference_update(group)
         count_groups += 1
     return count_groups
-
-
-if __name__ == '__main__':
-    print(part1('inputs/12/input'))
-    print(part2('inputs/12/input'))

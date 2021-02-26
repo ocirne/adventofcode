@@ -17,9 +17,9 @@ def whole_division(row):
 
 def run(filename, fun):
     """
-    >>> run(Path(__file__).parent / 'reference_a', diff_max_min)
+    >>> run(Path(__file__).parent / 'references/2a.txt', diff_max_min)
     18
-    >>> run(Path(__file__).parent / 'reference_b', whole_division)
+    >>> run(Path(__file__).parent / 'references/2b.txt', whole_division)
     9
     """
     lines = read_lines(filename)
