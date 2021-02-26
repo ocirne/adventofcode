@@ -1,5 +1,6 @@
 from collections import Counter
 
+import disjoint
 import knots
 
 
@@ -25,23 +26,6 @@ def part1(key):
     return sum(count_bits(row) for row in grid)
 
 
-def find(a, x):
-    if a[x] == x:
-        return x
-    a[x] = find(a, a[x])
-    return a[x]
-
-
-def union(a, x, y):
-    i = find(a, x)
-    j = find(a, y)
-    if i == j:
-        return
-    if j < i:
-        (i, j) = (j, i)
-    a[i] = j
-
-
 def part2(key):
     """
     >>> part2('flqrgnkx')
@@ -58,9 +42,9 @@ def part2(key):
         x, y = i
         for j in [(x + 1, y), (x, y + 1)]:
             if j in a:
-                union(a, i, j)
+                disjoint.union(a, i, j, lambda p, q: q < p)
     for i in a.keys():
-        find(a, i)
+        disjoint.find(a, i)
     return len(Counter(a.values()))
 
 

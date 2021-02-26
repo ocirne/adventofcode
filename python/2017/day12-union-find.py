@@ -1,23 +1,7 @@
 from collections import Counter
 from itertools import combinations
 from pathlib import Path
-
-
-def find(a, x):
-    if a[x] == x:
-        return x
-    a[x] = find(a, a[x])
-    return a[x]
-
-
-def union(a, x, y):
-    i = find(a, x)
-    j = find(a, y)
-    if i == j:
-        return
-    if i < j:
-        (i, j) = (j, i)
-    a[i] = j
+import disjoint
 
 
 def run(filename, count):
@@ -27,16 +11,16 @@ def run(filename, count):
         root, children = line.strip().split(' <-> ')
         p = [int(root)] + [int(c) for c in children.split(', ')]
         for i, j in combinations(p, 2):
-            union(a, i, j)
+            disjoint.union(a, i, j)
     # correct canonical elements
     for i in range(count):
-        find(a, i)
+        disjoint.find(a, i)
     return a
 
 
 def part1(filename, count=2000):
     """
-    >>> part1(Path(__file__).parent / 'reference', 7)
+    >>> part1(Path(__file__).parent / 'references/12/reference', 7)
     6
     """
     a = run(filename, count)
@@ -45,7 +29,7 @@ def part1(filename, count=2000):
 
 def part2(filename, count=2000):
     """
-    >>> part2(Path(__file__).parent / 'reference', 7)
+    >>> part2(Path(__file__).parent / 'references/12/reference', 7)
     2
     """
     a = run(filename, count)
@@ -53,5 +37,5 @@ def part2(filename, count=2000):
 
 
 if __name__ == '__main__':
-    print(part1('input'))
-    print(part2('input'))
+    print(part1('inputs/12/input'))
+    print(part2('inputs/12/input'))
