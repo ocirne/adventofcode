@@ -27,7 +27,7 @@ def search(edges, start):
 
 def part1(filename):
     """
-    >>> part1(Path(__file__).parent / 'references/12/reference')
+    >>> part1(Path(__file__).parent / 'references/12.txt')
     6
     """
     edges = read_data(filename)
@@ -36,7 +36,7 @@ def part1(filename):
 
 def part2(filename):
     """
-    >>> part2(Path(__file__).parent / 'references/12/reference')
+    >>> part2(Path(__file__).parent / 'references/12.txt')
     2
     """
     edges = read_data(filename)

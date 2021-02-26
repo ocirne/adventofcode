@@ -20,7 +20,7 @@ def run(filename, count):
 
 def part1(filename, count=2000):
     """
-    >>> part1(Path(__file__).parent / 'references/12/reference', 7)
+    >>> part1(Path(__file__).parent / 'examples/12.txt', 7)
     6
     """
     a = run(filename, count)
@@ -29,7 +29,7 @@ def part1(filename, count=2000):
 
 def part2(filename, count=2000):
     """
-    >>> part2(Path(__file__).parent / 'references/12/reference', 7)
+    >>> part2(Path(__file__).parent / 'examples/12.txt', 7)
     2
     """
     a = run(filename, count)
