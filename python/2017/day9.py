@@ -26,49 +26,51 @@ def run(stream):
     return count_groups, count_garbage
 
 
-def part1(stream):
+def total_score(stream):
     """
-    >>> part1('{}')
+    >>> total_score('{}')
     1
-    >>> part1('{{{}}}')
+    >>> total_score('{{{}}}')
     6
-    >>> part1('{{},{}}')
+    >>> total_score('{{},{}}')
     5
-    >>> part1('{{{},{},{{}}}}')
+    >>> total_score('{{{},{},{{}}}}')
     16
-    >>> part1('{<a>,<a>,<a>,<a>}')
+    >>> total_score('{<a>,<a>,<a>,<a>}')
     1
-    >>> part1('{{<ab>},{<ab>},{<ab>},{<ab>}}')
+    >>> total_score('{{<ab>},{<ab>},{<ab>},{<ab>}}')
     9
-    >>> part1('{{<!!>},{<!!>},{<!!>},{<!!>}}')
+    >>> total_score('{{<!!>},{<!!>},{<!!>},{<!!>}}')
     9
-    >>> part1('{{<a!>},{<a!>},{<a!>},{<ab>}}')
+    >>> total_score('{{<a!>},{<a!>},{<a!>},{<ab>}}')
     3
     """
     return run(stream)[0]
 
 
-def part2(stream):
+def count_garbage(stream):
     """
-    >>> part2('<>')
+    >>> count_garbage('<>')
     0
-    >>> part2('<random characters>')
+    >>> count_garbage('<random characters>')
     17
-    >>> part2('<<<<>')
+    >>> count_garbage('<<<<>')
     3
-    >>> part2('<{!>}>')
+    >>> count_garbage('<{!>}>')
     2
-    >>> part2('<!!>')
+    >>> count_garbage('<!!>')
     0
-    >>> part2('<!!!>>')
+    >>> count_garbage('<!!!>>')
     0
-    >>> part2('<{o"i!a,<{i<a>')
+    >>> count_garbage('<{o"i!a,<{i<a>')
     10
     """
     return run(stream)[1]
 
 
-if __name__ == '__main__':
-    input_data = open('input').readline().strip()
-    print(part1(input_data))
-    print(part2(input_data))
+def part1(lines):
+    return total_score(next(lines).strip())
+
+
+def part2(lines):
+    return count_garbage(next(lines).strip())

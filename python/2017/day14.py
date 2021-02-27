@@ -17,18 +17,18 @@ def count_bits(s):
     return Counter(s).get('1')
 
 
-def part1(key):
+def count_squares(key):
     """
-    >>> part1('flqrgnkx')
+    >>> count_squares('flqrgnkx')
     8108
     """
     grid = get_grid(key)
     return sum(count_bits(row) for row in grid)
 
 
-def part2(key):
+def count_regions(key):
     """
-    >>> part2('flqrgnkx')
+    >>> count_regions('flqrgnkx')
     1242
     """
     grid = get_grid(key)
@@ -48,7 +48,9 @@ def part2(key):
     return len(Counter(a.values()))
 
 
-if __name__ == '__main__':
-    input_data = open('inputs/14/input').readline().strip()
-    print(part1(input_data))
-    print(part2(input_data))
+def part1(lines):
+    return count_squares(next(lines).strip())
+
+
+def part2(lines):
+    return count_regions(next(lines).strip())

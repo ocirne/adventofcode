@@ -4,10 +4,9 @@ from pathlib import Path
 import disjoint
 
 
-def run(filename, count):
+def run(lines, count):
     a = [i for i in range(count)]
-    f = open(filename)
-    for line in f.readlines():
+    for line in lines:
         root, children = line.strip().split(' <-> ')
         p = [int(root)] + [int(c) for c in children.split(', ')]
         for i, j in combinations(p, 2):
@@ -18,24 +17,19 @@ def run(filename, count):
     return a
 
 
-def part1(filename, count=2000):
+def part1(lines, count=2000):
     """
-    >>> part1(Path(__file__).parent / 'examples/12.txt', 7)
+    >>> part1(open(Path(__file__).parent / 'examples/12.txt'), 7)
     6
     """
-    a = run(filename, count)
+    a = run(lines, count)
     return sum(1 for i in a if i == 0)
 
 
-def part2(filename, count=2000):
+def part2(lines, count=2000):
     """
-    >>> part2(Path(__file__).parent / 'examples/12.txt', 7)
+    >>> part2(open(Path(__file__).parent / 'examples/12.txt'), 7)
     2
     """
-    a = run(filename, count)
+    a = run(lines, count)
     return len(Counter(a))
-
-
-if __name__ == '__main__':
-    print(part1('inputs/12/input'))
-    print(part2('inputs/12/input'))

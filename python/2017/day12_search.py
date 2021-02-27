@@ -1,10 +1,9 @@
 from pathlib import Path
 
 
-def read_data(filename):
+def prepare_data(lines):
     edges = {}
-    f = open(filename)
-    for line in f.readlines():
+    for line in lines:
         root, children = line.strip().split(' <-> ')
         edges[int(root)] = [int(c) for c in children.split(', ')]
     return edges
@@ -25,21 +24,21 @@ def search(edges, start):
     return closed_set
 
 
-def part1(filename):
+def part1(lines):
     """
-    >>> part1(Path(__file__).parent / 'references/12.txt')
+    >>> part1(open(Path(__file__).parent / 'examples/12.txt'))
     6
     """
-    edges = read_data(filename)
+    edges = prepare_data(lines)
     return len(search(edges, 0))
 
 
-def part2(filename):
+def part2(lines):
     """
-    >>> part2(Path(__file__).parent / 'references/12.txt')
+    >>> part2(open(Path(__file__).parent / 'examples/12.txt'))
     2
     """
-    edges = read_data(filename)
+    edges = prepare_data(lines)
     open_set = set(edges.keys())
     count_groups = 0
     while open_set:

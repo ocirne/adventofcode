@@ -31,17 +31,16 @@ def create_instruction(line):
     return Instruction(register, change, condition_register, lambda r: OPERATORS[op](r, int(condition_value)))
 
 
-def read_instructions(filename):
-    f = open(filename)
-    return [create_instruction(line) for line in f.readlines()]
+def prepare_instructions(lines):
+    return [create_instruction(line) for line in lines]
 
 
-def part1(filename):
+def part1(lines):
     """
-    >>> part1(Path(__file__).parent / 'reference')
+    >>> part1(open(Path(__file__).parent / 'examples/8.txt'))
     1
     """
-    instructions = read_instructions(filename)
+    instructions = prepare_instructions(lines)
     register_bank = defaultdict(lambda: 0)
     for ins in instructions:
         if ins.condition(register_bank[ins.condition_register]):
@@ -49,12 +48,12 @@ def part1(filename):
     return max(register_bank.values())
 
 
-def part2(filename):
+def part2(lines):
     """
-    >>> part2(Path(__file__).parent / 'reference')
+    >>> part2(open(Path(__file__).parent / 'examples/8.txt'))
     10
     """
-    instructions = read_instructions(filename)
+    instructions = prepare_instructions(lines)
     register_bank = defaultdict(lambda: 0)
     register_max = 0
     for ins in instructions:

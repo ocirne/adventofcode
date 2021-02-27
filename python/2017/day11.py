@@ -21,25 +21,27 @@ def run(data):
     return distance(x, y), md
 
 
-def part1(data):
+def count_steps(line):
     """
-    >>> part1("ne,ne,ne")
+    >>> count_steps("ne,ne,ne")
     3
-    >>> part1("ne,ne,sw,sw")
+    >>> count_steps("ne,ne,sw,sw")
     0
-    >>> part1("ne,ne,s,s")
+    >>> count_steps("ne,ne,s,s")
     2
-    >>> part1("se,sw,se,sw,sw")
+    >>> count_steps("se,sw,se,sw,sw")
     3
     """
-    return run(data)[0]
+    return run(line)[0]
 
 
-def part2(data):
-    return run(data)[1]
+def max_distance(line):
+    return run(line)[1]
 
 
-if __name__ == '__main__':
-    input_data = open('input').readline().strip()
-    print(part1(input_data))
-    print(part2(input_data))
+def part1(lines):
+    return count_steps(next(lines).strip())
+
+
+def part2(lines):
+    return max_distance(next(lines).strip())

@@ -12,11 +12,10 @@ class Node:
     children: list = None
 
 
-def read_tree(filename):
+def prepare_tree(lines):
     parents = {}
     nodes = {}
-    f = open(filename)
-    for line in f.readlines():
+    for line in lines:
         name_weight = line.split(')')[0]
         name, weight = name_weight.split(' (')
         node = Node(name, int(weight))
@@ -35,12 +34,12 @@ def get_root(tree):
     return next(node for node in tree.values() if node.parent is None)
 
 
-def part1(filename):
+def part1(lines):
     """
-    >>> part1(Path(__file__).parent / 'reference')
+    >>> part1(open(Path(__file__).parent / 'examples/7.txt'))
     'tknk'
     """
-    tree = read_tree(filename)
+    tree = prepare_tree(lines)
     return get_root(tree).name
 
 
@@ -61,11 +60,11 @@ def calc_correction_weight(nodes, node: Node):
     node.total_weight = node.weight + sum(children_total_weights)
 
 
-def part2(filename):
+def part2(lines):
     """
-    >>> part2(Path(__file__).parent / 'reference')
+    >>> part2(open(Path(__file__).parent / 'examples/7.txt'))
     60
     """
-    tree = read_tree(filename)
+    tree = prepare_tree(lines)
     root = get_root(tree)
     return calc_correction_weight(tree, root)

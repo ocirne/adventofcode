@@ -1,24 +1,24 @@
 from pathlib import Path
 
 
-def part1(offset):
+def criterion_part1(offset):
     return offset + 1
 
 
-def part2(offset):
+def criterion_part2(offset):
     if offset < 3:
         return offset + 1
     return offset - 1
 
 
-def run(filename, offset_mod):
+def run(lines, offset_mod):
     """
-    >>> run(Path(__file__).parent / 'reference', part1)
+    >>> run(open(Path(__file__).parent / 'examples/5.txt'), criterion_part1)
     5
-    >>> run(Path(__file__).parent / 'reference', part2)
+    >>> run(open(Path(__file__).parent / 'examples/5.txt'), criterion_part2)
     10
     """
-    instructions = [int(line) for line in open(filename).readlines()]
+    instructions = [int(line) for line in lines]
     count = 1
     p = 0
     while True:
@@ -30,6 +30,9 @@ def run(filename, offset_mod):
         count += 1
 
 
-if __name__ == '__main__':
-    print(run('input', part1))
-    print(run('input', part2))
+def part1(lines):
+    return run(lines, criterion_part1)
+
+
+def part2(lines):
+    return run(lines, criterion_part2)

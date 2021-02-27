@@ -42,15 +42,15 @@ def coordinates(edge, target):
     return x, y
 
 
-def part1(target):
+def count_steps(target):
     """
-    >>> part1(1)
+    >>> count_steps(1)
     0
-    >>> part1(12)
+    >>> count_steps(12)
     3
-    >>> part1(23)
+    >>> count_steps(23)
     2
-    >>> part1(1024)
+    >>> count_steps(1024)
     31
     """
     edge = get_edge_length(target)
@@ -91,15 +91,15 @@ def sum_adjacent(grid, x, y):
     return result
 
 
-def part2(target):
+def find_first_larger_than(target):
     """
-    >>> part2(4)
+    >>> find_first_larger_than(4)
     5
-    >>> part2(58)
+    >>> find_first_larger_than(58)
     59
-    >>> part2(59)
+    >>> find_first_larger_than(59)
     122
-    >>> part2(800)
+    >>> find_first_larger_than(800)
     806
     """
     grid = {(0, 0): 1}
@@ -110,7 +110,9 @@ def part2(target):
         grid[x, y] = value
 
 
-if __name__ == '__main__':
-    inputData = int(open('input').readline())
-    print(part1(inputData))
-    print(part2(inputData))
+def part1(lines):
+    return count_steps(int(next(lines)))
+
+
+def part2(lines):
+    return find_first_larger_than(int(next(lines)))

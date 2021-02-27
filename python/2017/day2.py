@@ -2,11 +2,6 @@ from itertools import combinations
 from pathlib import Path
 
 
-def read_lines(filename):
-    f = open(filename)
-    return f.readlines()
-
-
 def diff_max_min(row):
     return row[-1] - row[0]
 
@@ -15,17 +10,19 @@ def whole_division(row):
     return sum(f for f, r in (divmod(number, modulo) for modulo, number in combinations(row, 2)) if r == 0)
 
 
-def run(filename, fun):
+def run(lines, fun):
     """
-    >>> run(Path(__file__).parent / 'references/2a.txt', diff_max_min)
+    >>> run(open(Path(__file__).parent / 'examples/2a.txt'), diff_max_min)
     18
-    >>> run(Path(__file__).parent / 'references/2b.txt', whole_division)
+    >>> run(open(Path(__file__).parent / 'examples/2b.txt'), whole_division)
     9
     """
-    lines = read_lines(filename)
     return sum(fun(sorted(int(t) for t in line.split())) for line in lines)
 
 
-if __name__ == "__main__":
-    print(run("input", diff_max_min))
-    print(run("input", whole_division))
+def part1(lines):
+    return run(lines, diff_max_min)
+
+
+def part2(lines):
+    return run(lines, whole_division)

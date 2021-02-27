@@ -29,11 +29,13 @@ def is_valid_part2(line):
     return max(Counter(''.join(sorted(word)) for word in line.split()).values()) == 1
 
 
-def run(data, is_valid):
-    return sum(is_valid(line.strip()) for line in data)
+def run(lines, is_valid):
+    return sum(is_valid(line.strip()) for line in lines)
 
 
-if __name__ == '__main__':
-    inputData = open('input').readlines()
-    print(run(inputData, is_valid_part1))
-    print(run(inputData, is_valid_part2))
+def part1(lines):
+    return run(lines, is_valid_part1)
+
+
+def part2(lines):
+    return run(lines, is_valid_part2)

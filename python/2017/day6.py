@@ -12,22 +12,22 @@ def redistribute(banks):
 
 
 # noinspection PyUnusedLocal
-def part1(second, first):
+def result_part1(second, first):
     return second
 
 
-def part2(second, first):
+def result_part2(second, first):
     return second - first
 
 
-def run(filename, result):
+def run(lines, result):
     """
-    >>> run(Path(__file__).parent / 'reference', part1)
+    >>> run(open(Path(__file__).parent / 'examples/6.txt'), result_part1)
     5
-    >>> run(Path(__file__).parent / 'reference', part2)
+    >>> run(open(Path(__file__).parent / 'examples/6.txt'), result_part2)
     4
     """
-    banks = tuple(int(line) for line in open(filename).readline().split())
+    banks = tuple(int(line) for line in next(lines).split())
     known = {}
     count = 1
     while True:
@@ -38,6 +38,9 @@ def run(filename, result):
         count += 1
 
 
-if __name__ == '__main__':
-    print(run('input', part1))
-    print(run('input', part2))
+def part1(lines):
+    return run(lines, result_part1)
+
+
+def part2(lines):
+    return run(lines, result_part2)
