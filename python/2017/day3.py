@@ -111,8 +111,8 @@ def find_first_larger_than(target):
 
 
 def part1(lines):
-    return count_steps(int(next(lines)))
+    return count_steps(int(lines[0]))
 
 
 def part2(lines):
-    return find_first_larger_than(int(next(lines)))
+    return find_first_larger_than(int(lines[0]))

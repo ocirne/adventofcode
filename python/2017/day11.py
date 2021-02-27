@@ -40,8 +40,8 @@ def max_distance(line):
 
 
 def part1(lines):
-    return count_steps(next(lines).strip())
+    return count_steps(lines[0].strip())
 
 
 def part2(lines):
-    return max_distance(next(lines).strip())
+    return max_distance(lines[0].strip())

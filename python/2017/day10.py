@@ -26,8 +26,8 @@ def knot_hash(data):
 
 
 def part1(lines):
-    return one_round(next(lines).strip())
+    return one_round(lines[0].strip())
 
 
 def part2(lines):
-    return knot_hash(next(lines).strip())
+    return knot_hash(lines[0].strip())

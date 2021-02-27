@@ -49,8 +49,8 @@ def count_regions(key):
 
 
 def part1(lines):
-    return count_squares(next(lines).strip())
+    return count_squares(lines[0].strip())
 
 
 def part2(lines):
-    return count_regions(next(lines).strip())
+    return count_regions(lines[0].strip())

@@ -69,8 +69,8 @@ def count_garbage(stream):
 
 
 def part1(lines):
-    return total_score(next(lines).strip())
+    return total_score(lines[0].strip())
 
 
 def part2(lines):
-    return count_garbage(next(lines).strip())
+    return count_garbage(lines[0].strip())

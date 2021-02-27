@@ -22,12 +22,12 @@ def result_part2(second, first):
 
 def run(lines, result):
     """
-    >>> run(open(Path(__file__).parent / 'examples/6.txt'), result_part1)
+    >>> run(open(Path(__file__).parent / 'examples/6.txt').readlines(), result_part1)
     5
-    >>> run(open(Path(__file__).parent / 'examples/6.txt'), result_part2)
+    >>> run(open(Path(__file__).parent / 'examples/6.txt').readlines(), result_part2)
     4
     """
-    banks = tuple(int(line) for line in next(lines).split())
+    banks = tuple(int(line) for line in lines[0].split())
     known = {}
     count = 1
     while True:
