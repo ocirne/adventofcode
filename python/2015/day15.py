@@ -1,10 +1,9 @@
-from pathlib import Path
+from aoc_util import example
 
 
-def read_data(filename):
+def prepare_data(lines):
     result = []
-    f = open(filename)
-    for line in f.readlines():
+    for line in lines:
         result.append([int(ingredient.split()[1]) for ingredient in line.split(':')[1].split(',')])
     return result
 
@@ -32,17 +31,20 @@ def apply(data, part, calories_condition=False):
     return result
 
 
-def run(filename, p, calories_condition=False):
+def run(lines, p, calories_condition=False):
     """
-    >>> run(Path(__file__).parent / 'reference', 2, False)
+    >>> run(example('15'), 2, False)
     62842880
-    >>> run(Path(__file__).parent / 'reference', 2, True)
+    >>> run(example('15'), 2, True)
     57600000
     """
-    data = read_data(filename)
+    data = prepare_data(lines)
     return max(apply(data, part, calories_condition) for part in partitions(100, p))
 
 
-if __name__ == '__main__':
-    print(run('input', 4, calories_condition=False))
-    print(run('input', 4, calories_condition=True))
+def part1(lines):
+    return run(lines, 4, calories_condition=False)
+
+
+def part2(lines):
+    return run(lines, 4, calories_condition=True)

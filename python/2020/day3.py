@@ -1,9 +1,8 @@
-from pathlib import Path
+from aoc_util import example
 
 
-def read_data(filename):
-    f = open(filename)
-    return list(map(str.strip, f.readlines()))
+def prepare_data(lines):
+    return list(map(str.strip, lines))
 
 
 def count_trees(lines, right, down):
@@ -20,29 +19,24 @@ def count_trees(lines, right, down):
     return count
 
 
-def part1(filename):
+def part1(lines):
     """
-    >>> part1(Path(__file__).parent / 'reference')
+    >>> part1(example('3'))
     7
     """
-    lines = read_data(filename)
-    return count_trees(lines, 3, 1)
+    data = prepare_data(lines)
+    return count_trees(data, 3, 1)
 
 
-def part2(filename):
+def part2(lines):
     """
-    >>> part2(Path(__file__).parent / 'reference')
+    >>> part2(example('3'))
     336
     """
-    lines = read_data(filename)
-    a = count_trees(lines, 1, 1)
-    b = count_trees(lines, 3, 1)
-    c = count_trees(lines, 5, 1)
-    d = count_trees(lines, 7, 1)
-    e = count_trees(lines, 1, 2)
+    data = prepare_data(lines)
+    a = count_trees(data, 1, 1)
+    b = count_trees(data, 3, 1)
+    c = count_trees(data, 5, 1)
+    d = count_trees(data, 7, 1)
+    e = count_trees(data, 1, 2)
     return a*b*c*d*e
-
-
-if __name__ == '__main__':
-    print(part1('input'))
-    print(part2('input'))

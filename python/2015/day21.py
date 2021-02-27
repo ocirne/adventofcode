@@ -44,9 +44,8 @@ RINGS = [
 ]
 
 
-def read_boss_stats(filename):
-    f = open(filename)
-    return Stats(*(int(line.split(':')[1]) for line in f.readlines()))
+def prepare_boss_stats(lines):
+    return Stats(*(int(line.split(':')[1]) for line in lines))
 
 
 def pick(von, bis, equipment: list):
@@ -80,15 +79,11 @@ def all_fights(boss, who_wins):
                     yield sum(eq.cost for eq in chain.from_iterable([weapon, armor, rings]))
 
 
-def part1(boss):
+def part1(lines):
+    boss = prepare_boss_stats(lines)
     return min(all_fights(boss, player_wins))
 
 
-def part2(boss):
+def part2(lines):
+    boss = prepare_boss_stats(lines)
     return max(all_fights(boss, boss_wins))
-
-
-if __name__ == '__main__':
-    inputBoss = read_boss_stats('input')
-    print(part1(inputBoss))
-    print(part2(inputBoss))

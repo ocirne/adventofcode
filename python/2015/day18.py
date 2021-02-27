@@ -1,4 +1,4 @@
-from pathlib import Path
+from aoc_util import example
 
 
 def corners_on(stay_on, grid, size):
@@ -9,10 +9,9 @@ def corners_on(stay_on, grid, size):
         grid[(size-1, size-1)] = True
 
 
-def read_data(filename):
+def prepare_data(lines):
     grid = {}
-    f = open(filename)
-    for y, line in enumerate(f.readlines()):
+    for y, line in enumerate(lines):
         for x, light in enumerate(line.strip()):
             if light == '#':
                 grid[(x, y)] = True
@@ -43,20 +42,23 @@ def step(before, size, stay_on):
     return after
 
 
-def run(filename, size, steps, stay_on):
+def run(lines, size, steps, stay_on):
     """
-    >>> run(Path(__file__).parent / 'reference', 6, 4, stay_on=False)
+    >>> run(example('18'), 6, 4, stay_on=False)
     4
-    >>> run(Path(__file__).parent / 'reference', 6, 5, stay_on=True)
+    >>> run(example('18'), 6, 5, stay_on=True)
     17
     """
-    data = read_data(filename)
+    data = prepare_data(lines)
     corners_on(stay_on, data, size)
     for _ in range(steps):
         data = step(data, size, stay_on)
     return len(data)
 
 
-if __name__ == '__main__':
-    print(run('input', 100, 100, stay_on=False))
-    print(run('input', 100, 100, stay_on=True))
+def part1(lines):
+    return run(lines, 100, 100, stay_on=False)
+
+
+def part2(lines):
+    return run(lines, 100, 100, stay_on=True)

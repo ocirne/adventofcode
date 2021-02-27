@@ -1,5 +1,5 @@
 from itertools import combinations
-from pathlib import Path
+from aoc_util import example
 
 
 def diff_max_min(row):
@@ -12,9 +12,9 @@ def whole_division(row):
 
 def run(lines, fun):
     """
-    >>> run(open(Path(__file__).parent / 'examples/2a.txt'), diff_max_min)
+    >>> run(example('2a'), diff_max_min)
     18
-    >>> run(open(Path(__file__).parent / 'examples/2b.txt'), whole_division)
+    >>> run(example('2b'), whole_division)
     9
     """
     return sum(fun(sorted(int(t) for t in line.split())) for line in lines)

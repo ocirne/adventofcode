@@ -4,9 +4,8 @@ FACTOR = 252533
 MOD = 33554393
 
 
-def read_data(filename):
-    f = open(filename)
-    token = f.readline().split()
+def prepare_data(lines):
+    token = lines[0].split()
     return int(token[15].strip(',')), int(token[17].strip('.'))
 
 
@@ -42,10 +41,6 @@ def calc_manual_numbers(n):
     return (BASE * pow(FACTOR, n-1, MOD)) % MOD
 
 
-def run(filename):
-    x, y = read_data(filename)
+def part1(lines):
+    x, y = prepare_data(lines)
     return calc_manual_numbers(calc_number_on(x, y))
-
-
-if __name__ == '__main__':
-    print(run('input'))

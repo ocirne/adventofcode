@@ -1,13 +1,12 @@
 from collections import defaultdict
 from itertools import permutations
-from pathlib import Path
+from aoc_util import example
 
 
-def read_data(filename, with_me):
-    f = open(filename)
+def prepare_data(lines, with_me):
     guests = {}
     happiness = defaultdict(lambda: 0)
-    for line in f.readlines():
+    for line in lines:
         token = line.strip().strip('.').split()
         guest, direction, value, neighbor = [token[i] for i in [0, 2, 3, 10]]
         guests[guest] = True
@@ -32,15 +31,18 @@ def calc_happiness(happiness, arrangement):
            sum(happiness[(arrangement[i-1], arrangement[i])] for i in range(1, len(arrangement)))
 
 
-def run(filename, with_me):
+def run(lines, with_me):
     """
-    >>> run(Path(__file__).parent / 'reference', False)
+    >>> run(example('13'), False)
     330
     """
-    guests, happiness = read_data(filename, with_me)
+    guests, happiness = prepare_data(lines, with_me)
     return max(calc_happiness(happiness, arrangement) for arrangement in permutations(guests))
 
 
-if __name__ == '__main__':
-    print(run('input', with_me=False))
-    print(run('input', with_me=True))
+def part1(lines):
+    return run(lines, with_me=False)
+
+
+def part2(lines):
+    return run(lines, with_me=True)

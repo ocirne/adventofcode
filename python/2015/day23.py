@@ -1,21 +1,20 @@
-from pathlib import Path
+from aoc_util import example
 
 
-def read_program(filename):
-    f = open(filename)
+def prepare_program(lines):
     program = []
-    for line in f.readlines():
+    for line in lines:
         instruction, ops = line.strip().split(' ', maxsplit=1)
         program.append((instruction, ops.split(', ')))
     return program
 
 
-def run(filename, init_a=0):
+def run(lines, init_a=0):
     """
-    >>> run(Path(__file__).parent / 'reference')['a']
+    >>> run(example('23'))['a']
     2
     """
-    program = read_program(filename)
+    program = prepare_program(lines)
     reg = {'a': init_a, 'b': 0}
     pp = 0
     while True:
@@ -45,6 +44,9 @@ def run(filename, init_a=0):
         pp += 1
 
 
-if __name__ == '__main__':
-    print(run('input')['b'])
-    print(run('input', 1)['b'])
+def part1(lines):
+    return run(lines)['b']
+
+
+def part2(lines):
+    return run(lines, 1)['b']

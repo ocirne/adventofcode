@@ -1,5 +1,5 @@
 from itertools import count
-from pathlib import Path
+from aoc_util import example
 
 
 def prepare_data(lines):
@@ -8,7 +8,7 @@ def prepare_data(lines):
 
 def part1(lines):
     """
-    >>> part1(open(Path(__file__).parent / 'examples/13.txt'))
+    >>> part1(example('13'))
     24
     """
     return sum(d*r for d, r in prepare_data(lines) if 0 == d % ((r - 1)*2))
@@ -16,7 +16,7 @@ def part1(lines):
 
 def part2(lines):
     """
-    >>> part2(open(Path(__file__).parent / 'examples/13.txt'))
+    >>> part2(example('13'))
     10
     """
     data = list(prepare_data(lines))

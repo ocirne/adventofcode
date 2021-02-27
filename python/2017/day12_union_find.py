@@ -1,6 +1,6 @@
 from collections import Counter
 from itertools import combinations
-from pathlib import Path
+from aoc_util import example
 import disjoint
 
 
@@ -19,7 +19,7 @@ def run(lines, count):
 
 def part1(lines, count=2000):
     """
-    >>> part1(open(Path(__file__).parent / 'examples/12.txt'), 7)
+    >>> part1(example('12'), 7)
     6
     """
     a = run(lines, count)
@@ -28,7 +28,7 @@ def part1(lines, count=2000):
 
 def part2(lines, count=2000):
     """
-    >>> part2(open(Path(__file__).parent / 'examples/12.txt'), 7)
+    >>> part2(example('12'), 7)
     2
     """
     a = run(lines, count)

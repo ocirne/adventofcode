@@ -1,15 +1,14 @@
 from collections import defaultdict
-from pathlib import Path
+from aoc_util import example
 
 
-def part1(filename):
+def part1(lines):
     """
-    >>> part1(Path(__file__).parent / 'reference')
+    >>> part1(example('3'))
     4
     """
-    data = open(filename).readlines()
     d = defaultdict(lambda: 0)
-    for line in data:
+    for line in lines:
         number, _, pos, size = line.split(' ')
         x, y = map(int, pos.split(':')[0].split(','))
         w, h = map(int, size.split('\n')[0].split('x'))
@@ -19,15 +18,14 @@ def part1(filename):
     return sum(1 for i in d.values() if i > 1)
 
 
-def part2(filename):
+def part2(lines):
     """
-    >>> part2(Path(__file__).parent / 'reference')
+    >>> part2(example('3'))
     3
     """
-    data = open(filename).readlines()
     all_numbers = {}
     d = {}
-    for line in data:
+    for line in lines:
         number, _, pos, size = line.split(' ')
         n = int(number.split('#')[1])
         x, y = map(int, pos.split(':')[0].split(','))
@@ -46,8 +44,3 @@ def part2(filename):
     for n, condition in all_numbers.items():
         if condition:
             return n
-
-
-if __name__ == "__main__":
-    print(part1("input"))
-    print(part2("input"))

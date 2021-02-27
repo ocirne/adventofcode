@@ -1,4 +1,4 @@
-from pathlib import Path
+from aoc_util import example
 
 
 def redistribute(banks):
@@ -22,9 +22,9 @@ def result_part2(second, first):
 
 def run(lines, result):
     """
-    >>> run(open(Path(__file__).parent / 'examples/6.txt').readlines(), result_part1)
+    >>> run(example('6').readlines(), result_part1)
     5
-    >>> run(open(Path(__file__).parent / 'examples/6.txt').readlines(), result_part2)
+    >>> run(example('6').readlines(), result_part2)
     4
     """
     banks = tuple(int(line) for line in lines[0].split())

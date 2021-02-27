@@ -1,10 +1,9 @@
-from pathlib import Path
+from aoc_util import example
 
 
-def read_start_grid(filename):
-    f = open(filename)
+def prepare_start_grid(lines):
     cube = set()
-    for y, line in enumerate(map(str.strip, f.readlines())):
+    for y, line in enumerate(map(str.strip, lines)):
         for x in range(len(line)):
             if line[x] == '#':
                 cube.add((x-5, y-5, 0, 0))
@@ -47,19 +46,22 @@ def step(i, cube, dim):
     return result
 
 
-def run(filename, dim):
+def run(lines, dim):
     """
-    >>> run(Path(__file__).parent / 'reference', 3)
+    >>> run(example('17'), 3)
     112
-    >>> run(Path(__file__).parent / 'reference', 4)
+    >>> run(example('17'), 4)
     848
     """
-    cube = read_start_grid(filename)
+    cube = prepare_start_grid(lines)
     for i in range(6):
         cube = step(i, cube, dim)
     return count_cells(cube)
 
 
-if __name__ == '__main__':
-    print(run('input', 3))
-    print(run('input', 4))
+def part1(lines):
+    return run(lines, 3)
+
+
+def part2(lines):
+    return run(lines, 4)

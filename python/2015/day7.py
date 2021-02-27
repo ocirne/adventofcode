@@ -1,12 +1,11 @@
-from pathlib import Path
+from aoc_util import example
 
 M = 2**16
 
 
-def read_rules(filename):
-    f = open(filename)
+def prepare_rules(lines):
     rules = {}
-    for line in f.readlines():
+    for line in lines:
         l, r = line.strip().split(' -> ')
         rules[r] = l.split()
     return rules
@@ -51,33 +50,36 @@ def deduct(rules, wire):
     return rules[wire]
 
 
-def run(filename, wire, new_rule_b=None):
+def run(lines, wire, new_rule_b=None):
     """
-    >>> run(Path(__file__).parent / 'reference', 'd')
+    >>> data = example('7').readlines()
+    >>> run(data, 'd')
     72
-    >>> run(Path(__file__).parent / 'reference', 'e')
+    >>> run(data, 'e')
     507
-    >>> run(Path(__file__).parent / 'reference', 'f')
+    >>> run(data, 'f')
     492
-    >>> run(Path(__file__).parent / 'reference', 'g')
+    >>> run(data, 'g')
     114
-    >>> run(Path(__file__).parent / 'reference', 'h')
+    >>> run(data, 'h')
     65412
-    >>> run(Path(__file__).parent / 'reference', 'i')
+    >>> run(data, 'i')
     65079
-    >>> run(Path(__file__).parent / 'reference', 'x')
+    >>> run(data, 'x')
     123
-    >>> run(Path(__file__).parent / 'reference', 'y')
+    >>> run(data, 'y')
     456
     """
-    rules = read_rules(filename)
+    rules = prepare_rules(lines)
     if new_rule_b:
         rules['b'] = new_rule_b
     return deduct(rules, wire)
 
 
-if __name__ == '__main__':
-    answer1 = run('input', 'a')
-    answer2 = run('input', 'a', answer1)
-    print(answer1)
-    print(answer2)
+def part1(lines):
+    return run(lines, 'a')
+
+
+def part2(lines):
+    answer1 = part1(lines)
+    return run(lines, 'a', answer1)

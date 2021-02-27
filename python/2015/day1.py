@@ -2,40 +2,41 @@
 from collections import Counter
 
 
-def part1(data):
+def part1(lines):
     """
-    >>> part1('(())')
+    >>> part1(['(())'])
     0
-    >>> part1('()()')
+    >>> part1(['()()'])
     0
-    >>> part1('(((')
+    >>> part1(['((('])
     3
-    >>> part1('(()(()(')
+    >>> part1(['(()(()('])
     3
-    >>> part1('))(((((')
+    >>> part1(['))((((('])
     3
-    >>> part1('())')
+    >>> part1(['())'])
     -1
-    >>> part1('))(')
+    >>> part1(['))('])
     -1
-    >>> part1(')))')
+    >>> part1([')))'])
     -3
-    >>> part1(')())())')
+    >>> part1([')())())'])
     -3
     """
+    data = lines[0]
     c = Counter(data)
     return c['('] - c[')']
 
 
-def part2(data):
+def part2(lines):
     """
-    >>> part2(')')
+    >>> part2([')'])
     1
-    >>> part2('()())')
+    >>> part2(['()())'])
     5
     """
     floor = 0
-    for index, b in enumerate(data):
+    for index, b in enumerate(lines[0]):
         if b == '(':
             floor += 1
         elif b == ')':
@@ -44,9 +45,3 @@ def part2(data):
             raise Exception
         if floor < 0:
             return index + 1
-
-
-if __name__ == '__main__':
-    inputData = open('input').readline()
-    print(part1(inputData))
-    print(part2(inputData))

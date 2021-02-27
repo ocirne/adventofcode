@@ -1,15 +1,15 @@
-from pathlib import Path
+from aoc_util import example
 
 
-def read_data(filename):
+def prepare_data(lines):
+    f = iter(lines)
     replacements = []
-    f = open(filename)
     while True:
-        line = f.readline()
+        line = next(f)
         if line.isspace():
             break
         replacements.append(line.strip().split(' => '))
-    molecule = f.readline().strip()
+    molecule = next(f).strip()
     return replacements, molecule
 
 
@@ -31,14 +31,14 @@ def do_one_replacement(replacements, molecule: str):
     return set(result)
 
 
-def part1(filename):
+def part1(lines):
     """
-    >>> part1(Path(__file__).parent / 'reference_a')
+    >>> part1(example('19a'))
     4
-    >>> part1(Path(__file__).parent / 'reference_b')
+    >>> part1(example('19b'))
     7
     """
-    replacements, molecule = read_data(filename)
+    replacements, molecule = prepare_data(lines)
     molecules = do_one_replacement(replacements, molecule)
     return len(molecules)
 
@@ -46,8 +46,3 @@ def part1(filename):
 def part2():
     # Guessed my solution, as a DFS-approach stalled at around depth 190.
     pass
-
-
-if __name__ == '__main__':
-    print(part1('input'))
-    print(part2())

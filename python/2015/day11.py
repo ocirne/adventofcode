@@ -121,9 +121,10 @@ def next_password(spw, is_valid):
     return to_char_array(ipw)
 
 
-if __name__ == '__main__':
-    data = open('input').readline()
-    answer1 = next_password(data, False)
-    answer2 = next_password(answer1, True)
-    print(answer1)
-    print(answer2)
+def part1(lines):
+    return next_password(lines[0], False)
+
+
+def part2(lines):
+    answer1 = part1(lines)
+    return next_password(answer1, True)

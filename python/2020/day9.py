@@ -1,4 +1,4 @@
-from pathlib import Path
+from aoc_util import example
 
 
 def check(preamble, my_slice, total):
@@ -9,17 +9,19 @@ def check(preamble, my_slice, total):
     return False
 
 
-def part1(filename, preamble):
-    """
-    >>> part1(Path(__file__).parent / 'reference', 5)
-    127
-    """
-    f = open(filename)
-    nums = list(map(int, f.readlines()))
-
+def solve_part1(nums, preamble):
     for i in range(preamble, len(nums)):
         if not check(preamble, nums[i-preamble:i], nums[i]):
             return nums[i]
+
+
+def part1(lines, preamble=25):
+    """
+    >>> part1(example('9'), 5)
+    127
+    """
+    nums = [int(i) for i in lines]
+    return solve_part1(nums, preamble)
 
 
 def search(nums, target):
@@ -31,19 +33,13 @@ def search(nums, target):
     raise Exception
 
 
-def part2(filename, preamble):
+def part2(lines, preamble=25):
     """
-    >>> part2(Path(__file__).parent / 'reference', 5)
+    >>> part2(example('9'), 5)
     62
     """
-    target = part1(filename, preamble)
-    f = open(filename)
-    nums = list(map(int, f.readlines()))
+    nums = [int(i) for i in lines]
+    target = solve_part1(nums, preamble)
 
     result = search(nums, target)
     return min(result) + max(result)
-
-
-if __name__ == '__main__':
-    print(part1('input', 25))
-    print(part2('input', 25))

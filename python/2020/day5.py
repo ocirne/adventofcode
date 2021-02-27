@@ -27,10 +27,3 @@ def part2(lines):
     for i in range(1, len(seats)):
         if seats[i-1] != seats[i] - 1:
             return seats[i]-1
-
-
-if __name__ == '__main__':
-    f = open('input')
-    inputData = list(map(str.strip, f.readlines()))
-    print(part1(inputData))
-    print(part2(inputData))

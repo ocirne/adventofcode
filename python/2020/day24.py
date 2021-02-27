@@ -1,5 +1,5 @@
 from collections import Counter
-from pathlib import Path
+from aoc_util import example
 
 
 def endpoint(line, x=0, y=0):
@@ -25,17 +25,16 @@ def endpoint(line, x=0, y=0):
         raise Exception
 
 
-def read_endpoints(filename):
-    f = open(filename)
-    return (endpoint(line.strip()) for line in f.readlines())
+def prepare_endpoints(lines):
+    return (endpoint(line.strip()) for line in lines)
 
 
-def part1(filename):
+def part1(lines):
     """
-    >>> part1(Path(__file__).parent / 'reference')
+    >>> part1(example('24'))
     10
     """
-    endpoints = read_endpoints(filename)
+    endpoints = prepare_endpoints(lines)
     return sum(1 for v in Counter(endpoints).values() if v % 2 == 1)
 
 
@@ -81,54 +80,50 @@ def simulate(para_endpoints, rounds):
     return len(endpoints)
 
 
-def part2(filename, rounds):
+def part2(lines, rounds=100):
     """
-    >>> part2(Path(__file__).parent / 'reference', 0)
+    >>> data = list(example('24').readlines())
+    >>> part2(data, 0)
     10
-    >>> part2(Path(__file__).parent / 'reference', 1)
+    >>> part2(data, 1)
     15
-    >>> part2(Path(__file__).parent / 'reference', 2)
+    >>> part2(data, 2)
     12
-    >>> part2(Path(__file__).parent / 'reference', 3)
+    >>> part2(data, 3)
     25
-    >>> part2(Path(__file__).parent / 'reference', 4)
+    >>> part2(data, 4)
     14
-    >>> part2(Path(__file__).parent / 'reference', 5)
+    >>> part2(data, 5)
     23
-    >>> part2(Path(__file__).parent / 'reference', 6)
+    >>> part2(data, 6)
     28
-    >>> part2(Path(__file__).parent / 'reference', 7)
+    >>> part2(data, 7)
     41
-    >>> part2(Path(__file__).parent / 'reference', 8)
+    >>> part2(data, 8)
     37
-    >>> part2(Path(__file__).parent / 'reference', 9)
+    >>> part2(data, 9)
     49
-    >>> part2(Path(__file__).parent / 'reference', 10)
+    >>> part2(data, 10)
     37
-    >>> part2(Path(__file__).parent / 'reference', 20)
+    >>> part2(data, 20)
     132
-    >>> part2(Path(__file__).parent / 'reference', 30)
+    >>> part2(data, 30)
     259
-    >>> part2(Path(__file__).parent / 'reference', 40)
+    >>> part2(data, 40)
     406
-    >>> part2(Path(__file__).parent / 'reference', 50)
+    >>> part2(data, 50)
     566
-    >>> part2(Path(__file__).parent / 'reference', 60)
+    >>> part2(data, 60)
     788
-    >>> part2(Path(__file__).parent / 'reference', 70)
+    >>> part2(data, 70)
     1106
-    >>> part2(Path(__file__).parent / 'reference', 80)
+    >>> part2(data, 80)
     1373
-    >>> part2(Path(__file__).parent / 'reference', 90)
+    >>> part2(data, 90)
     1844
-    >>> part2(Path(__file__).parent / 'reference', 100)
+    >>> part2(data, 100)
     2208
     """
-    endpoints = read_endpoints(filename)
+    endpoints = prepare_endpoints(lines)
     real_endpoints = {ep: True for ep, count in Counter(endpoints).items() if count % 2 == 1}
     return simulate(real_endpoints, rounds)
-
-
-if __name__ == '__main__':
-    print(part1('input'))
-    print(part2('input', 100))

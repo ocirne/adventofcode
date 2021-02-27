@@ -1,13 +1,14 @@
 
-def part1(line):
+def part1(lines):
     """
-    >>> part1('>')
+    >>> part1(['>'])
     2
-    >>> part1('^>v<')
+    >>> part1(['^>v<'])
     4
-    >>> part1('^v^v^v^v^v')
+    >>> part1(['^v^v^v^v^v'])
     2
     """
+    line = lines[0]
     x, y = 0, 0
     houses = {(0, 0): True}
     for d in line:
@@ -37,15 +38,16 @@ def move(d, x, y):
     raise
 
 
-def part2(line):
+def part2(lines):
     """
-    >>> part2('^v')
+    >>> part2(['^v'])
     3
-    >>> part2('^>v<')
+    >>> part2(['^>v<'])
     3
-    >>> part2('^v^v^v^v^v')
+    >>> part2(['^v^v^v^v^v'])
     11
     """
+    line = lines[0]
     sx, sy, rx, ry = 0, 0, 0, 0
     houses = {(0, 0): True}
     for index, d in enumerate(line):
@@ -56,9 +58,3 @@ def part2(line):
             rx, ry = move(d, rx, ry)
             houses[(rx, ry)] = True
     return len(houses)
-
-
-if __name__ == '__main__':
-    inputData = open('input').readline()
-    print(part1(inputData))
-    print(part2(inputData))

@@ -1,6 +1,6 @@
 from collections import Counter
 from math import prod
-from pathlib import Path
+from aoc_util import example
 
 
 def extract_number(s):
@@ -20,11 +20,10 @@ def extract_borders(field):
     ]
 
 
-def read_tiles(filename):
-    f = open(filename)
+def prepare_tiles(lines):
     tiles = {}
     current_number = None
-    for line in f.readlines():
+    for line in lines:
         if line.isspace():
             continue
         elif line.startswith('Tile'):
@@ -35,12 +34,12 @@ def read_tiles(filename):
     return tiles
 
 
-def part1(filename):
+def part1(lines):
     """
-    >>> part1(Path(__file__).parent / 'reference')
+    >>> part1(example('20'))
     20899048083289
     """
-    tiles = read_tiles(filename)
+    tiles = prepare_tiles(lines)
     all_borders = {}
     plain_borders = []
     for key, field in tiles.items():
@@ -58,10 +57,6 @@ def part1(filename):
     return prod(corner_keys)
 
 
-def part2():
+def part2(lines):
     """ TODO """
     pass
-
-
-if __name__ == '__main__':
-    print(part1('input'))

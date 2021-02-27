@@ -1,9 +1,4 @@
 
-def read_data(filename):
-    file = open(filename)
-    return file.readline().strip()
-
-
 def prepare_part1(data):
     values = list(map(int, data))
     result = {values[len(values)-1]: values[0]}
@@ -72,7 +67,11 @@ def run(data, rounds, m, prepare_data, collect_answer):
     return collect_answer(d)
 
 
-if __name__ == '__main__':
-    inputData = open('input').readline().strip()
-    print(run(inputData, 100, 9, prepare_part1, answer_part1))
-    print(run(inputData, 10**7, 10**6, prepare_part2, answer_part2))
+def part1(lines):
+    line = lines[0].strip()
+    return run(line, 100, 9, prepare_part1, answer_part1)
+
+
+def part2(lines):
+    line = lines[0].strip()
+    return run(line, 10**7, 10**6, prepare_part2, answer_part2)

@@ -1,5 +1,5 @@
 
-def part1(data):
+def part1(lines):
     """
     >>> part1([+1, +1, +1])
     3
@@ -8,10 +8,10 @@ def part1(data):
     >>> part1([-1, -2, -3])
     -6
     """
-    return sum(data)
+    return sum(int(i) for i in lines)
 
 
-def part2(data):
+def part2(lines):
     """
     >>> part2([+1, -1])
     0
@@ -25,14 +25,8 @@ def part2(data):
     running_sum = 0
     memory = {0}
     while True:
-        for value in data:
-            running_sum += value
+        for value in lines:
+            running_sum += int(value)
             if running_sum in memory:
                 return running_sum
             memory.add(running_sum)
-
-
-if __name__ == "__main__":
-    input_data = [int(line) for line in open('input').readlines()]
-    print(part1(input_data))
-    print(part2(input_data))

@@ -45,11 +45,13 @@ def is_valid_part2(line):
     return count == 1
 
 
-def run(filename, is_valid):
-    data = open(filename).readlines()
-    return sum(is_valid(line) for line in data)
+def run(lines, is_valid):
+    return sum(is_valid(line) for line in lines)
 
 
-if __name__ == '__main__':
-    print(run('input', is_valid_part1))
-    print(run('input', is_valid_part2))
+def part1(lines):
+    return run(lines, is_valid_part1)
+
+
+def part2(lines):
+    return run(lines, is_valid_part2)

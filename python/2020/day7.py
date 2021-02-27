@@ -1,18 +1,17 @@
-from pathlib import Path
+from aoc_util import example
 
 from collections import defaultdict
 
 SG = 'shiny gold'
 
 
-def part1(filename):
+def part1(lines):
     """
-    >>> part1(Path(__file__).parent / 'reference_a')
+    >>> part1(example('7a'))
     4
     """
-    f = open(filename)
     parent_colors = defaultdict(list)
-    for line in f.readlines():
+    for line in lines:
         trim_line = line.strip()
         outer, inner_list = trim_line.split(' bags contain ')
         if inner_list == 'no other bags.':
@@ -40,14 +39,13 @@ def count_color_tree(color_tree, color):
     return 1 + sum(count * count_color_tree(color_tree, childColor) for count, childColor in color_tree[color])
 
 
-def part2(filename):
+def part2(lines):
     """
-    >>> part2(Path(__file__).parent / 'reference_b')
+    >>> part2(example('7b'))
     126
     """
-    f = open(filename)
     parent_colors = defaultdict(list)
-    for line in f.readlines():
+    for line in lines:
         trim_line = line.strip()
         outer, inner_list = trim_line.split(' bags contain ')
         if inner_list == 'no other bags.':
@@ -58,8 +56,3 @@ def part2(filename):
             parent_colors[outer].append((int(count), "%s %s" % (shade, color)))
 
     return count_color_tree(parent_colors, SG) - 1
-
-
-if __name__ == '__main__':
-    print(part1('input'))
-    print(part2('input'))

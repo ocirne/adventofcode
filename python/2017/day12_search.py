@@ -1,4 +1,4 @@
-from pathlib import Path
+from aoc_util import example
 
 
 def prepare_data(lines):
@@ -26,7 +26,7 @@ def search(edges, start):
 
 def part1(lines):
     """
-    >>> part1(open(Path(__file__).parent / 'examples/12.txt'))
+    >>> part1(example('12'))
     6
     """
     edges = prepare_data(lines)
@@ -35,7 +35,7 @@ def part1(lines):
 
 def part2(lines):
     """
-    >>> part2(open(Path(__file__).parent / 'examples/12.txt'))
+    >>> part2(example('12'))
     2
     """
     edges = prepare_data(lines)

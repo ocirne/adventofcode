@@ -7,19 +7,19 @@ def calc(a, op, b):
     raise Exception
 
 
-def part1(expression, index=0):
+def solve_part1(expression, index=0):
     """
-    >>> part1('1 + 2 * 3 + 4 * 5 + 6')
+    >>> solve_part1('1 + 2 * 3 + 4 * 5 + 6')
     71
-    >>> part1('1 + (2 * 3) + (4 * (5 + 6))')
+    >>> solve_part1('1 + (2 * 3) + (4 * (5 + 6))')
     51
-    >>> part1('2 * 3 + (4 * 5)')
+    >>> solve_part1('2 * 3 + (4 * 5)')
     26
-    >>> part1('5 + (8 * 3 + 9 + 3 * 4 * 3)')
+    >>> solve_part1('5 + (8 * 3 + 9 + 3 * 4 * 3)')
     437
-    >>> part1('5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))')
+    >>> solve_part1('5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))')
     12240
-    >>> part1('((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2')
+    >>> solve_part1('((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2')
     13632
     """
     result, op = 0, '+'
@@ -35,7 +35,7 @@ def part1(expression, index=0):
         if t == '*':
             op = '*'
         if t == '(':
-            value, index = part1(expression, index)
+            value, index = solve_part1(expression, index)
             result = calc(result, op, value)
         if t == ')':
             return result, index
@@ -88,30 +88,32 @@ def evaluate(upn_stack):
     return stack.pop()
 
 
-def part2(expression):
+def solve_part2(expression):
     """
-    >>> part2('1 + 2 * 3 + 4 * 5 + 6')
+    >>> solve_part2('1 + 2 * 3 + 4 * 5 + 6')
     231
-    >>> part2('1 + (2 * 3) + (4 * (5 + 6))')
+    >>> solve_part2('1 + (2 * 3) + (4 * (5 + 6))')
     51
-    >>> part2('2 * 3 + (4 * 5)')
+    >>> solve_part2('2 * 3 + (4 * 5)')
     46
-    >>> part2('5 + (8 * 3 + 9 + 3 * 4 * 3)')
+    >>> solve_part2('5 + (8 * 3 + 9 + 3 * 4 * 3)')
     1445
-    >>> part2('5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))')
+    >>> solve_part2('5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))')
     669060
-    >>> part2('((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2')
+    >>> solve_part2('((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2')
     23340
     """
     upn_stack = shunting_yard(expression)
     return evaluate(upn_stack)
 
 
-def run(filename, solve):
-    f = open(filename)
-    return sum(solve(line.strip()) for line in f.readlines())
+def run(lines, solve):
+    return sum(solve(line.strip()) for line in lines)
 
 
-if __name__ == '__main__':
-    print(run('input', part1))
-    print(run('input', part2))
+def part1(lines):
+    return run(lines, solve_part1)
+
+
+def part2(lines):
+    return run(lines, solve_part2)

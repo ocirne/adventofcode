@@ -1,4 +1,4 @@
-from pathlib import Path
+from aoc_util import example
 
 
 def step_part1(pos_x, pos_y, face, action, value):
@@ -29,14 +29,13 @@ def step_part1(pos_x, pos_y, face, action, value):
     return pos_x + dx, pos_y + dy, (face + df + 360) % 360
 
 
-def part1(filename):
+def part1(lines):
     """
-    >>> part1(Path(__file__).parent / 'reference')
+    >>> part1(example('12'))
     25
     """
-    f = open(filename)
     pos_x, pos_y, face = 0, 0, 0
-    for line in f.readlines():
+    for line in lines:
         action, value = line[0], int(line[1:])
         pos_x, pos_y, face = step_part1(pos_x, pos_y, face, action, int(value))
     return abs(pos_x) + abs(pos_y)
@@ -69,19 +68,13 @@ def step_part2(pos_x, pos_y, way_x, way_y, face, action, value):
     return pos_x + dx, pos_y + dy, nwx, nwy, (face + df + 360) % 360
 
 
-def part2(filename):
+def part2(lines):
     """
-    >>> part2(Path(__file__).parent / 'reference')
+    >>> part2(example('12'))
     286
     """
-    f = open(filename)
     pos_x, pos_y, way_x, way_y, face = 0, 0, 10, -1, 0
-    for line in f.readlines():
+    for line in lines:
         action, value = line[0], int(line[1:])
         pos_x, pos_y, way_x, way_y, face = step_part2(pos_x, pos_y, way_x, way_y, face, action, int(value))
     return abs(pos_x) + abs(pos_y)
-
-
-if __name__ == '__main__':
-    print(part1('input'))
-    print(part2('input'))

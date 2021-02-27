@@ -31,11 +31,13 @@ def calc_ribbon(line):
     return 2*(h+l) + h*l*w
 
 
-def fun_and_sum(filename, fun):
-    data = open(filename).readlines()
-    return sum(fun(line) for line in data)
+def fun_and_sum(lines, fun):
+    return sum(fun(line) for line in lines)
 
 
-if __name__ == '__main__':
-    print(fun_and_sum('input', calc_wrapping_paper))
-    print(fun_and_sum('input', calc_ribbon))
+def part1(lines):
+    return fun_and_sum(lines, calc_wrapping_paper)
+
+
+def part2(lines):
+    return fun_and_sum(lines, calc_ribbon)

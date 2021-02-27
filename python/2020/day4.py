@@ -1,4 +1,4 @@
-from pathlib import Path
+from aoc_util import example
 
 MAN_KEYS = 'byr iyr eyr hgt hcl ecl pid'.split()
 ECL = 'amb blu brn gry grn hzl oth'.split()
@@ -9,7 +9,6 @@ def check_part1(passport):
         if key == 'cid':
             continue
         if key not in MAN_KEYS:
-            print(key, passport)
             return False
     for key in MAN_KEYS:
         if key not in passport:
@@ -80,7 +79,6 @@ def check_part2(passport):
         if key == 'cid':
             continue
         if key not in MAN_KEYS:
-            print(key, passport)
             return False
     for key in MAN_KEYS:
         if key not in passport:
@@ -98,17 +96,16 @@ def check_part2(passport):
     return True
 
 
-def run(filename, check):
+def run(lines, check):
     """
-    >>> run(Path(__file__).parent / 'reference', check_part1)
+    >>> run(example('4'), check_part1)
     2
-    >>> run(Path(__file__).parent / 'reference', check_part2)
+    >>> run(example('4'), check_part2)
     2
     """
-    f = open(filename)
     passports = []
     p = {}
-    for line in f.readlines():
+    for line in lines:
         if not line.strip():
             passports.append(p)
             p = {}
@@ -119,6 +116,9 @@ def run(filename, check):
     return sum(check(passport) for passport in passports)
 
 
-if __name__ == '__main__':
-    print(run('input', check_part1))
-    print(run('input', check_part2))
+def part1(lines):
+    return run(lines, check_part1)
+
+
+def part2(lines):
+    return run(lines, check_part2)

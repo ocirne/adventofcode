@@ -75,7 +75,9 @@ def sum_and_fun(data, fun):
     return sum(fun(line) for line in data)
 
 
-if __name__ == '__main__':
-    inputData = open('input').readlines()
-    print(sum_and_fun(inputData, is_nice_part1))
-    print(sum_and_fun(inputData, is_nice_part2))
+def part1(lines):
+    return sum_and_fun(lines, is_nice_part1)
+
+
+def part2(lines):
+    return sum_and_fun(lines, is_nice_part2)

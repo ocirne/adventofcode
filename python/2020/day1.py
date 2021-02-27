@@ -1,28 +1,26 @@
-from pathlib import Path
+from aoc_util import example
 
 M = 2020
 
 
-def part1(filename):
+def part1(lines):
     """
-    >>> part1(Path(__file__).parent / 'reference')
+    >>> part1(example('1'))
     514579
     """
-    data = open(filename).readlines()
-    d = {int(s) for s in data}
+    d = {int(s) for s in lines}
     for x in d:
         y = M - x
         if y in d:
             return x * y
 
 
-def part2(filename):
+def part2(lines):
     """
-    >>> part2(Path(__file__).parent / 'reference')
+    >>> part2(example('1'))
     241861950
     """
-    data = open(filename).readlines()
-    d = [int(s) for s in data]
+    d = [int(s) for s in lines]
     p = {}
     for i in range(len(d)):
         for j in range(i+1, len(d)):
@@ -33,8 +31,3 @@ def part2(filename):
         y = M - x
         if y in p:
             return x * p[y]
-
-
-if __name__ == '__main__':
-    print(part1('input'))
-    print(part2('input'))

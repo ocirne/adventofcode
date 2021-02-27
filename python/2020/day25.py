@@ -1,4 +1,4 @@
-from pathlib import Path
+from aoc_util import example
 
 M = 20201227
 S = 7
@@ -14,17 +14,12 @@ def decrypt(key):
             return e
 
 
-def part1(filename):
+def part1(lines):
     """
-    >>> part1(Path(__file__).parent / 'reference')
+    >>> part1(example('25'))
     14897079
     """
-    data = open(filename).readlines()
-    key1, key2 = (int(v) for v in data)
+    key1, key2 = (int(v) for v in lines)
     e1 = decrypt(key1)
     e2 = decrypt(key2)
     return pow(S, e1*e2, M)
-
-
-if __name__ == '__main__':
-    print(part1('input'))

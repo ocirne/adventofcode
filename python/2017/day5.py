@@ -1,4 +1,4 @@
-from pathlib import Path
+from aoc_util import example
 
 
 def criterion_part1(offset):
@@ -13,9 +13,9 @@ def criterion_part2(offset):
 
 def run(lines, offset_mod):
     """
-    >>> run(open(Path(__file__).parent / 'examples/5.txt'), criterion_part1)
+    >>> run(example('5'), criterion_part1)
     5
-    >>> run(open(Path(__file__).parent / 'examples/5.txt'), criterion_part2)
+    >>> run(example('5'), criterion_part2)
     10
     """
     instructions = [int(line) for line in lines]

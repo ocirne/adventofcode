@@ -1,19 +1,18 @@
 from collections import Counter
 from math import prod
-from pathlib import Path
+from aoc_util import example
 
 MATCH = {0: 1, 1: 1, 2: 2, 3: 4, 4: 7}
 
 
-def part1(filename):
+def part1(lines):
     """
-    >>> part1(Path(__file__).parent / 'reference_a')
+    >>> part1(example('10a'))
     35
-    >>> part1(Path(__file__).parent / 'reference_b')
+    >>> part1(example('10b'))
     220
     """
-    f = open(filename)
-    nums = sorted(map(int, f.readlines()))
+    nums = sorted(map(int, lines))
     diffs = [nums[i] - nums[i-1] for i in range(1, len(nums))]
     c = Counter(diffs)
     return (c[1]+1) * (c[3]+1)
@@ -31,21 +30,15 @@ def run_detection(diffs):
     return runs
 
 
-def part2(filename):
+def part2(lines):
     """
-    >>> part2(Path(__file__).parent / 'reference_a')
+    >>> part2(example('10a'))
     8
-    >>> part2(Path(__file__).parent / 'reference_b')
+    >>> part2(example('10b'))
     19208
     """
-    f = open(filename)
-    raw_nums = list(map(int, f.readlines()))
+    raw_nums = list(map(int, lines))
     nums = sorted([0, max(raw_nums)+3] + raw_nums)
     diffs = [nums[i] - nums[i-1] for i in range(1, len(nums))]
     runs = run_detection(diffs)
     return prod(MATCH[i] for i in runs)
-
-
-if __name__ == '__main__':
-    print(part1('input'))
-    print(part2('input'))

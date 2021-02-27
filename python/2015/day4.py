@@ -20,7 +20,9 @@ def search(base, zeros):
         i += 1
 
 
-if __name__ == '__main__':
-    data = open('input').readline()
-    print(search(data, 5))
-    print(search(data, 6))
+def part1(lines):
+    return search(lines[0], 5)
+
+
+def part2(lines):
+    return search(lines[0], 6)

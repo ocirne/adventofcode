@@ -1,17 +1,16 @@
 from collections import Counter
 from itertools import combinations
-from pathlib import Path
+from aoc_util import example
 
 
-def part1(filename):
+def part1(lines):
     """
-    >>> part1(Path(__file__).parent / 'reference_a')
+    >>> part1(example('2a'))
     12
     """
-    data = open(filename).readlines()
     count_two = 0
     count_three = 0
-    for line in data:
+    for line in lines:
         m = Counter(line).values()
         if 2 in m:
             count_two += 1
@@ -31,18 +30,12 @@ def count_diff(line1, line2):
     return count, common_str
 
 
-def part2(filename):
+def part2(lines):
     """
-    >>> part2(Path(__file__).parent / 'reference_b')
+    >>> part2(example('2b'))
     'fgij'
     """
-    data = open(filename).readlines()
-    for line1, line2 in combinations(data, 2):
+    for line1, line2 in combinations(lines, 2):
         count, common = count_diff(line1.strip(), line2.strip())
         if count == 1:
             return common
-
-
-if __name__ == "__main__":
-    print(part1("input"))
-    print(part2("input"))

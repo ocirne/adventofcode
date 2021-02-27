@@ -1,20 +1,15 @@
-from pathlib import Path
+from aoc_util import example
 from itertools import combinations
 from math import prod
 from sys import maxsize
 
 
-def read_data(filename):
-    f = open(filename)
-    return [int(line) for line in f.readlines()]
-
-
-def get_minimum_quantum_entanglement(filename, compartments):
+def get_minimum_quantum_entanglement(lines, compartments):
     """
-    >>> part1(Path(__file__).parent / 'reference')
+    >>> part1(example('24'))
     99
     """
-    values = read_data(filename)
+    values = [int(line) for line in lines]
     target = sum(values) // compartments
     for pick in range(1, len(values) // compartments + 1):
         quantum_entanglement = maxsize
@@ -25,22 +20,17 @@ def get_minimum_quantum_entanglement(filename, compartments):
             return quantum_entanglement
 
 
-def part1(filename):
+def part1(lines):
     """
-    >>> part1(Path(__file__).parent / 'reference')
+    >>> part1(example('24'))
     99
     """
-    return get_minimum_quantum_entanglement(filename, 3)
+    return get_minimum_quantum_entanglement(lines, 3)
 
 
-def part2(filename):
+def part2(lines):
     """
-    >>> part2(Path(__file__).parent / 'reference')
+    >>> part2(example('24'))
     44
     """
-    return get_minimum_quantum_entanglement(filename, 4)
-
-
-if __name__ == '__main__':
-    print(part1('input'))
-    print(part2('input'))
+    return get_minimum_quantum_entanglement(lines, 4)

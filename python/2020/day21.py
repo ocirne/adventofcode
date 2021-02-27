@@ -1,5 +1,5 @@
 from collections import defaultdict
-from pathlib import Path
+from aoc_util import example
 
 INGREDIENTS_WITH_ALLERGENS_REFERENCE = ['mxmxvkd', 'sqjhc', 'fvjkl']
 
@@ -11,10 +11,9 @@ def intersect(d):
     return set.intersection(*sets)
 
 
-def read_data(filename):
-    f = open(filename)
+def prepare_data(lines):
     data = defaultdict(list)
-    for line in f.readlines():
+    for line in lines:
         ingredients_string, allergens_string = line.split(' (contains ')
         ingredients = ingredients_string.split()
         allergens = allergens_string.strip('\n)').split(', ')
@@ -23,25 +22,26 @@ def read_data(filename):
     return data
 
 
-def part1(filename, known_allergens):
+def part1(lines, known_allergens=None):
     """
-    >>> part1(Path(__file__).parent / 'reference', INGREDIENTS_WITH_ALLERGENS_REFERENCE)
+    >>> part1(example('21'), INGREDIENTS_WITH_ALLERGENS_REFERENCE)
     5
     """
-    f = open(filename)
+    if known_allergens is None:
+        known_allergens = INGREDIENTS_WITH_ALLERGENS_INPUT
     total = 0
-    for line in f.readlines():
+    for line in lines:
         ingredients = line.split(' (contains ')[0].split()
         total += len(set(ingredients).difference(set(known_allergens)))
     return total
 
 
-def part2(filename):
+def part2(lines):
     """
-    >>> part2(Path(__file__).parent / 'reference')
+    >>> part2(example('21'))
     'mxmxvkd,sqjhc,fvjkl'
     """
-    data = read_data(filename)
+    data = prepare_data(lines)
     known_allergen = {}
     detected = True
     while detected:
@@ -53,8 +53,3 @@ def part2(filename):
                 known_allergen[allergen] = ingredient
                 detected = True
     return ','.join(known_allergen[key] for key in sorted(known_allergen))
-
-
-if __name__ == '__main__':
-    print(part1('input', INGREDIENTS_WITH_ALLERGENS_INPUT))
-    print(part2('input'))

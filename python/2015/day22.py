@@ -1,9 +1,8 @@
 from dataclasses import dataclass
 
 
-def read_boss(filename):
-    f = open(filename)
-    return (int(line.split(':')[1]) for line in f.readlines())
+def prepare_boss(lines):
+    return (int(line.split(':')[1]) for line in lines)
 
 
 @dataclass
@@ -155,7 +154,11 @@ def run(boss_hp, boss_da, hp, mana, hard=False):
     return best_result
 
 
-if __name__ == '__main__':
-    input_hp, input_da = read_boss('input')
-    print(run(input_hp, input_da, 50, 500))
-    print(run(input_hp, input_da, 50, 500, hard=True))
+def part1(lines):
+    input_hp, input_da = prepare_boss(lines)
+    return run(input_hp, input_da, 50, 500)
+
+
+def part2(lines):
+    input_hp, input_da = prepare_boss(lines)
+    return run(input_hp, input_da, 50, 500, hard=True)

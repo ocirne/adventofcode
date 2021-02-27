@@ -1,20 +1,19 @@
 import re
-from pathlib import Path
+from aoc_util import example
 
 
 def format_bin(x):
     return '{0:36b}'.format(x)
 
 
-def part1(filename):
+def part1(lines):
     """
-    >>> part1(Path(__file__).parent / 'reference_a')
+    >>> part1(example('14a'))
     165
     """
-    f = open(filename)
     and_mask = or_mask = None
     d = {}
-    for line in f.readlines():
+    for line in lines:
         if line.startswith('mask'):
             mask = line.split(' ')[2]
             and_mask = int(mask.replace('X', '1'), 2)
@@ -55,15 +54,14 @@ def floating_masks(rest, acc=''):
                 yield x
 
 
-def part2(filename):
+def part2(lines):
     """
-    >>> part2(Path(__file__).parent / 'reference_b')
+    >>> part2(example('14b'))
     208
     """
-    f = open(filename)
     mask = None
     d = {}
-    for line in f.readlines():
+    for line in lines:
         if line.startswith('mask'):
             mask = line.split(' ')[2].strip()
         else:
@@ -74,8 +72,3 @@ def part2(filename):
                 d[fm] = value
 
     return sum(d.values())
-
-
-if __name__ == '__main__':
-    print(part1('input'))
-    print(part2('input'))

@@ -1,9 +1,9 @@
-from pathlib import Path
+from aoc_util import example
 
 
-def read_ops(filename):
+def prepare_ops(lines):
     ops = []
-    for line in open(filename).readlines():
+    for line in lines:
         op, arg = line.strip().split()
         ops.append((op, int(arg)))
     return ops
@@ -35,12 +35,12 @@ def run_program(ops, part):
         visited[p] = True
 
 
-def part1(filename):
+def part1(lines):
     """
-    >>> part1(Path(__file__).parent / 'reference')
+    >>> part1(example('8'))
     5
     """
-    ops = read_ops(filename)
+    ops = prepare_ops(lines)
     return run_program(ops, 'part1')
 
 
@@ -56,20 +56,15 @@ def modify_op(ops, i):
         return None
 
 
-def part2(filename):
+def part2(lines):
     """
-    >>> part2(Path(__file__).parent / 'reference')
+    >>> part2(example('8'))
     8
     """
-    ops = read_ops(filename)
+    ops = prepare_ops(lines)
     for i in range(len(ops)):
         mod_ops = modify_op(ops[:], i)
         if mod_ops:
             acc = run_program(mod_ops, 'part2')
             if acc:
                 return acc
-
-
-if __name__ == '__main__':
-    print(part1('input'))
-    print(part2('input'))

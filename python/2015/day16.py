@@ -14,10 +14,9 @@ GREATER_THAN_ITEMS = ['cats', 'trees']
 FEWER_THAN_ITEMS = ['pomeranians', 'goldfish']
 
 
-def read_data(filename):
+def prepare_data(lines):
     result = []
-    f = open(filename)
-    for line in f.readlines():
+    for line in lines:
         _, things_part = line.split(': ', 1)
         things = {}
         for thing in things_part.split(', '):
@@ -49,8 +48,8 @@ def can_be2(things):
     return True
 
 
-def run(filename, can_be, exclude=None):
-    data = read_data(filename)
+def run(lines, can_be, exclude=None):
+    data = prepare_data(lines)
     for sue_no, things in enumerate(data):
         if can_be(things):
             if sue_no + 1 == exclude:
@@ -58,8 +57,10 @@ def run(filename, can_be, exclude=None):
             return sue_no + 1
 
 
-if __name__ == '__main__':
-    answer1 = run('input', can_be1)
-    answer2 = run('input', can_be2, answer1)
-    print(answer1)
-    print(answer2)
+def part1(lines):
+    return run(lines, can_be1)
+
+
+def part2(lines):
+    answer1 = part1(lines)
+    return run(lines, can_be2, answer1)

@@ -67,7 +67,9 @@ def loop_sum(data, fun):
     return greater - lower
 
 
-if __name__ == '__main__':
-    inputData = open('input').readlines()
-    print(loop_sum(inputData, shrink))
-    print(loop_sum(inputData, expand))
+def part1(lines):
+    return loop_sum(lines, shrink)
+
+
+def part2(lines):
+    return loop_sum(lines, expand)

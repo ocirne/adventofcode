@@ -15,45 +15,39 @@ def traverse(node, ignore_red):
         return 0
 
 
-def part1(data):
+def part1(lines):
     """
-    >>> part1('[1,2,3]')
+    >>> part1(['[1,2,3]'])
     6
-    >>> part1('{"a":2,"b":4}')
+    >>> part1(['{"a":2,"b":4}'])
     6
-    >>> part1('[[[3]]]')
+    >>> part1(['[[[3]]]'])
     3
-    >>> part1('{"a":{"b":4},"c":-1}')
+    >>> part1(['{"a":{"b":4},"c":-1}'])
     3
-    >>> part1('{"a":[-1,1]}')
+    >>> part1(['{"a":[-1,1]}'])
     0
-    >>> part1('[-1,{"a":1}]')
+    >>> part1(['[-1,{"a":1}]'])
     0
-    >>> part1('[]')
+    >>> part1(['[]'])
     0
-    >>> part1('{}')
+    >>> part1(['{}'])
     0
     """
-    root = json.loads(data)
+    root = json.loads(lines[0])
     return traverse(root, ignore_red=False)
 
 
-def part2(data):
+def part2(lines):
     """
-    >>> part2('[1,2,3]')
+    >>> part2(['[1,2,3]'])
     6
-    >>> part2('[1,{"c":"red","b":2},3]')
+    >>> part2(['[1,{"c":"red","b":2},3]'])
     4
-    >>> part2('{"d":"red","e":[1,2,3,4],"f":5}')
+    >>> part2(['{"d":"red","e":[1,2,3,4],"f":5}'])
     0
-    >>> part2('[1,"red",5]')
+    >>> part2(['[1,"red",5]'])
     6
     """
-    root = json.loads(data)
+    root = json.loads(lines[0])
     return traverse(root, ignore_red=True)
-
-
-if __name__ == '__main__':
-    inputData = open('input').readline()
-    print(part1(inputData))
-    print(part2(inputData))

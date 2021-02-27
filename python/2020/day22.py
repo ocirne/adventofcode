@@ -1,13 +1,12 @@
 from collections import deque
-from pathlib import Path
+from aoc_util import example
 
 
-def read_data(filename):
-    f = open(filename)
+def prepare_data(lines):
     cards1 = deque()
     cards2 = deque()
     player = None
-    for line in f.readlines():
+    for line in lines:
         if line.isspace():
             continue
         elif line.startswith('Player'):
@@ -36,12 +35,12 @@ def calc_score(cards):
     return sum((i+1) * cards.pop() for i in range(len(cards)))
 
 
-def part1(filename):
+def part1(lines):
     """
-    >>> part1(Path(__file__).parent / 'reference')
+    >>> part1(example('22'))
     306
     """
-    cards1, cards2 = read_data(filename)
+    cards1, cards2 = prepare_data(lines)
     while True:
         turn(cards1, cards2)
         if len(cards1) == 0:
@@ -81,17 +80,12 @@ def game(cards1, cards2):
         history_cards2[tuple(cards2)] = True
 
 
-def part2(filename):
+def part2(lines):
     """
-    >>> part2(Path(__file__).parent / 'reference')
+    >>> part2(example('22'))
     291
     """
-    cards1, cards2 = read_data(filename)
+    cards1, cards2 = prepare_data(lines)
     winner, cards = game(cards1, cards2)
     score = calc_score(cards)
     return score
-
-
-if __name__ == '__main__':
-    print(part1('input'))
-    print(part2('input'))

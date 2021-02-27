@@ -1,6 +1,6 @@
 from collections import Counter
 from dataclasses import dataclass
-from pathlib import Path
+from aoc_util import example
 
 
 @dataclass
@@ -36,7 +36,7 @@ def get_root(tree):
 
 def part1(lines):
     """
-    >>> part1(open(Path(__file__).parent / 'examples/7.txt'))
+    >>> part1(example('7'))
     'tknk'
     """
     tree = prepare_tree(lines)
@@ -62,7 +62,7 @@ def calc_correction_weight(nodes, node: Node):
 
 def part2(lines):
     """
-    >>> part2(open(Path(__file__).parent / 'examples/7.txt'))
+    >>> part2(example('7'))
     60
     """
     tree = prepare_tree(lines)

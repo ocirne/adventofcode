@@ -1,20 +1,21 @@
 import re
-from pathlib import Path
+from aoc_util import example
 
 
-def read_file(filename):
+def prepare_data(lines, is_part2):
     rules = {}
     messages = []
-    f = open(filename)
-    line = f.readline()
+    f = iter(lines)
+    line = next(f)
     while not line.isspace():
         rule_no, rule_desc = line.split(':')
         rules[rule_no] = rule_desc.strip().replace('"', '')
-        line = f.readline()
-    line = f.readline()
-    while line:
+        line = next(f)
+    for line in f:
         messages.append(line.strip())
-        line = f.readline()
+    if is_part2:
+        rules[8] = '42 | 42 8'
+        rules[11] = '42 31 | 42 11 31'
     return rules, messages
 
 
@@ -40,14 +41,14 @@ def create_regex(rules):
     return r'^' + regex + '$'
 
 
-def run(filename):
+def run(lines, is_part2):
     """
-    >>> run(Path(__file__).parent / 'reference_a')
+    >>> run(example('19a'), False)
     2
-    >>> run(Path(__file__).parent / 'reference_b')
+    >>> run(example('19b'), True)
     12
     """
-    rules, messages = read_file(filename)
+    rules, messages = prepare_data(lines, is_part2)
     pattern = create_regex(rules)
     total = 0
     for message in messages:
@@ -56,6 +57,9 @@ def run(filename):
     return total
 
 
-if __name__ == '__main__':
-    print(run('input_a'))
-    print(run('input_b'))
+def part1(lines):
+    return run(lines, False)
+
+
+def part2(lines):
+    return run(lines, True)

@@ -2,7 +2,7 @@ import operator
 from collections import defaultdict
 from typing import Callable
 from dataclasses import dataclass
-from pathlib import Path
+from aoc_util import example
 
 
 @dataclass
@@ -37,7 +37,7 @@ def prepare_instructions(lines):
 
 def part1(lines):
     """
-    >>> part1(open(Path(__file__).parent / 'examples/8.txt'))
+    >>> part1(example('8'))
     1
     """
     instructions = prepare_instructions(lines)
@@ -50,7 +50,7 @@ def part1(lines):
 
 def part2(lines):
     """
-    >>> part2(open(Path(__file__).parent / 'examples/8.txt'))
+    >>> part2(example('8'))
     10
     """
     instructions = prepare_instructions(lines)

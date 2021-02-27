@@ -1,4 +1,8 @@
 
+def prepare_data(lines):
+    return [int(t) for t in lines[0].split(',')]
+
+
 def play(nth, *start_values):
     """
     >>> play(2020, 0, 3, 6)
@@ -28,7 +32,11 @@ def play(nth, *start_values):
     return value
 
 
-if __name__ == '__main__':
-    input_data = [int(t) for t in open('input').readline().split(',')]
-    print(play(2020, *input_data))
-    print(play(30000000, *input_data))
+def part1(lines):
+    input_data = prepare_data(lines)
+    return play(2020, *input_data)
+
+
+def part2(lines):
+    input_data = prepare_data(lines)
+    return play(30000000, *input_data)

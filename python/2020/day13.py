@@ -1,10 +1,9 @@
-from pathlib import Path
+from aoc_util import example
 
 
-def read_data(filename):
-    f = open(filename)
-    n = int(f.readline())
-    ids = [int(x) for x in filter(lambda x: x != 'x', f.readline().strip().split(','))]
+def prepare_data(lines):
+    n = int(next(lines))
+    ids = [int(x) for x in filter(lambda x: x != 'x', next(lines).strip().split(','))]
     return n, ids
 
 
@@ -17,14 +16,10 @@ def search(n, bus_ids):
         wait += 1
 
 
-def part1(filename):
+def part1(lines):
     """
-    >>> part1(Path(__file__).parent / 'reference')
+    >>> part1(example('13'))
     295
     """
-    n, ids = read_data(filename)
+    n, ids = prepare_data(lines)
     return search(n, ids)
-
-
-if __name__ == '__main__':
-    print(part1('input'))

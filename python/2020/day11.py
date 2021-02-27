@@ -1,5 +1,5 @@
 from collections import Counter
-from pathlib import Path
+from aoc_util import example
 
 
 def count_adjacent_occupied_part1(y, x, d):
@@ -42,13 +42,12 @@ def count_seats(d):
     return c['#']
 
 
-def part1(filename):
+def part1(lines):
     """
-    >>> part1(Path(__file__).parent / 'reference')
+    >>> part1(example('11'))
     37
     """
-    f = open(filename)
-    d = list(map(str.strip, f.readlines()))
+    d = list(map(str.strip, lines))
     changed = True
     while changed:
         changed, d = step_part1(d)
@@ -100,19 +99,13 @@ def step_part2(d):
     return changed, result
 
 
-def part2(filename):
+def part2(lines):
     """
-    >>> part2(Path(__file__).parent / 'reference')
+    >>> part2(example('11'))
     26
     """
-    f = open(filename)
-    d = list(map(str.strip, f.readlines()))
+    d = list(map(str.strip, lines))
     changed = True
     while changed:
         changed, d = step_part2(d)
     return count_seats(d)
-
-
-if __name__ == '__main__':
-    print(part1('input'))
-    print(part2('input'))

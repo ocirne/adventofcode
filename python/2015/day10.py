@@ -33,15 +33,11 @@ def play_look_and_say(start_seq, rounds):
     return len(seq)
 
 
-def part1(start_seq):
+def part1(lines):
+    start_seq = lines[0]
     return play_look_and_say(start_seq, 40)
 
 
-def part2(start_seq):
+def part2(lines):
+    start_seq = lines[0]
     return play_look_and_say(start_seq, 50)
-
-
-if __name__ == '__main__':
-    data = open('input').readline()
-    print(part1(data))
-    print(part2(data))
