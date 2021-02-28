@@ -60,11 +60,7 @@ def shunting_yard(expression):
         if token.isdigit():
             result.append(token)
         if token in ["+", "*"]:
-            while (
-                stack
-                and stack[-1] in ["+", "*"]
-                and PRECEDENCE[token] <= PRECEDENCE[stack[-1]]
-            ):
+            while stack and stack[-1] in ["+", "*"] and PRECEDENCE[token] <= PRECEDENCE[stack[-1]]:
                 result.append(stack.pop())
             stack.append(token)
         if token == "(":

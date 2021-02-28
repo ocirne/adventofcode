@@ -56,9 +56,7 @@ def part2(lines, rounds=ROUNDS):
     points = defaultdict(lambda: 0)
     for i in range(1, rounds + 1):
         groups = groupby((race(line, i) for line in lines), itemgetter(1))
-        first_group = max(
-            ((key, [item for item in data]) for key, data in groups), key=itemgetter(0)
-        )
+        first_group = max(((key, [item for item in data]) for key, data in groups), key=itemgetter(0))
         for name, _ in first_group[1]:
             points[name] += 1
     return max(points.values())

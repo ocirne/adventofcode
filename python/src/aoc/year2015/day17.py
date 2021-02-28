@@ -18,9 +18,7 @@ def combine(data, rest, acc=None):
         return 1
     if not data:
         return 0
-    return combine(data[1:], rest, acc) + combine(
-        data[1:], rest - data[0], acc + [data[0]]
-    )
+    return combine(data[1:], rest, acc) + combine(data[1:], rest - data[0], acc + [data[0]])
 
 
 def part1(lines, total=150):

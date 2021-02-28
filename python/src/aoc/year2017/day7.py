@@ -55,9 +55,7 @@ def calc_correction_weight(nodes, node: Node):
     counts = Counter(children_total_weights).most_common()
     if len(counts) > 1:
         (good_weight, _), (bad_weight, _) = counts
-        bad_child = next(
-            child for child in node.children if nodes[child].total_weight == bad_weight
-        )
+        bad_child = next(child for child in node.children if nodes[child].total_weight == bad_weight)
         return nodes[bad_child].weight - (bad_weight - good_weight)
     node.total_weight = node.weight + sum(children_total_weights)
 

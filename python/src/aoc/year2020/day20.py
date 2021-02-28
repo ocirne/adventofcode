@@ -53,9 +53,7 @@ def part1(lines):
             for key, fieldBorder in all_borders.items():
                 if border in fieldBorder:
                     unique_keys.append(key)
-    corner_keys = [
-        int(key) for key, value in Counter(unique_keys).items() if value == 4
-    ]
+    corner_keys = [int(key) for key, value in Counter(unique_keys).items() if value == 4]
     return prod(corner_keys)
 
 

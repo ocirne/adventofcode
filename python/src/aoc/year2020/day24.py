@@ -126,9 +126,7 @@ def part2(lines, rounds=100):
     2208
     """
     endpoints = prepare_endpoints(lines)
-    real_endpoints = {
-        ep: True for ep, count in Counter(endpoints).items() if count % 2 == 1
-    }
+    real_endpoints = {ep: True for ep, count in Counter(endpoints).items() if count % 2 == 1}
     return simulate(real_endpoints, rounds)
 
 

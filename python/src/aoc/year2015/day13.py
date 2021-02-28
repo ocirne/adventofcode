@@ -28,8 +28,7 @@ def prepare_data(lines, with_me):
 
 def calc_happiness(happiness, arrangement):
     return happiness[(arrangement[0], arrangement[-1])] + sum(
-        happiness[(arrangement[i - 1], arrangement[i])]
-        for i in range(1, len(arrangement))
+        happiness[(arrangement[i - 1], arrangement[i])] for i in range(1, len(arrangement))
     )
 
 
@@ -39,9 +38,7 @@ def run(lines, with_me):
     330
     """
     guests, happiness = prepare_data(lines, with_me)
-    return max(
-        calc_happiness(happiness, arrangement) for arrangement in permutations(guests)
-    )
+    return max(calc_happiness(happiness, arrangement) for arrangement in permutations(guests))
 
 
 def part1(lines):

@@ -76,9 +76,7 @@ def part2(lines):
     pos_x, pos_y, way_x, way_y, face = 0, 0, 10, -1, 0
     for line in lines:
         action, value = line[0], int(line[1:])
-        pos_x, pos_y, way_x, way_y, face = step_part2(
-            pos_x, pos_y, way_x, way_y, face, action, int(value)
-        )
+        pos_x, pos_y, way_x, way_y, face = step_part2(pos_x, pos_y, way_x, way_y, face, action, int(value))
     return abs(pos_x) + abs(pos_y)
 
 

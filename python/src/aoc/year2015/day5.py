@@ -37,11 +37,7 @@ def is_nice_part1(s):
     >>> is_nice_part1('dvszwmarrgswjxmb')
     False
     """
-    return (
-        contains_at_least_three_vowels(s)
-        and contains_a_double_letter(s)
-        and contains_no_forbidden_string(s)
-    )
+    return contains_at_least_three_vowels(s) and contains_a_double_letter(s) and contains_no_forbidden_string(s)
 
 
 def contains_a_double_pair(s):

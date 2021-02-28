@@ -7,11 +7,7 @@ def diff_max_min(row):
 
 
 def whole_division(row):
-    return sum(
-        f
-        for f, r in (divmod(number, modulo) for modulo, number in combinations(row, 2))
-        if r == 0
-    )
+    return sum(f for f, r in (divmod(number, modulo) for modulo, number in combinations(row, 2)) if r == 0)
 
 
 def run(lines, fun):

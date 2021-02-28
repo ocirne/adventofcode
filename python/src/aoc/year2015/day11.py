@@ -77,10 +77,7 @@ def find_next(arr, depth=0, run=False, pair1=None, pos1=None, letter1=None, pair
         else:
             r_pair1, r_pos1, r_letter1 = False, None, None
         r_pair2 = pair2 or (
-            pair1
-            and depth > pos1 + 1
-            and arr[depth] != letter1
-            and is_pair(arr[depth - 1 : depth + 1])
+            pair1 and depth > pos1 + 1 and arr[depth] != letter1 and is_pair(arr[depth - 1 : depth + 1])
         )
         if find_next(
             arr,

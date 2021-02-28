@@ -4,9 +4,7 @@ from aoc.util import load_example, load_input
 def prepare_data(lines):
     result = []
     for line in lines:
-        result.append(
-            [int(ingredient.split()[1]) for ingredient in line.split(":")[1].split(",")]
-        )
+        result.append([int(ingredient.split()[1]) for ingredient in line.split(":")[1].split(",")])
     return result
 
 
@@ -22,10 +20,7 @@ def partitions(total, count, acc=None):
 
 
 def apply(data, part, calories_condition=False):
-    if (
-        calories_condition
-        and sum(data[j][4] * part[j] for j in range(len(part))) != 500
-    ):
+    if calories_condition and sum(data[j][4] * part[j] for j in range(len(part))) != 500:
         return 0
     result = 1
     for i in range(4):

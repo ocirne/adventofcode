@@ -36,10 +36,7 @@ def part1(lines):
 
 
 def count_color_tree(color_tree, color):
-    return 1 + sum(
-        count * count_color_tree(color_tree, childColor)
-        for count, childColor in color_tree[color]
-    )
+    return 1 + sum(count * count_color_tree(color_tree, childColor) for count, childColor in color_tree[color])
 
 
 def part2(lines):

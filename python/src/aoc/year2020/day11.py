@@ -8,11 +8,7 @@ def count_adjacent_occupied_part1(y, x, d):
         for dy in range(-1, 2):
             if dx == 0 and dy == 0:
                 continue
-            if (
-                0 <= (y + dy) < len(d)
-                and 0 <= (x + dx) < len(d[0])
-                and d[y + dy][x + dx] == "#"
-            ):
+            if 0 <= (y + dy) < len(d) and 0 <= (x + dx) < len(d[0]) and d[y + dy][x + dx] == "#":
                 count += 1
     return count
 

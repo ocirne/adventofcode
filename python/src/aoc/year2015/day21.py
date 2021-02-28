@@ -74,17 +74,11 @@ def all_fights(boss, who_wins):
     for weapon in pick(1, 2, WEAPONS):
         for armor in pick(0, 2, ARMOR):
             for rings in pick(0, 3, RINGS):
-                total_damage = sum(
-                    eq.damage for eq in chain.from_iterable([weapon, armor, rings])
-                )
-                total_armor = sum(
-                    eq.armor for eq in chain.from_iterable([weapon, armor, rings])
-                )
+                total_damage = sum(eq.damage for eq in chain.from_iterable([weapon, armor, rings]))
+                total_armor = sum(eq.armor for eq in chain.from_iterable([weapon, armor, rings]))
                 player = Stats(100, total_damage, total_armor)
                 if who_wins(player, boss):
-                    yield sum(
-                        eq.cost for eq in chain.from_iterable([weapon, armor, rings])
-                    )
+                    yield sum(eq.cost for eq in chain.from_iterable([weapon, armor, rings]))
 
 
 def part1(lines):

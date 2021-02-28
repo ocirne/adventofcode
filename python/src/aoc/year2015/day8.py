@@ -24,11 +24,7 @@ def shrink(line):
                     index += 1
                 elif line[index + 1] == '"':
                     index += 1
-                elif (
-                    line[index + 1] == "x"
-                    and line[index + 2].isascii()
-                    and line[index + 3].isascii()
-                ):
+                elif line[index + 1] == "x" and line[index + 2].isascii() and line[index + 3].isascii():
                     index += 3
                 else:
                     raise

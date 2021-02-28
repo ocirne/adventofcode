@@ -32,11 +32,7 @@ def solve_new_captcha(line):
     >>> solve_new_captcha('12131415')
     4
     """
-    return sum(
-        int(x)
-        for x, y in zip(line, line[len(line) // 2 :] + line[: len(line) // 2])
-        if x == y
-    )
+    return sum(int(x) for x, y in zip(line, line[len(line) // 2 :] + line[: len(line) // 2]) if x == y)
 
 
 def part2(lines):

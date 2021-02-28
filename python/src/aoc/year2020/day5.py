@@ -12,9 +12,7 @@ def to_int(line):
     >>> to_int('BBFFBBFRLL')
     820
     """
-    bin_repr = (
-        line.replace("F", "0").replace("B", "1").replace("R", "1").replace("L", "0")
-    )
+    bin_repr = line.replace("F", "0").replace("B", "1").replace("R", "1").replace("L", "0")
     return int(bin_repr, 2)
 
 

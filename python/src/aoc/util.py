@@ -7,6 +7,4 @@ def load_example(file_ref: str, day: str) -> List[str]:
 
 
 def load_input(file_ref: str, year: int, day: str) -> List[str]:
-    return open(
-        Path(file_ref).parent / ("../../../tests/%s/%s/input" % (year, day))
-    ).readlines()
+    return open(Path(file_ref).parent / ("../../../tests/%s/%s/input" % (year, day))).readlines()
