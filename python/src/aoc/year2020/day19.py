@@ -14,8 +14,8 @@ def prepare_data(lines, is_part2):
     for line in f:
         messages.append(line.strip())
     if is_part2:
-        rules[8] = '42 | 42 8'
-        rules[11] = '42 31 | 42 11 31'
+        rules['8'] = '42 | 42 8'
+        rules['11'] = '42 31 | 42 11 31'
     return rules, messages
 
 
