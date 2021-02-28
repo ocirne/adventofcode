@@ -1,3 +1,5 @@
+from aoc.util import load_input
+
 
 def shrink(line):
     """
@@ -73,3 +75,9 @@ def part1(lines):
 
 def part2(lines):
     return loop_sum(lines, expand)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2015, '8')
+    print(part1(data))
+    print(part2(data))

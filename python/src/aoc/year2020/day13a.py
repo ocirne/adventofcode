@@ -1,9 +1,10 @@
-from aoc.util import example
+from aoc.util import load_example
 
 
 def prepare_data(lines):
-    n = int(next(lines))
-    ids = [int(x) for x in filter(lambda x: x != 'x', next(lines).strip().split(','))]
+    it = iter(lines)
+    n = int(next(it))
+    ids = [int(x) for x in filter(lambda x: x != 'x', next(it).strip().split(','))]
     return n, ids
 
 
@@ -18,8 +19,13 @@ def search(n, bus_ids):
 
 def part1(lines):
     """
-    >>> part1(example(__file__, '13'))
+    >>> part1(load_example(__file__, '13'))
     295
     """
     n, ids = prepare_data(lines)
     return search(n, ids)
+
+
+def part2(lines):
+    # see day13b.sage
+    pass

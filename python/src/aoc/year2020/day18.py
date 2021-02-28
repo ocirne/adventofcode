@@ -1,3 +1,5 @@
+from aoc.util import load_input
+
 
 def calc(a, op, b):
     if op == '+':
@@ -117,3 +119,9 @@ def part1(lines):
 
 def part2(lines):
     return run(lines, solve_part2)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2020, '18')
+    print(part1(data))
+    print(part2(data))

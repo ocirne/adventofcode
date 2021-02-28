@@ -1,5 +1,6 @@
 from collections import Counter
-from aoc.util import example
+
+from aoc.util import load_input, load_example
 
 
 def endpoint(line, x=0, y=0):
@@ -31,7 +32,7 @@ def prepare_endpoints(lines):
 
 def part1(lines):
     """
-    >>> part1(example(__file__, '24'))
+    >>> part1(load_example(__file__, '24'))
     10
     """
     endpoints = prepare_endpoints(lines)
@@ -82,7 +83,7 @@ def simulate(para_endpoints, rounds):
 
 def part2(lines, rounds=100):
     """
-    >>> data = list(example(__file__, '24').readlines())
+    >>> data = load_example(__file__, '24')
     >>> part2(data, 0)
     10
     >>> part2(data, 1)
@@ -127,3 +128,9 @@ def part2(lines, rounds=100):
     endpoints = prepare_endpoints(lines)
     real_endpoints = {ep: True for ep, count in Counter(endpoints).items() if count % 2 == 1}
     return simulate(real_endpoints, rounds)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2020, '24')
+    print(part1(data))
+    print(part2(data))

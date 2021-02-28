@@ -1,5 +1,5 @@
 from collections import deque
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 
 def prepare_data(lines):
@@ -37,7 +37,7 @@ def calc_score(cards):
 
 def part1(lines):
     """
-    >>> part1(example(__file__, '22'))
+    >>> part1(load_example(__file__, '22'))
     306
     """
     cards1, cards2 = prepare_data(lines)
@@ -82,10 +82,16 @@ def game(cards1, cards2):
 
 def part2(lines):
     """
-    >>> part2(example(__file__, '22'))
+    >>> part2(load_example(__file__, '22'))
     291
     """
     cards1, cards2 = prepare_data(lines)
     winner, cards = game(cards1, cards2)
     score = calc_score(cards)
     return score
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2020, '22')
+    print(part1(data))
+    print(part2(data))

@@ -1,4 +1,4 @@
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 
 def prepare_data(lines):
@@ -33,9 +33,9 @@ def apply(data, part, calories_condition=False):
 
 def run(lines, p, calories_condition=False):
     """
-    >>> run(example(__file__, '15'), 2, False)
+    >>> run(load_example(__file__, '15'), 2, False)
     62842880
-    >>> run(example(__file__, '15'), 2, True)
+    >>> run(load_example(__file__, '15'), 2, True)
     57600000
     """
     data = prepare_data(lines)
@@ -48,3 +48,9 @@ def part1(lines):
 
 def part2(lines):
     return run(lines, 4, calories_condition=True)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2015, '15')
+    print(part1(data))
+    print(part2(data))

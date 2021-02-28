@@ -1,4 +1,4 @@
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 M = 2**16
 
@@ -52,7 +52,7 @@ def deduct(rules, wire):
 
 def run(lines, wire, new_rule_b=None):
     """
-    >>> data = example(__file__, '7').readlines()
+    >>> data = load_example(__file__, '7')
     >>> run(data, 'd')
     72
     >>> run(data, 'e')
@@ -83,3 +83,9 @@ def part1(lines):
 def part2(lines):
     answer1 = part1(lines)
     return run(lines, 'a', answer1)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2015, '7')
+    print(part1(data))
+    print(part2(data))

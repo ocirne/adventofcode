@@ -1,4 +1,4 @@
-from aoc.util import example
+from aoc.util import load_input, load_example
 
 
 def prepare_data(lines):
@@ -26,7 +26,7 @@ def search(edges, start):
 
 def part1(lines):
     """
-    >>> part1(example(__file__, '12'))
+    >>> part1(load_example(__file__, '12'))
     6
     """
     edges = prepare_data(lines)
@@ -35,7 +35,7 @@ def part1(lines):
 
 def part2(lines):
     """
-    >>> part2(example(__file__, '12'))
+    >>> part2(load_example(__file__, '12'))
     2
     """
     edges = prepare_data(lines)
@@ -47,3 +47,9 @@ def part2(lines):
         open_set.difference_update(group)
         count_groups += 1
     return count_groups
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2017, '12')
+    print(part1(data))
+    print(part2(data))

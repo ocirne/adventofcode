@@ -1,10 +1,10 @@
 from collections import defaultdict
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 
 def part1(lines):
     """
-    >>> part1(example(__file__, '6'))
+    >>> part1(load_example(__file__, '6'))
     11
     """
     answers = []
@@ -22,7 +22,7 @@ def part1(lines):
 
 def part2(lines):
     """
-    >>> part2(example(__file__, '6'))
+    >>> part2(load_example(__file__, '6'))
     6
     """
     answers = []
@@ -39,3 +39,9 @@ def part2(lines):
             count_people += 1
     answers.append(len([1 for v in a.values() if v == count_people]))
     return sum(answers)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2020, '6')
+    print(part1(data))
+    print(part2(data))

@@ -1,6 +1,6 @@
 from collections import Counter
 from itertools import combinations
-from aoc.util import example
+from aoc.util import load_example, load_input
 from aoc.disjoint import find, union
 
 
@@ -19,7 +19,7 @@ def run(lines, count):
 
 def part1(lines, count=2000):
     """
-    >>> part1(example(__file__, '12'), 7)
+    >>> part1(load_example(__file__, '12'), 7)
     6
     """
     a = run(lines, count)
@@ -28,8 +28,14 @@ def part1(lines, count=2000):
 
 def part2(lines, count=2000):
     """
-    >>> part2(example(__file__, '12'), 7)
+    >>> part2(load_example(__file__, '12'), 7)
     2
     """
     a = run(lines, count)
     return len(Counter(a))
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2017, '12')
+    print(part1(data))
+    print(part2(data))

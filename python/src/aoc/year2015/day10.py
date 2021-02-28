@@ -1,3 +1,5 @@
+from aoc.util import load_input
+
 
 def step(seq):
     """
@@ -41,3 +43,9 @@ def part1(lines):
 def part2(lines):
     start_seq = lines[0]
     return play_look_and_say(start_seq, 50)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2015, '10')
+    print(part1(data))
+    print(part2(data))

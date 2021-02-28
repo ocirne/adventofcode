@@ -1,5 +1,5 @@
 from itertools import permutations
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 
 def prepare_data(lines):
@@ -20,9 +20,9 @@ def calc_distance(distances, route):
 
 def run(lines, fun):
     """
-    >>> run(example(__file__, '9'), min)
+    >>> run(load_example(__file__, '9'), min)
     605
-    >>> run(example(__file__, '9'), max)
+    >>> run(load_example(__file__, '9'), max)
     982
     """
     locations, distances = prepare_data(lines)
@@ -35,3 +35,9 @@ def part1(lines):
 
 def part2(lines):
     return run(lines, max)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2015, '9')
+    print(part1(data))
+    print(part2(data))

@@ -1,3 +1,4 @@
+from aoc.util import load_input
 
 TRANSLATE = {
     'nw': lambda x, y: (x - 1, y),
@@ -45,3 +46,9 @@ def part1(lines):
 
 def part2(lines):
     return max_distance(lines[0].strip())
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2017, '11')
+    print(part1(data))
+    print(part2(data))

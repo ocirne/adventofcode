@@ -1,4 +1,4 @@
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 
 def prepare_ops(lines):
@@ -37,7 +37,7 @@ def run_program(ops, part):
 
 def part1(lines):
     """
-    >>> part1(example(__file__, '8'))
+    >>> part1(load_example(__file__, '8'))
     5
     """
     ops = prepare_ops(lines)
@@ -58,7 +58,7 @@ def modify_op(ops, i):
 
 def part2(lines):
     """
-    >>> part2(example(__file__, '8'))
+    >>> part2(load_example(__file__, '8'))
     8
     """
     ops = prepare_ops(lines)
@@ -68,3 +68,9 @@ def part2(lines):
             acc = run_program(mod_ops, 'part2')
             if acc:
                 return acc
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2020, '8')
+    print(part1(data))
+    print(part2(data))

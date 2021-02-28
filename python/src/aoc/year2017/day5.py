@@ -1,4 +1,4 @@
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 
 def criterion_part1(offset):
@@ -13,9 +13,9 @@ def criterion_part2(offset):
 
 def run(lines, offset_mod):
     """
-    >>> run(example(__file__, '5'), criterion_part1)
+    >>> run(load_example(__file__, '5'), criterion_part1)
     5
-    >>> run(example(__file__, '5'), criterion_part2)
+    >>> run(load_example(__file__, '5'), criterion_part2)
     10
     """
     instructions = [int(line) for line in lines]
@@ -36,3 +36,9 @@ def part1(lines):
 
 def part2(lines):
     return run(lines, criterion_part2)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2017, '5')
+    print(part1(data))
+    print(part2(data))

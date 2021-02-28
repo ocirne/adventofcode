@@ -1,4 +1,4 @@
-from aoc.util import example
+from aoc.util import load_example, load_input
 from sage.all import CRT_list
 
 
@@ -29,7 +29,12 @@ def wrap_crt(line):
 
 def part2(lines):
     """
-    >>> part2(example('13b'))
+    >>> part2(load_example('13b'))
     1068781
     """
     return wrap_crt(lines[1].strip())
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2020, '13')
+    print(part2(data))

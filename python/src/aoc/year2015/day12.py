@@ -1,5 +1,7 @@
 import json
 
+from aoc.util import load_input
+
 
 def traverse(node, ignore_red):
     if isinstance(node, dict):
@@ -51,3 +53,9 @@ def part2(lines):
     """
     root = json.loads(lines[0])
     return traverse(root, ignore_red=True)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2015, '12')
+    print(part1(data))
+    print(part2(data))

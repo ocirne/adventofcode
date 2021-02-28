@@ -1,3 +1,5 @@
+from aoc.util import load_input
+
 
 def extract(line):
     """
@@ -41,3 +43,9 @@ def part1(lines):
 
 def part2(lines):
     return fun_and_sum(lines, calc_ribbon)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2015, '2')
+    print(part1(data))
+    print(part2(data))

@@ -1,6 +1,6 @@
 from collections import Counter
 from math import prod
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 
 def extract_number(s):
@@ -36,7 +36,7 @@ def prepare_tiles(lines):
 
 def part1(lines):
     """
-    >>> part1(example(__file__, '20'))
+    >>> part1(load_example(__file__, '20'))
     20899048083289
     """
     tiles = prepare_tiles(lines)
@@ -60,3 +60,9 @@ def part1(lines):
 def part2(lines):
     """ TODO """
     pass
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2020, '20')
+    print(part1(data))
+    print(part2(data))

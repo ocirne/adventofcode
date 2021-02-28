@@ -1,4 +1,4 @@
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 MAN_KEYS = 'byr iyr eyr hgt hcl ecl pid'.split()
 ECL = 'amb blu brn gry grn hzl oth'.split()
@@ -98,9 +98,9 @@ def check_part2(passport):
 
 def run(lines, check):
     """
-    >>> run(example(__file__, '4'), check_part1)
+    >>> run(load_example(__file__, '4'), check_part1)
     2
-    >>> run(example(__file__, '4'), check_part2)
+    >>> run(load_example(__file__, '4'), check_part2)
     2
     """
     passports = []
@@ -122,3 +122,9 @@ def part1(lines):
 
 def part2(lines):
     return run(lines, check_part2)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2020, '4')
+    print(part1(data))
+    print(part2(data))

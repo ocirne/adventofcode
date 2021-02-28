@@ -1,6 +1,6 @@
 from collections import Counter
 from dataclasses import dataclass
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 
 @dataclass
@@ -36,7 +36,7 @@ def get_root(tree):
 
 def part1(lines):
     """
-    >>> part1(example(__file__, '7'))
+    >>> part1(load_example(__file__, '7'))
     'tknk'
     """
     tree = prepare_tree(lines)
@@ -62,9 +62,15 @@ def calc_correction_weight(nodes, node: Node):
 
 def part2(lines):
     """
-    >>> part2(example(__file__, '7'))
+    >>> part2(load_example(__file__, '7'))
     60
     """
     tree = prepare_tree(lines)
     root = get_root(tree)
     return calc_correction_weight(tree, root)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2017, '7')
+    print(part1(data))
+    print(part2(data))

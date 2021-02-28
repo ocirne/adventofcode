@@ -1,3 +1,5 @@
+from aoc.util import load_input
+
 
 def run(stream):
     i = 0
@@ -74,3 +76,9 @@ def part1(lines):
 
 def part2(lines):
     return count_garbage(lines[0].strip())
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2017, '9')
+    print(part1(data))
+    print(part2(data))

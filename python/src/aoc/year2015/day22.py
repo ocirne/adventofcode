@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from aoc.util import load_input
+
 
 def prepare_boss(lines):
     return (int(line.split(':')[1]) for line in lines)
@@ -162,3 +164,9 @@ def part1(lines):
 def part2(lines):
     input_hp, input_da = prepare_boss(lines)
     return run(input_hp, input_da, 50, 500, hard=True)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2015, '22')
+    print(part1(data))
+    print(part2(data))

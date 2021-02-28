@@ -2,7 +2,7 @@ import operator
 from collections import defaultdict
 from typing import Callable
 from dataclasses import dataclass
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 
 @dataclass
@@ -37,7 +37,7 @@ def prepare_instructions(lines):
 
 def part1(lines):
     """
-    >>> part1(example(__file__, '8'))
+    >>> part1(load_example(__file__, '8'))
     1
     """
     instructions = prepare_instructions(lines)
@@ -50,7 +50,7 @@ def part1(lines):
 
 def part2(lines):
     """
-    >>> part2(example(__file__, '8'))
+    >>> part2(load_example(__file__, '8'))
     10
     """
     instructions = prepare_instructions(lines)
@@ -61,3 +61,9 @@ def part2(lines):
             register_bank[ins.register] += ins.change
         register_max = max(register_max, max(register_bank.values()))
     return register_max
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2017, '8')
+    print(part1(data))
+    print(part2(data))

@@ -1,3 +1,4 @@
+from aoc.util import load_input
 
 
 def solve_captcha(line):
@@ -36,3 +37,9 @@ def solve_new_captcha(line):
 
 def part2(lines):
     return solve_new_captcha(lines[0].strip())
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2017, '1')
+    print(part1(data))
+    print(part2(data))

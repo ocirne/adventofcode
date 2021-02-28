@@ -1,4 +1,4 @@
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 
 def corners_on(stay_on, grid, size):
@@ -44,9 +44,9 @@ def step(before, size, stay_on):
 
 def run(lines, size, steps, stay_on):
     """
-    >>> run(example(__file__, '18'), 6, 4, stay_on=False)
+    >>> run(load_example(__file__, '18'), 6, 4, stay_on=False)
     4
-    >>> run(example(__file__, '18'), 6, 5, stay_on=True)
+    >>> run(load_example(__file__, '18'), 6, 5, stay_on=True)
     17
     """
     data = prepare_data(lines)
@@ -62,3 +62,9 @@ def part1(lines):
 
 def part2(lines):
     return run(lines, 100, 100, stay_on=True)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2015, '18')
+    print(part1(data))
+    print(part2(data))

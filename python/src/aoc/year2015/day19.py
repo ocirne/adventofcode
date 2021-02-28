@@ -1,4 +1,4 @@
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 
 def prepare_data(lines):
@@ -33,9 +33,9 @@ def do_one_replacement(replacements, molecule: str):
 
 def part1(lines):
     """
-    >>> part1(example(__file__, '19a'))
+    >>> part1(load_example(__file__, '19a'))
     4
-    >>> part1(example(__file__, '19b'))
+    >>> part1(load_example(__file__, '19b'))
     7
     """
     replacements, molecule = prepare_data(lines)
@@ -43,6 +43,12 @@ def part1(lines):
     return len(molecules)
 
 
-def part2():
+def part2(lines):
     # Guessed my solution, as a DFS-approach stalled at around depth 190.
     pass
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2015, '19')
+    print(part1(data))
+    print(part2(data))

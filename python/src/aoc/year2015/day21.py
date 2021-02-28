@@ -2,6 +2,8 @@ import math
 from dataclasses import dataclass
 from itertools import combinations, chain
 
+from aoc.util import load_input
+
 
 @dataclass
 class Equipment:
@@ -87,3 +89,9 @@ def part1(lines):
 def part2(lines):
     boss = prepare_boss_stats(lines)
     return max(all_fights(boss, boss_wins))
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2015, '21')
+    print(part1(data))
+    print(part2(data))

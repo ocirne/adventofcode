@@ -1,6 +1,6 @@
 from collections import defaultdict
 from itertools import permutations
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 
 def prepare_data(lines, with_me):
@@ -33,7 +33,7 @@ def calc_happiness(happiness, arrangement):
 
 def run(lines, with_me):
     """
-    >>> run(example(__file__, '13'), False)
+    >>> run(load_example(__file__, '13'), False)
     330
     """
     guests, happiness = prepare_data(lines, with_me)
@@ -46,3 +46,9 @@ def part1(lines):
 
 def part2(lines):
     return run(lines, with_me=True)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2015, '13')
+    print(part1(data))
+    print(part2(data))

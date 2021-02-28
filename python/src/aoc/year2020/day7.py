@@ -1,4 +1,4 @@
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 from collections import defaultdict
 
@@ -7,7 +7,7 @@ SG = 'shiny gold'
 
 def part1(lines):
     """
-    >>> part1(example(__file__, '7a'))
+    >>> part1(load_example(__file__, '7a'))
     4
     """
     parent_colors = defaultdict(list)
@@ -41,7 +41,7 @@ def count_color_tree(color_tree, color):
 
 def part2(lines):
     """
-    >>> part2(example(__file__, '7b'))
+    >>> part2(load_example(__file__, '7b'))
     126
     """
     parent_colors = defaultdict(list)
@@ -56,3 +56,9 @@ def part2(lines):
             parent_colors[outer].append((int(count), "%s %s" % (shade, color)))
 
     return count_color_tree(parent_colors, SG) - 1
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2020, '6')
+    print(part1(data))
+    print(part2(data))

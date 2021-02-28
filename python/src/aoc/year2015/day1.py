@@ -1,6 +1,8 @@
 
 from collections import Counter
 
+from aoc.util import load_input
+
 
 def part1(lines):
     """
@@ -45,3 +47,9 @@ def part2(lines):
             raise Exception
         if floor < 0:
             return index + 1
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2015, '1')
+    print(part1(data))
+    print(part2(data))

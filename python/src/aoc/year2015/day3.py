@@ -1,3 +1,5 @@
+from aoc.util import load_input
+
 
 def part1(lines):
     """
@@ -58,3 +60,9 @@ def part2(lines):
             rx, ry = move(d, rx, ry)
             houses[(rx, ry)] = True
     return len(houses)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2015, '3')
+    print(part1(data))
+    print(part2(data))

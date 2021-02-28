@@ -1,3 +1,4 @@
+from aoc.util import load_input
 from aoc.year2017 import knots
 
 
@@ -31,3 +32,9 @@ def part1(lines):
 
 def part2(lines):
     return knot_hash(lines[0].strip())
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2017, '10')
+    print(part1(data))
+    print(part2(data))

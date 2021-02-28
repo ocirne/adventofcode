@@ -1,4 +1,4 @@
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 
 def redistribute(banks):
@@ -22,9 +22,9 @@ def result_part2(second, first):
 
 def run(lines, result):
     """
-    >>> run(example(__file__, '6').readlines(), result_part1)
+    >>> run(load_example(__file__, '6'), result_part1)
     5
-    >>> run(example(__file__, '6').readlines(), result_part2)
+    >>> run(load_example(__file__, '6'), result_part2)
     4
     """
     banks = tuple(int(line) for line in lines[0].split())
@@ -44,3 +44,9 @@ def part1(lines):
 
 def part2(lines):
     return run(lines, result_part2)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2017, '6')
+    print(part1(data))
+    print(part2(data))

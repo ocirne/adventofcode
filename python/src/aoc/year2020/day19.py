@@ -1,5 +1,5 @@
 import re
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 
 def prepare_data(lines, is_part2):
@@ -43,9 +43,9 @@ def create_regex(rules):
 
 def run(lines, is_part2):
     """
-    >>> run(example(__file__, '19a'), False)
+    >>> run(load_example(__file__, '19a'), False)
     2
-    >>> run(example(__file__, '19b'), True)
+    >>> run(load_example(__file__, '19b'), True)
     12
     """
     rules, messages = prepare_data(lines, is_part2)
@@ -63,3 +63,9 @@ def part1(lines):
 
 def part2(lines):
     return run(lines, True)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2020, '19')
+    print(part1(data))
+    print(part2(data))

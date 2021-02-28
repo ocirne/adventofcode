@@ -1,5 +1,5 @@
 import re
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 
 def format_bin(x):
@@ -8,7 +8,7 @@ def format_bin(x):
 
 def part1(lines):
     """
-    >>> part1(example(__file__, '14a'))
+    >>> part1(load_example(__file__, '14a'))
     165
     """
     and_mask = or_mask = None
@@ -56,7 +56,7 @@ def floating_masks(rest, acc=''):
 
 def part2(lines):
     """
-    >>> part2(example(__file__, '14b'))
+    >>> part2(load_example(__file__, '14b'))
     208
     """
     mask = None
@@ -72,3 +72,9 @@ def part2(lines):
                 d[fm] = value
 
     return sum(d.values())
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2020, '14')
+    print(part1(data))
+    print(part2(data))

@@ -1,6 +1,8 @@
 import itertools
 from math import sqrt
 
+from aoc.util import load_input
+
 
 def get_edge_length(target):
     result = int(sqrt(target))
@@ -116,3 +118,9 @@ def part1(lines):
 
 def part2(lines):
     return find_first_larger_than(int(lines[0]))
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2017, '3')
+    print(part1(data))
+    print(part2(data))

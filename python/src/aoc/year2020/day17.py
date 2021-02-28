@@ -1,4 +1,4 @@
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 
 def prepare_start_grid(lines):
@@ -48,9 +48,9 @@ def step(i, cube, dim):
 
 def run(lines, dim):
     """
-    >>> run(example(__file__, '17'), 3)
+    >>> run(load_example(__file__, '17'), 3)
     112
-    >>> run(example(__file__, '17'), 4)
+    >>> run(load_example(__file__, '17'), 4)
     848
     """
     cube = prepare_start_grid(lines)
@@ -65,3 +65,9 @@ def part1(lines):
 
 def part2(lines):
     return run(lines, 4)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2020, '17')
+    print(part1(data))
+    print(part2(data))

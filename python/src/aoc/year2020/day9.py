@@ -1,4 +1,4 @@
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 
 def check(preamble, my_slice, total):
@@ -17,7 +17,7 @@ def solve_part1(nums, preamble):
 
 def part1(lines, preamble=25):
     """
-    >>> part1(example(__file__, '9'), 5)
+    >>> part1(load_example(__file__, '9'), 5)
     127
     """
     nums = [int(i) for i in lines]
@@ -35,7 +35,7 @@ def search(nums, target):
 
 def part2(lines, preamble=25):
     """
-    >>> part2(example(__file__, '9'), 5)
+    >>> part2(load_example(__file__, '9'), 5)
     62
     """
     nums = [int(i) for i in lines]
@@ -43,3 +43,9 @@ def part2(lines, preamble=25):
 
     result = search(nums, target)
     return min(result) + max(result)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2020, '9')
+    print(part1(data))
+    print(part2(data))

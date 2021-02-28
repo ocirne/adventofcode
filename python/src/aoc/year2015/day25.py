@@ -1,3 +1,4 @@
+from aoc.util import load_input
 
 BASE = 20151125
 FACTOR = 252533
@@ -5,7 +6,7 @@ MOD = 33554393
 
 
 def prepare_data(lines):
-    token = lines[0].split()
+    token = next(iter(lines)).split()
     return int(token[15].strip(',')), int(token[17].strip('.'))
 
 
@@ -44,3 +45,12 @@ def calc_manual_numbers(n):
 def part1(lines):
     x, y = prepare_data(lines)
     return calc_manual_numbers(calc_number_on(x, y))
+
+
+def part2(lines):
+    pass
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2015, '25')
+    print(part1(data))

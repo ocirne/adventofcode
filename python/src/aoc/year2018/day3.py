@@ -1,10 +1,10 @@
 from collections import defaultdict
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 
 def part1(lines):
     """
-    >>> part1(example(__file__, '3'))
+    >>> part1(load_example(__file__, '3'))
     4
     """
     d = defaultdict(lambda: 0)
@@ -20,7 +20,7 @@ def part1(lines):
 
 def part2(lines):
     """
-    >>> part2(example(__file__, '3'))
+    >>> part2(load_example(__file__, '3'))
     3
     """
     all_numbers = {}
@@ -44,3 +44,9 @@ def part2(lines):
     for n, condition in all_numbers.items():
         if condition:
             return n
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2018, '3')
+    print(part1(data))
+    print(part2(data))

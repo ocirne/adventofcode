@@ -1,4 +1,4 @@
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 
 def prepare_data(lines):
@@ -21,7 +21,7 @@ def count_trees(lines, right, down):
 
 def part1(lines):
     """
-    >>> part1(example(__file__, '3'))
+    >>> part1(load_example(__file__, '3'))
     7
     """
     data = prepare_data(lines)
@@ -30,7 +30,7 @@ def part1(lines):
 
 def part2(lines):
     """
-    >>> part2(example(__file__, '3'))
+    >>> part2(load_example(__file__, '3'))
     336
     """
     data = prepare_data(lines)
@@ -40,3 +40,9 @@ def part2(lines):
     d = count_trees(data, 7, 1)
     e = count_trees(data, 1, 2)
     return a*b*c*d*e
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2020, '3')
+    print(part1(data))
+    print(part2(data))

@@ -1,6 +1,7 @@
 from collections import Counter
 
 from aoc.disjoint import find, union
+from aoc.util import load_input
 from aoc.year2017 import knots
 
 
@@ -54,3 +55,9 @@ def part1(lines):
 
 def part2(lines):
     return count_regions(lines[0].strip())
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2017, '14')
+    print(part1(data))
+    print(part2(data))

@@ -1,5 +1,7 @@
 from collections import Counter
 
+from aoc.util import load_input
+
 
 def is_valid_part1(line):
     """
@@ -39,3 +41,9 @@ def part1(lines):
 
 def part2(lines):
     return run(lines, is_valid_part2)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2017, '4')
+    print(part1(data))
+    print(part2(data))

@@ -1,6 +1,8 @@
 
 from collections import defaultdict
 
+from aoc.util import load_input
+
 
 def turn(d, fun, sxy, exy):
     sx, sy = map(int, sxy.split(','))
@@ -31,3 +33,9 @@ def part1(lines):
 
 def part2(lines):
     return run(lines, lambda x: x + 2, lambda x: x + 1, lambda x: max(0, x - 1))
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2015, '6')
+    print(part1(data))
+    print(part2(data))

@@ -1,3 +1,4 @@
+from aoc.util import load_input
 from sage.all import *
 
 
@@ -25,3 +26,9 @@ def part1(lines):
 
 def part2(lines):
     return run(lines, count_part2)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2015, '20')
+    print(part1(data))
+    print(part2(data))

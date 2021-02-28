@@ -1,4 +1,4 @@
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 
 def step_part1(pos_x, pos_y, face, action, value):
@@ -31,7 +31,7 @@ def step_part1(pos_x, pos_y, face, action, value):
 
 def part1(lines):
     """
-    >>> part1(example(__file__, '12'))
+    >>> part1(load_example(__file__, '12'))
     25
     """
     pos_x, pos_y, face = 0, 0, 0
@@ -70,7 +70,7 @@ def step_part2(pos_x, pos_y, way_x, way_y, face, action, value):
 
 def part2(lines):
     """
-    >>> part2(example(__file__, '12'))
+    >>> part2(load_example(__file__, '12'))
     286
     """
     pos_x, pos_y, way_x, way_y, face = 0, 0, 10, -1, 0
@@ -78,3 +78,9 @@ def part2(lines):
         action, value = line[0], int(line[1:])
         pos_x, pos_y, way_x, way_y, face = step_part2(pos_x, pos_y, way_x, way_y, face, action, int(value))
     return abs(pos_x) + abs(pos_y)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2020, '12')
+    print(part1(data))
+    print(part2(data))

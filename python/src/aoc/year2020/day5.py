@@ -1,3 +1,5 @@
+from aoc.util import load_input
+
 
 def to_int(line):
     """
@@ -27,3 +29,9 @@ def part2(lines):
     for i in range(1, len(seats)):
         if seats[i-1] != seats[i] - 1:
             return seats[i]-1
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2020, '5')
+    print(part1(data))
+    print(part2(data))

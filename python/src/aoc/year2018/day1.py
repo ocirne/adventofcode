@@ -1,3 +1,5 @@
+from aoc.util import load_input
+
 
 def part1(lines):
     """
@@ -30,3 +32,9 @@ def part2(lines):
             if running_sum in memory:
                 return running_sum
             memory.add(running_sum)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2018, '1')
+    print(part1(data))
+    print(part2(data))

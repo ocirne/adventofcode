@@ -1,11 +1,11 @@
 from collections import Counter
 from itertools import combinations
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 
 def part1(lines):
     """
-    >>> part1(example(__file__, '2a'))
+    >>> part1(load_example(__file__, '2a'))
     12
     """
     count_two = 0
@@ -32,10 +32,16 @@ def count_diff(line1, line2):
 
 def part2(lines):
     """
-    >>> part2(example(__file__, '2b'))
+    >>> part2(load_example(__file__, '2b'))
     'fgij'
     """
     for line1, line2 in combinations(lines, 2):
         count, common = count_diff(line1.strip(), line2.strip())
         if count == 1:
             return common
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2018, '2')
+    print(part1(data))
+    print(part2(data))

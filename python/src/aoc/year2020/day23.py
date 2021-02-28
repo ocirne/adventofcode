@@ -1,3 +1,5 @@
+from aoc.util import load_input
+
 
 def prepare_part1(data):
     values = list(map(int, data))
@@ -75,3 +77,10 @@ def part1(lines):
 def part2(lines):
     line = lines[0].strip()
     return run(line, 10**7, 10**6, prepare_part2, answer_part2)
+
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2020, '23')
+    print(part1(data))
+    print(part2(data))

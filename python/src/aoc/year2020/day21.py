@@ -1,5 +1,5 @@
 from collections import defaultdict
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 INGREDIENTS_WITH_ALLERGENS_REFERENCE = ['mxmxvkd', 'sqjhc', 'fvjkl']
 
@@ -24,7 +24,7 @@ def prepare_data(lines):
 
 def part1(lines, known_allergens=None):
     """
-    >>> part1(example(__file__, '21'), INGREDIENTS_WITH_ALLERGENS_REFERENCE)
+    >>> part1(load_example(__file__, '21'), INGREDIENTS_WITH_ALLERGENS_REFERENCE)
     5
     """
     if known_allergens is None:
@@ -38,7 +38,7 @@ def part1(lines, known_allergens=None):
 
 def part2(lines):
     """
-    >>> part2(example(__file__, '21'))
+    >>> part2(load_example(__file__, '21'))
     'mxmxvkd,sqjhc,fvjkl'
     """
     data = prepare_data(lines)
@@ -53,3 +53,9 @@ def part2(lines):
                 known_allergen[allergen] = ingredient
                 detected = True
     return ','.join(known_allergen[key] for key in sorted(known_allergen))
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2020, '21')
+    print(part1(data))
+    print(part2(data))

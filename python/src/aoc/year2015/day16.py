@@ -1,3 +1,4 @@
+from aoc.util import load_input
 
 WRAPPING = {'children': 3,
             'cats': 7,
@@ -64,3 +65,9 @@ def part1(lines):
 def part2(lines):
     answer1 = part1(lines)
     return run(lines, can_be2, answer1)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2015, '16')
+    print(part1(data))
+    print(part2(data))

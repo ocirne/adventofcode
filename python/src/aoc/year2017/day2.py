@@ -1,5 +1,5 @@
 from itertools import combinations
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 
 def diff_max_min(row):
@@ -12,9 +12,9 @@ def whole_division(row):
 
 def run(lines, fun):
     """
-    >>> run(example(__file__, '2a'), diff_max_min)
+    >>> run(load_example(__file__, '2a'), diff_max_min)
     18
-    >>> run(example(__file__, '2b'), whole_division)
+    >>> run(load_example(__file__, '2b'), whole_division)
     9
     """
     return sum(fun(sorted(int(t) for t in line.split())) for line in lines)
@@ -26,3 +26,9 @@ def part1(lines):
 
 def part2(lines):
     return run(lines, whole_division)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2017, '2')
+    print(part1(data))
+    print(part2(data))

@@ -1,5 +1,5 @@
 from collections import Counter
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 
 def count_adjacent_occupied_part1(y, x, d):
@@ -44,7 +44,7 @@ def count_seats(d):
 
 def part1(lines):
     """
-    >>> part1(example(__file__, '11'))
+    >>> part1(load_example(__file__, '11'))
     37
     """
     d = list(map(str.strip, lines))
@@ -101,7 +101,7 @@ def step_part2(d):
 
 def part2(lines):
     """
-    >>> part2(example(__file__, '11'))
+    >>> part2(load_example(__file__, '11'))
     26
     """
     d = list(map(str.strip, lines))
@@ -109,3 +109,9 @@ def part2(lines):
     while changed:
         changed, d = step_part2(d)
     return count_seats(d)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2020, '11')
+    print(part1(data))
+    print(part2(data))

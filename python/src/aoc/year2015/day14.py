@@ -2,6 +2,8 @@ from collections import defaultdict
 from itertools import groupby
 from operator import itemgetter
 
+from aoc.util import load_input
+
 ROUNDS = 2503
 
 
@@ -58,3 +60,9 @@ def part2(lines, rounds=ROUNDS):
         for name, _ in first_group[1]:
             points[name] += 1
     return max(points.values())
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2015, '14')
+    print(part1(data))
+    print(part2(data))

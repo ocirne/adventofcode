@@ -1,3 +1,4 @@
+from aoc.util import load_input
 
 CA = 97
 CO = ord('o') - CA
@@ -128,3 +129,9 @@ def part1(lines):
 def part2(lines):
     answer1 = part1(lines)
     return next_password(answer1, True)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2015, '11')
+    print(part1(data))
+    print(part2(data))

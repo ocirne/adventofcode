@@ -1,11 +1,11 @@
-from aoc.util import example
+from aoc.util import load_example, load_input
 
 
 # TODO candidates for walrus operator
 
 def part1(lines):
     """
-    >>> part1(example(__file__, '16'))
+    >>> part1(load_example(__file__, '16'))
     71
     """
     f = iter(lines)
@@ -93,3 +93,9 @@ def part2(lines):
         if pinned[i].startswith('departure'):
             answer *= my_ticket[i]
     return answer
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2020, '16')
+    print(part1(data))
+    print(part2(data))

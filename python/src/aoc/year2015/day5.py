@@ -1,6 +1,8 @@
 
 from collections import Counter
 
+from aoc.util import load_input
+
 FORBIDDEN = 'ab cd pq xy'.split()
 
 
@@ -81,3 +83,9 @@ def part1(lines):
 
 def part2(lines):
     return sum_and_fun(lines, is_nice_part2)
+
+
+if __name__ == "__main__":
+    data = load_input(__file__, 2015, '5')
+    print(part1(data))
+    print(part2(data))
