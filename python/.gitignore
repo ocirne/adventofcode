@@ -3,5 +3,4 @@
 *.swp
 *.egg-info
 
-input*
-test_20*.py
+tests
