@@ -1,11 +1,5 @@
-from pathlib import Path
+from aoc.util import example
 from sage.all import CRT_list
-
-
-def read_data(filename):
-    f = open(filename)
-    f.readline()
-    return f.readline().strip()
 
 
 def wrap_crt(line):
@@ -33,13 +27,9 @@ def wrap_crt(line):
     return CRT_list(moduli, values)
 
 
-def part2(filename):
+def part2(lines):
     """
-    >>> part2(Path(__file__).parent / 'reference')
+    >>> part2(example('13b'))
     1068781
     """
-    return wrap_crt(read_data(filename))
-
-
-if __name__ == '__main__':
-    print(part2('input'))
+    return wrap_crt(lines[1].strip())

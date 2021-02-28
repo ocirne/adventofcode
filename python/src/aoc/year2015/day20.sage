@@ -1,4 +1,3 @@
-
 from sage.all import *
 
 
@@ -10,7 +9,8 @@ def count_part2(house):
     return sum(d for d in divisors(house) if house // d <= 50) * 11
 
 
-def run(target, count_presents):
+def run(lines, count_presents):
+    target = int(lines[0])
     house = 1
     while True:
         count = count_presents(house)
@@ -19,7 +19,9 @@ def run(target, count_presents):
         house += 1
 
 
-if __name__ == '__main__':
-    puzzleInput = int(open('input').readline())
-    print(run(puzzleInput, count_part1))
-    print(run(puzzleInput, count_part2))
+def part1(lines):
+    return run(lines, count_part1)
+
+
+def part2(lines):
+    return run(lines, count_part2)
