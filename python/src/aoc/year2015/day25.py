@@ -7,7 +7,7 @@ MOD = 33554393
 
 def prepare_data(lines):
     token = next(iter(lines)).split()
-    return int(token[15].strip(',')), int(token[17].strip('.'))
+    return int(token[15].strip(",")), int(token[17].strip("."))
 
 
 def calc_number_on(x, y):
@@ -25,7 +25,7 @@ def calc_number_on(x, y):
     >>> calc_number_on(3, 4)
     19
     """
-    return 1 + ((y-1) * y + (x-1) * x) // 2 + x * (y-1)
+    return 1 + ((y - 1) * y + (x - 1) * x) // 2 + x * (y - 1)
 
 
 def calc_manual_numbers(n):
@@ -39,7 +39,7 @@ def calc_manual_numbers(n):
     >>> calc_manual_numbers(21)
     33511524
     """
-    return (BASE * pow(FACTOR, n-1, MOD)) % MOD
+    return (BASE * pow(FACTOR, n - 1, MOD)) % MOD
 
 
 def part1(lines):
@@ -52,5 +52,5 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2015, '25')
+    data = load_input(__file__, 2015, "25")
     print(part1(data))

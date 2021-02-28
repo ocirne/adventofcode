@@ -1,22 +1,22 @@
 from aoc.util import load_input
 
 TRANSLATE = {
-    'nw': lambda x, y: (x - 1, y),
-    'se': lambda x, y: (x + 1, y),
-    'ne': lambda x, y: (x + 1, y - 1),
-    'sw': lambda x, y: (x - 1, y + 1),
-    'n': lambda x, y: (x, y - 1),
-    's': lambda x, y: (x, y + 1),
+    "nw": lambda x, y: (x - 1, y),
+    "se": lambda x, y: (x + 1, y),
+    "ne": lambda x, y: (x + 1, y - 1),
+    "sw": lambda x, y: (x - 1, y + 1),
+    "n": lambda x, y: (x, y - 1),
+    "s": lambda x, y: (x, y + 1),
 }
 
 
 def distance(x, y):
-    return max(abs(y), abs(x), abs(x+y))
+    return max(abs(y), abs(x), abs(x + y))
 
 
 def run(data):
     x = y = md = 0
-    for step in data.split(','):
+    for step in data.split(","):
         x, y = TRANSLATE[step](x, y)
         md = max(md, distance(x, y))
     return distance(x, y), md
@@ -49,6 +49,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2017, '11')
+    data = load_input(__file__, 2017, "11")
     print(part1(data))
     print(part2(data))

@@ -7,7 +7,7 @@ def one_round(data, size=256):
     >>> one_round("3,4,1,5", 5)
     12
     """
-    lengths = [int(length) for length in data.split(',')]
+    lengths = [int(length) for length in data.split(",")]
     elements = knots.run_rounds(lengths, 1, size)
     return elements[0] * elements[1]
 
@@ -35,6 +35,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2017, '10')
+    data = load_input(__file__, 2017, "10")
     print(part1(data))
     print(part2(data))

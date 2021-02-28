@@ -18,7 +18,9 @@ def combine(data, rest, acc=None):
         return 1
     if not data:
         return 0
-    return combine(data[1:], rest, acc) + combine(data[1:], rest - data[0], acc + [data[0]])
+    return combine(data[1:], rest, acc) + combine(
+        data[1:], rest - data[0], acc + [data[0]]
+    )
 
 
 def part1(lines, total=150):
@@ -43,6 +45,6 @@ def part2(lines, total=150):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2015, '17')
+    data = load_input(__file__, 2015, "17")
     print(part1(data))
     print(part2(data))

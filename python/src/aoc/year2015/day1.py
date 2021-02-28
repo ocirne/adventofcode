@@ -1,4 +1,3 @@
-
 from collections import Counter
 
 from aoc.util import load_input
@@ -27,7 +26,7 @@ def part1(lines):
     """
     data = lines[0]
     c = Counter(data)
-    return c['('] - c[')']
+    return c["("] - c[")"]
 
 
 def part2(lines):
@@ -39,9 +38,9 @@ def part2(lines):
     """
     floor = 0
     for index, b in enumerate(lines[0]):
-        if b == '(':
+        if b == "(":
             floor += 1
-        elif b == ')':
+        elif b == ")":
             floor -= 1
         else:
             raise Exception
@@ -50,6 +49,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2015, '1')
+    data = load_input(__file__, 2015, "1")
     print(part1(data))
     print(part2(data))

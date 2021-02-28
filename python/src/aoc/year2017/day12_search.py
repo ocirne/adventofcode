@@ -4,8 +4,8 @@ from aoc.util import load_input, load_example
 def prepare_data(lines):
     edges = {}
     for line in lines:
-        root, children = line.strip().split(' <-> ')
-        edges[int(root)] = [int(c) for c in children.split(', ')]
+        root, children = line.strip().split(" <-> ")
+        edges[int(root)] = [int(c) for c in children.split(", ")]
     return edges
 
 
@@ -50,6 +50,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2017, '12')
+    data = load_input(__file__, 2017, "12")
     print(part1(data))
     print(part2(data))

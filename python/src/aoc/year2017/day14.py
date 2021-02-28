@@ -10,12 +10,12 @@ def get_grid(key):
 
 
 def binary_knot_hash(key, i):
-    hash_input = '%s-%s' % (key, i)
-    return knots.knot_hash(hash_input, '08b')
+    hash_input = "%s-%s" % (key, i)
+    return knots.knot_hash(hash_input, "08b")
 
 
 def count_bits(s):
-    return Counter(s).get('1')
+    return Counter(s).get("1")
 
 
 def count_squares(key):
@@ -36,7 +36,7 @@ def count_regions(key):
     a = {}
     for y in range(128):
         for x in range(128):
-            if grid[y][x] == '1':
+            if grid[y][x] == "1":
                 a[(x, y)] = (x, y)
     keys = list(a.keys())
     for i in keys:
@@ -58,6 +58,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2017, '14')
+    data = load_input(__file__, 2017, "14")
     print(part1(data))
     print(part2(data))

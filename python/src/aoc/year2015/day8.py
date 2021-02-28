@@ -19,12 +19,16 @@ def shrink(line):
         if character == '"' and (index == 0 or index + 1 == len(line)):
             pass
         else:
-            if character == '\\':
-                if line[index+1] == '\\':
+            if character == "\\":
+                if line[index + 1] == "\\":
                     index += 1
-                elif line[index+1] == '"':
+                elif line[index + 1] == '"':
                     index += 1
-                elif line[index+1] == 'x' and line[index+2].isascii() and line[index+3].isascii():
+                elif (
+                    line[index + 1] == "x"
+                    and line[index + 2].isascii()
+                    and line[index + 3].isascii()
+                ):
                     index += 3
                 else:
                     raise
@@ -50,7 +54,7 @@ def expand(line):
         character = line[index]
         if character == '"':
             result += 2
-        elif character == '\\':
+        elif character == "\\":
             result += 2
         elif character == '"':
             result += 3
@@ -78,6 +82,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2015, '8')
+    data = load_input(__file__, 2015, "8")
     print(part1(data))
     print(part2(data))

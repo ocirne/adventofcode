@@ -1,12 +1,12 @@
 from aoc.util import load_example, load_input
 
-MAN_KEYS = 'byr iyr eyr hgt hcl ecl pid'.split()
-ECL = 'amb blu brn gry grn hzl oth'.split()
+MAN_KEYS = "byr iyr eyr hgt hcl ecl pid".split()
+ECL = "amb blu brn gry grn hzl oth".split()
 
 
 def check_part1(passport):
     for key in passport:
-        if key == 'cid':
+        if key == "cid":
             continue
         if key not in MAN_KEYS:
             return False
@@ -43,11 +43,11 @@ def check_hgt(hgt):
     If cm, the number must be at least 150 and at most 193.
     If in, the number must be at least 59 and at most 76.
     """
-    if hgt.endswith('cm'):
+    if hgt.endswith("cm"):
         height = int(hgt[:-2])
         if height < 150 or 193 < height:
             raise
-    elif hgt.endswith('in'):
+    elif hgt.endswith("in"):
         height = int(hgt[:-2])
         if height < 59 or 76 < height:
             raise
@@ -57,7 +57,7 @@ def check_hgt(hgt):
 
 def check_hcl(hcl):
     """ hcl (Hair Color) - a # followed by exactly six characters 0-9 or a-f. """
-    if len(hcl) == 7 and hcl.startswith('#'):
+    if len(hcl) == 7 and hcl.startswith("#"):
         int(hcl[1:], 16)
     else:
         raise
@@ -76,7 +76,7 @@ def check_pid(pid):
 
 def check_part2(passport):
     for key in passport:
-        if key == 'cid':
+        if key == "cid":
             continue
         if key not in MAN_KEYS:
             return False
@@ -84,13 +84,13 @@ def check_part2(passport):
         if key not in passport:
             return False
     try:
-        check_byr(passport['byr'])
-        check_eyr(passport['eyr'])
-        check_iyr(passport['iyr'])
-        check_hgt(passport['hgt'])
-        check_hcl(passport['hcl'])
-        check_ecl(passport['ecl'])
-        check_pid(passport['pid'])
+        check_byr(passport["byr"])
+        check_eyr(passport["eyr"])
+        check_iyr(passport["iyr"])
+        check_hgt(passport["hgt"])
+        check_hcl(passport["hcl"])
+        check_ecl(passport["ecl"])
+        check_pid(passport["pid"])
     except Exception:
         return False
     return True
@@ -110,7 +110,7 @@ def run(lines, check):
             passports.append(p)
             p = {}
         else:
-            for k, v in [token.split(':') for token in line.split(' ')]:
+            for k, v in [token.split(":") for token in line.split(" ")]:
                 p[k] = v.strip()
     passports.append(p)
     return sum(check(passport) for passport in passports)
@@ -125,6 +125,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2020, '4')
+    data = load_input(__file__, 2020, "4")
     print(part1(data))
     print(part2(data))

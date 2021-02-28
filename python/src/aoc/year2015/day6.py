@@ -1,14 +1,13 @@
-
 from collections import defaultdict
 
 from aoc.util import load_input
 
 
 def turn(d, fun, sxy, exy):
-    sx, sy = map(int, sxy.split(','))
-    ex, ey = map(int, exy.split(','))
-    for x in range(sx, ex+1):
-        for y in range(sy, ey+1):
+    sx, sy = map(int, sxy.split(","))
+    ex, ey = map(int, exy.split(","))
+    for x in range(sx, ex + 1):
+        for y in range(sy, ey + 1):
             d[(x, y)] = fun(d[(x, y)])
 
 
@@ -16,11 +15,11 @@ def run(data, toogle, turn_on, turn_off):
     grid = defaultdict(lambda: 0)
     for line in data:
         token = line.split()
-        if line.startswith('toggle'):
+        if line.startswith("toggle"):
             turn(grid, toogle, token[1], token[3])
-        elif line.startswith('turn on'):
+        elif line.startswith("turn on"):
             turn(grid, turn_on, token[2], token[4])
-        elif line.startswith('turn off'):
+        elif line.startswith("turn off"):
             turn(grid, turn_off, token[2], token[4])
         else:
             raise Exception
@@ -36,6 +35,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2015, '6')
+    data = load_input(__file__, 2015, "6")
     print(part1(data))
     print(part2(data))

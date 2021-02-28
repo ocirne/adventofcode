@@ -1,9 +1,18 @@
 from collections import defaultdict
 from aoc.util import load_example, load_input
 
-INGREDIENTS_WITH_ALLERGENS_REFERENCE = ['mxmxvkd', 'sqjhc', 'fvjkl']
+INGREDIENTS_WITH_ALLERGENS_REFERENCE = ["mxmxvkd", "sqjhc", "fvjkl"]
 
-INGREDIENTS_WITH_ALLERGENS_INPUT = ['txdmlzd', 'mptbpz', 'vlblq', 'cxsvdm', 'rsbxb', 'xbnmzr', 'glf', 'mtnh']
+INGREDIENTS_WITH_ALLERGENS_INPUT = [
+    "txdmlzd",
+    "mptbpz",
+    "vlblq",
+    "cxsvdm",
+    "rsbxb",
+    "xbnmzr",
+    "glf",
+    "mtnh",
+]
 
 
 def intersect(d):
@@ -14,9 +23,9 @@ def intersect(d):
 def prepare_data(lines):
     data = defaultdict(list)
     for line in lines:
-        ingredients_string, allergens_string = line.split(' (contains ')
+        ingredients_string, allergens_string = line.split(" (contains ")
         ingredients = ingredients_string.split()
-        allergens = allergens_string.strip('\n)').split(', ')
+        allergens = allergens_string.strip("\n)").split(", ")
         for allergen in allergens:
             data[allergen].append(ingredients)
     return data
@@ -31,7 +40,7 @@ def part1(lines, known_allergens=None):
         known_allergens = INGREDIENTS_WITH_ALLERGENS_INPUT
     total = 0
     for line in lines:
-        ingredients = line.split(' (contains ')[0].split()
+        ingredients = line.split(" (contains ")[0].split()
         total += len(set(ingredients).difference(set(known_allergens)))
     return total
 
@@ -52,10 +61,10 @@ def part2(lines):
                 ingredient = list(common)[0]
                 known_allergen[allergen] = ingredient
                 detected = True
-    return ','.join(known_allergen[key] for key in sorted(known_allergen))
+    return ",".join(known_allergen[key] for key in sorted(known_allergen))
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2020, '21')
+    data = load_input(__file__, 2020, "21")
     print(part1(data))
     print(part2(data))

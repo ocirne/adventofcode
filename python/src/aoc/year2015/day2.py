@@ -8,7 +8,7 @@ def extract(line):
     >>> extract('3x2x1')
     [1, 2, 3]
     """
-    return sorted(map(int, line.split('x')))
+    return sorted(map(int, line.split("x")))
 
 
 def calc_wrapping_paper(line):
@@ -19,7 +19,7 @@ def calc_wrapping_paper(line):
     43
     """
     h, l, w = extract(line)
-    return 3*h*l + 2*h*w + 2*l*w
+    return 3 * h * l + 2 * h * w + 2 * l * w
 
 
 def calc_ribbon(line):
@@ -30,7 +30,7 @@ def calc_ribbon(line):
     14
     """
     h, l, w = extract(line)
-    return 2*(h+l) + h*l*w
+    return 2 * (h + l) + h * l * w
 
 
 def fun_and_sum(lines, fun):
@@ -46,6 +46,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2015, '2')
+    data = load_input(__file__, 2015, "2")
     print(part1(data))
     print(part2(data))

@@ -1,27 +1,28 @@
 from aoc.util import load_input
 
-WRAPPING = {'children': 3,
-            'cats': 7,
-            'samoyeds': 2,
-            'pomeranians': 3,
-            'akitas': 0,
-            'vizslas': 0,
-            'goldfish': 5,
-            'trees': 3,
-            'cars': 2,
-            'perfumes': 1
-            }
-GREATER_THAN_ITEMS = ['cats', 'trees']
-FEWER_THAN_ITEMS = ['pomeranians', 'goldfish']
+WRAPPING = {
+    "children": 3,
+    "cats": 7,
+    "samoyeds": 2,
+    "pomeranians": 3,
+    "akitas": 0,
+    "vizslas": 0,
+    "goldfish": 5,
+    "trees": 3,
+    "cars": 2,
+    "perfumes": 1,
+}
+GREATER_THAN_ITEMS = ["cats", "trees"]
+FEWER_THAN_ITEMS = ["pomeranians", "goldfish"]
 
 
 def prepare_data(lines):
     result = []
     for line in lines:
-        _, things_part = line.split(': ', 1)
+        _, things_part = line.split(": ", 1)
         things = {}
-        for thing in things_part.split(', '):
-            key, value = thing.split(': ')
+        for thing in things_part.split(", "):
+            key, value = thing.split(": ")
             things[key] = int(value)
         result.append(things)
     return result
@@ -68,6 +69,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2015, '16')
+    data = load_input(__file__, 2015, "16")
     print(part1(data))
     print(part2(data))

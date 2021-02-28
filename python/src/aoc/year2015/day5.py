@@ -1,19 +1,18 @@
-
 from collections import Counter
 
 from aoc.util import load_input
 
-FORBIDDEN = 'ab cd pq xy'.split()
+FORBIDDEN = "ab cd pq xy".split()
 
 
 def contains_at_least_three_vowels(s):
     c = Counter(s)
-    return sum(c[x] for x in 'aeiou') >= 3
+    return sum(c[x] for x in "aeiou") >= 3
 
 
 def contains_a_double_letter(s):
     for index in range(1, len(s)):
-        if s[index-1] == s[index]:
+        if s[index - 1] == s[index]:
             return True
     return False
 
@@ -38,7 +37,11 @@ def is_nice_part1(s):
     >>> is_nice_part1('dvszwmarrgswjxmb')
     False
     """
-    return contains_at_least_three_vowels(s) and contains_a_double_letter(s) and contains_no_forbidden_string(s)
+    return (
+        contains_at_least_three_vowels(s)
+        and contains_a_double_letter(s)
+        and contains_no_forbidden_string(s)
+    )
 
 
 def contains_a_double_pair(s):
@@ -52,7 +55,7 @@ def contains_a_double_pair(s):
 
 def contains_one_letter_between(s):
     for index in range(2, len(s)):
-        if s[index-2] == s[index]:
+        if s[index - 2] == s[index]:
             return True
     return False
 
@@ -86,6 +89,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2015, '5')
+    data = load_input(__file__, 2015, "5")
     print(part1(data))
     print(part2(data))

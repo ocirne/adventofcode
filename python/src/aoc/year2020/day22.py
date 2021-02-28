@@ -9,8 +9,8 @@ def prepare_data(lines):
     for line in lines:
         if line.isspace():
             continue
-        elif line.startswith('Player'):
-            player = int(line.split()[1].split(':')[0])
+        elif line.startswith("Player"):
+            player = int(line.split()[1].split(":")[0])
         else:
             num = int(line)
             if player == 1:
@@ -32,7 +32,7 @@ def turn(cards1, cards2):
 
 
 def calc_score(cards):
-    return sum((i+1) * cards.pop() for i in range(len(cards)))
+    return sum((i + 1) * cards.pop() for i in range(len(cards)))
 
 
 def part1(lines):
@@ -92,6 +92,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2020, '22')
+    data = load_input(__file__, 2020, "22")
     print(part1(data))
     print(part2(data))

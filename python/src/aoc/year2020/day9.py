@@ -11,7 +11,7 @@ def check(preamble, my_slice, total):
 
 def solve_part1(nums, preamble):
     for i in range(preamble, len(nums)):
-        if not check(preamble, nums[i-preamble:i], nums[i]):
+        if not check(preamble, nums[i - preamble : i], nums[i]):
             return nums[i]
 
 
@@ -46,6 +46,6 @@ def part2(lines, preamble=25):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2020, '9')
+    data = load_input(__file__, 2020, "9")
     print(part1(data))
     print(part2(data))

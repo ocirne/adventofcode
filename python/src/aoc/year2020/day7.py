@@ -2,7 +2,7 @@ from aoc.util import load_example, load_input
 
 from collections import defaultdict
 
-SG = 'shiny gold'
+SG = "shiny gold"
 
 
 def part1(lines):
@@ -13,10 +13,10 @@ def part1(lines):
     parent_colors = defaultdict(list)
     for line in lines:
         trim_line = line.strip()
-        outer, inner_list = trim_line.split(' bags contain ')
-        if inner_list == 'no other bags.':
+        outer, inner_list = trim_line.split(" bags contain ")
+        if inner_list == "no other bags.":
             continue
-        for inner in inner_list.split(','):
+        for inner in inner_list.split(","):
             _, shade, color, _ = inner.split()
             parent_colors["%s %s" % (shade, color)].append(outer)
 
@@ -36,7 +36,10 @@ def part1(lines):
 
 
 def count_color_tree(color_tree, color):
-    return 1 + sum(count * count_color_tree(color_tree, childColor) for count, childColor in color_tree[color])
+    return 1 + sum(
+        count * count_color_tree(color_tree, childColor)
+        for count, childColor in color_tree[color]
+    )
 
 
 def part2(lines):
@@ -47,11 +50,11 @@ def part2(lines):
     parent_colors = defaultdict(list)
     for line in lines:
         trim_line = line.strip()
-        outer, inner_list = trim_line.split(' bags contain ')
-        if inner_list == 'no other bags.':
+        outer, inner_list = trim_line.split(" bags contain ")
+        if inner_list == "no other bags.":
             parent_colors[outer] = []
             continue
-        for inner in inner_list.split(','):
+        for inner in inner_list.split(","):
             count, shade, color, _ = inner.split()
             parent_colors[outer].append((int(count), "%s %s" % (shade, color)))
 
@@ -59,6 +62,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2020, '6')
+    data = load_input(__file__, 2020, "6")
     print(part1(data))
     print(part2(data))

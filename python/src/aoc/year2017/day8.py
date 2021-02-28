@@ -13,22 +13,35 @@ class Instruction:
     condition: Callable[[int], bool]
 
 
-SIGN = {'inc': 1, 'dec': -1}
+SIGN = {"inc": 1, "dec": -1}
 
 OPERATORS = {
-    '!=': operator.ne,
-    '<': operator.lt,
-    '<=': operator.le,
-    '==': operator.eq,
-    '>': operator.gt,
-    '>=': operator.ge,
+    "!=": operator.ne,
+    "<": operator.lt,
+    "<=": operator.le,
+    "==": operator.eq,
+    ">": operator.gt,
+    ">=": operator.ge,
 }
 
 
 def create_instruction(line):
-    register, direction, value, _, condition_register, op, condition_value = line.split()
+    (
+        register,
+        direction,
+        value,
+        _,
+        condition_register,
+        op,
+        condition_value,
+    ) = line.split()
     change = SIGN[direction] * int(value)
-    return Instruction(register, change, condition_register, lambda r: OPERATORS[op](r, int(condition_value)))
+    return Instruction(
+        register,
+        change,
+        condition_register,
+        lambda r: OPERATORS[op](r, int(condition_value)),
+    )
 
 
 def prepare_instructions(lines):
@@ -64,6 +77,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2017, '8')
+    data = load_input(__file__, 2017, "8")
     print(part1(data))
     print(part2(data))

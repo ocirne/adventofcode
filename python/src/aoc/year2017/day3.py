@@ -8,21 +8,21 @@ def get_edge_length(target):
     result = int(sqrt(target))
     if result % 2 == 0:
         result -= 1
-    if result**2 == target:
+    if result ** 2 == target:
         return result
     return result + 2
 
 
 def manhattan_distance(x, y, middle):
-    return abs(x-middle) + abs(y-middle)
+    return abs(x - middle) + abs(y - middle)
 
 
 def coordinates(edge, target):
-    bottom_right = edge**2
-    bottom_left = bottom_right - (edge-1)
-    top_left = bottom_left - (edge-1)
-    top_right = top_left - (edge-1)
-    x = y = edge-1
+    bottom_right = edge ** 2
+    bottom_left = bottom_right - (edge - 1)
+    top_left = bottom_left - (edge - 1)
+    top_right = top_left - (edge - 1)
+    x = y = edge - 1
     if bottom_right == target:
         return x, y
     if bottom_left <= target < bottom_right:
@@ -39,7 +39,7 @@ def coordinates(edge, target):
         x = top_left - target
         return x, y
     else:
-        x = edge-1
+        x = edge - 1
     y = top_right - target
     return x, y
 
@@ -56,7 +56,7 @@ def count_steps(target):
     31
     """
     edge = get_edge_length(target)
-    middle = (edge-1) // 2
+    middle = (edge - 1) // 2
     x, y = coordinates(edge, target)
     return manhattan_distance(x, y, middle)
 
@@ -86,8 +86,8 @@ def walk_the_grid():
 
 def sum_adjacent(grid, x, y):
     result = 0
-    for i in range(x-1, x+2):
-        for j in range(y-1, y+2):
+    for i in range(x - 1, x + 2):
+        for j in range(y - 1, y + 2):
             if (i, j) in grid:
                 result += grid[i, j]
     return result
@@ -121,6 +121,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2017, '3')
+    data = load_input(__file__, 2017, "3")
     print(part1(data))
     print(part2(data))

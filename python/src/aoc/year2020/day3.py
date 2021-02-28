@@ -12,7 +12,7 @@ def count_trees(lines, right, down):
     y = 0
     while y < len(lines):
         g = lines[y][x % max_x]
-        if g == '#':
+        if g == "#":
             count += 1
         x += right
         y += down
@@ -39,10 +39,10 @@ def part2(lines):
     c = count_trees(data, 5, 1)
     d = count_trees(data, 7, 1)
     e = count_trees(data, 1, 2)
-    return a*b*c*d*e
+    return a * b * c * d * e
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2020, '3')
+    data = load_input(__file__, 2020, "3")
     print(part1(data))
     print(part2(data))

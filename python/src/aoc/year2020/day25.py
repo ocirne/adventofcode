@@ -22,7 +22,7 @@ def part1(lines):
     key1, key2 = (int(v) for v in lines)
     e1 = decrypt(key1)
     e2 = decrypt(key2)
-    return pow(S, e1*e2, M)
+    return pow(S, e1 * e2, M)
 
 
 def part2(lines):
@@ -30,5 +30,5 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2020, '25')
+    data = load_input(__file__, 2020, "25")
     print(part1(data))

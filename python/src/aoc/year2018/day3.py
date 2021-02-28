@@ -9,9 +9,9 @@ def part1(lines):
     """
     d = defaultdict(lambda: 0)
     for line in lines:
-        number, _, pos, size = line.split(' ')
-        x, y = map(int, pos.split(':')[0].split(','))
-        w, h = map(int, size.split('\n')[0].split('x'))
+        number, _, pos, size = line.split(" ")
+        x, y = map(int, pos.split(":")[0].split(","))
+        w, h = map(int, size.split("\n")[0].split("x"))
         for i in range(x, x + w):
             for j in range(y, y + h):
                 d[(i, j)] += 1
@@ -26,10 +26,10 @@ def part2(lines):
     all_numbers = {}
     d = {}
     for line in lines:
-        number, _, pos, size = line.split(' ')
-        n = int(number.split('#')[1])
-        x, y = map(int, pos.split(':')[0].split(','))
-        w, h = map(int, size.split('\n')[0].split('x'))
+        number, _, pos, size = line.split(" ")
+        n = int(number.split("#")[1])
+        x, y = map(int, pos.split(":")[0].split(","))
+        w, h = map(int, size.split("\n")[0].split("x"))
         all_numbers[n] = True
 
         for i in range(x, x + w):
@@ -47,6 +47,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2018, '3')
+    data = load_input(__file__, 2018, "3")
     print(part1(data))
     print(part2(data))

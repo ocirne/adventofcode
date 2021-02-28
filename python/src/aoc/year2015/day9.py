@@ -15,7 +15,7 @@ def prepare_data(lines):
 
 
 def calc_distance(distances, route):
-    return sum(distances[(route[i-1], route[i])] for i in range(1, len(route)))
+    return sum(distances[(route[i - 1], route[i])] for i in range(1, len(route)))
 
 
 def run(lines, fun):
@@ -38,6 +38,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2015, '9')
+    data = load_input(__file__, 2015, "9")
     print(part1(data))
     print(part2(data))

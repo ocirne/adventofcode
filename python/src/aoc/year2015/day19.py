@@ -8,13 +8,13 @@ def prepare_data(lines):
         line = next(f)
         if line.isspace():
             break
-        replacements.append(line.strip().split(' => '))
+        replacements.append(line.strip().split(" => "))
     molecule = next(f).strip()
     return replacements, molecule
 
 
 def replace_at(molecule, old, index, new):
-    return molecule[:index] + new + molecule[index + len(old):]
+    return molecule[:index] + new + molecule[index + len(old) :]
 
 
 def generate_replacements(molecule, old, new):
@@ -49,6 +49,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2015, '19')
+    data = load_input(__file__, 2015, "19")
     print(part1(data))
     print(part2(data))

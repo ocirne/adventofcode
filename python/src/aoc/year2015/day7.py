@@ -1,12 +1,12 @@
 from aoc.util import load_example, load_input
 
-M = 2**16
+M = 2 ** 16
 
 
 def prepare_rules(lines):
     rules = {}
     for line in lines:
-        l, r = line.strip().split(' -> ')
+        l, r = line.strip().split(" -> ")
         rules[r] = l.split()
     return rules
 
@@ -27,7 +27,7 @@ def deduct(rules, wire):
     elif len(lh) == 2:
         op, ref = lh
         val = deduct(rules, ref)
-        if op == 'NOT':
+        if op == "NOT":
             rules[wire] = M - 1 - val
         else:
             raise Exception
@@ -35,13 +35,13 @@ def deduct(rules, wire):
         ref1, op, ref2 = lh
         val1 = deduct(rules, ref1)
         val2 = deduct(rules, ref2)
-        if op == 'AND':
+        if op == "AND":
             rules[wire] = val1 & val2
-        elif op == 'OR':
+        elif op == "OR":
             rules[wire] = val1 | val2
-        elif op == 'LSHIFT':
+        elif op == "LSHIFT":
             rules[wire] = val1 << val2
-        elif op == 'RSHIFT':
+        elif op == "RSHIFT":
             rules[wire] = val1 >> val2
         else:
             raise Exception
@@ -72,20 +72,20 @@ def run(lines, wire, new_rule_b=None):
     """
     rules = prepare_rules(lines)
     if new_rule_b:
-        rules['b'] = new_rule_b
+        rules["b"] = new_rule_b
     return deduct(rules, wire)
 
 
 def part1(lines):
-    return run(lines, 'a')
+    return run(lines, "a")
 
 
 def part2(lines):
     answer1 = part1(lines)
-    return run(lines, 'a', answer1)
+    return run(lines, "a", answer1)
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2015, '7')
+    data = load_input(__file__, 2015, "7")
     print(part1(data))
     print(part2(data))

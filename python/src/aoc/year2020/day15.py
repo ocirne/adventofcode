@@ -2,7 +2,7 @@ from aoc.util import load_input
 
 
 def prepare_data(lines):
-    return [int(t) for t in lines[0].split(',')]
+    return [int(t) for t in lines[0].split(",")]
 
 
 def play(nth, *start_values):
@@ -45,6 +45,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2020, '15')
+    data = load_input(__file__, 2020, "15")
     print(part1(data))
     print(part2(data))

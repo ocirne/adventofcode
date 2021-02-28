@@ -21,7 +21,7 @@ def part1(lines):
 
 def count_diff(line1, line2):
     count = 0
-    common_str = ''
+    common_str = ""
     for i in range(len(line1)):
         if line1[i] != line2[i]:
             count += 1
@@ -42,6 +42,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2018, '2')
+    data = load_input(__file__, 2018, "2")
     print(part1(data))
     print(part2(data))

@@ -4,7 +4,7 @@ from aoc.util import load_input
 
 
 def prepare_boss(lines):
-    return (int(line.split(':')[1]) for line in lines)
+    return (int(line.split(":")[1]) for line in lines)
 
 
 @dataclass
@@ -20,11 +20,11 @@ class Spell:
 
 
 SPELLS = [
-    Spell('magic missile', 53, boss_hit=4),
-    Spell('drain',         73, boss_hit=2, player_hp=2),
-    Spell('shield',       113, armor=7, shield_timer=6),
-    Spell('poison',       173, poison_timer=6),
-    Spell('recharge',     229, recharge_timer=5),
+    Spell("magic missile", 53, boss_hit=4),
+    Spell("drain", 73, boss_hit=2, player_hp=2),
+    Spell("shield", 113, armor=7, shield_timer=6),
+    Spell("poison", 173, poison_timer=6),
+    Spell("recharge", 229, recharge_timer=5),
 ]
 
 
@@ -46,7 +46,17 @@ class Node:
         self.cost = 0
 
     def copy(self):
-        return Node(self.boss_hp, self.boss_da, self.hp, self.mana, self.hard, self.ar, self.st, self.pt, self.rt)
+        return Node(
+            self.boss_hp,
+            self.boss_da,
+            self.hp,
+            self.mana,
+            self.hard,
+            self.ar,
+            self.st,
+            self.pt,
+            self.rt,
+        )
 
     def apply_effects(self):
         if self.st > 0:
@@ -152,7 +162,7 @@ def run(boss_hp, boss_da, hp, mana, hard=False):
     results, best_result = search(start)
     for path in results:
         if best_result == sum(node.cost for node in path):
-            print(' -> '.join(node.spell for node in path if node.spell))
+            print(" -> ".join(node.spell for node in path if node.spell))
     return best_result
 
 
@@ -167,6 +177,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2015, '22')
+    data = load_input(__file__, 2015, "22")
     print(part1(data))
     print(part2(data))

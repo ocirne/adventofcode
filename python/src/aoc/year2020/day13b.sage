@@ -15,11 +15,11 @@ def wrap_crt(line):
     >>> wrap_crt('1789,37,47,1889')
     1202161486
     """
-    ids = line.split(',')
+    ids = line.split(",")
     values = []
     moduli = []
     for i in range(len(ids)):
-        if ids[i] == 'x':
+        if ids[i] == "x":
             continue
         v = int(ids[i])
         values.append(v)
@@ -36,5 +36,5 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2020, '13')
+    data = load_input(__file__, 2020, "13")
     print(part2(data))

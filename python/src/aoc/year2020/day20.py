@@ -4,19 +4,19 @@ from aoc.util import load_example, load_input
 
 
 def extract_number(s):
-    return int(s.replace('#', '1').replace('.', '0'), 2)
+    return int(s.replace("#", "1").replace(".", "0"), 2)
 
 
 def extract_borders(field):
     return [
         extract_number(field[0]),
         extract_number(field[-1]),
-        extract_number(''.join(line[0] for line in field)),
-        extract_number(''.join(line[-1] for line in field)),
+        extract_number("".join(line[0] for line in field)),
+        extract_number("".join(line[-1] for line in field)),
         extract_number(field[0][::-1]),
         extract_number(field[-1][::-1]),
-        extract_number(''.join(line[0] for line in field)[::-1]),
-        extract_number(''.join(line[-1] for line in field)[::-1])
+        extract_number("".join(line[0] for line in field)[::-1]),
+        extract_number("".join(line[-1] for line in field)[::-1]),
     ]
 
 
@@ -26,8 +26,8 @@ def prepare_tiles(lines):
     for line in lines:
         if line.isspace():
             continue
-        elif line.startswith('Tile'):
-            current_number = line.split(' ')[1].split(':')[0]
+        elif line.startswith("Tile"):
+            current_number = line.split(" ")[1].split(":")[0]
             tiles[current_number] = []
         else:
             tiles[current_number].append(line.strip())
@@ -53,7 +53,9 @@ def part1(lines):
             for key, fieldBorder in all_borders.items():
                 if border in fieldBorder:
                     unique_keys.append(key)
-    corner_keys = [int(key) for key, value in Counter(unique_keys).items() if value == 4]
+    corner_keys = [
+        int(key) for key, value in Counter(unique_keys).items() if value == 4
+    ]
     return prod(corner_keys)
 
 
@@ -63,6 +65,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2020, '20')
+    data = load_input(__file__, 2020, "20")
     print(part1(data))
     print(part2(data))

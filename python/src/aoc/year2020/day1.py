@@ -23,7 +23,7 @@ def part2(lines):
     d = [int(s) for s in lines]
     p = {}
     for i in range(len(d)):
-        for j in range(i+1, len(d)):
+        for j in range(i + 1, len(d)):
             key = d[i] + d[j]
             if key < M:
                 p[key] = d[i] * d[j]
@@ -34,6 +34,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2020, '1')
+    data = load_input(__file__, 2020, "1")
     print(part1(data))
     print(part2(data))

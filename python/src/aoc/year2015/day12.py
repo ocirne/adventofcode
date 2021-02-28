@@ -5,7 +5,7 @@ from aoc.util import load_input
 
 def traverse(node, ignore_red):
     if isinstance(node, dict):
-        if ignore_red and 'red' in node.values():
+        if ignore_red and "red" in node.values():
             return 0
         # keys are never numeric
         return sum(traverse(value, ignore_red) for value in node.values())
@@ -56,6 +56,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2015, '12')
+    data = load_input(__file__, 2015, "12")
     print(part1(data))
     print(part2(data))

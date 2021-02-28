@@ -10,19 +10,19 @@ def run(stream):
     while i < len(stream):
         c = stream[i]
         i += 1
-        if c == '!':
+        if c == "!":
             i += 1
             continue
-        if c == '>':
+        if c == ">":
             garbage = False
         if garbage:
             count_garbage += 1
             continue
-        if c == '<':
+        if c == "<":
             garbage = True
-        if c == '{':
+        if c == "{":
             depth += 1
-        if c == '}':
+        if c == "}":
             count_groups += depth
             depth -= 1
     return count_groups, count_garbage
@@ -79,6 +79,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2017, '9')
+    data = load_input(__file__, 2017, "9")
     print(part1(data))
     print(part2(data))

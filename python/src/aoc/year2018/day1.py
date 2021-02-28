@@ -35,6 +35,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2018, '1')
+    data = load_input(__file__, 2018, "1")
     print(part1(data))
     print(part2(data))

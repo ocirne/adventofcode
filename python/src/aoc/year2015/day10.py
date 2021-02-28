@@ -14,7 +14,7 @@ def step(seq):
     >>> step('111221')
     '312211'
     """
-    result = ''
+    result = ""
     count = 0
     c = lc = seq[0]
     for c in seq:
@@ -46,6 +46,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2015, '10')
+    data = load_input(__file__, 2015, "10")
     print(part1(data))
     print(part2(data))

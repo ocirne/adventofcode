@@ -14,13 +14,13 @@ def part1(lines):
     x, y = 0, 0
     houses = {(0, 0): True}
     for d in line:
-        if d == '>':
+        if d == ">":
             x += 1
-        elif d == '<':
+        elif d == "<":
             x -= 1
-        elif d == '^':
+        elif d == "^":
             y -= 1
-        elif d == 'v':
+        elif d == "v":
             y += 1
         else:
             raise
@@ -29,13 +29,13 @@ def part1(lines):
 
 
 def move(d, x, y):
-    if d == '>':
+    if d == ">":
         return x + 1, y
-    elif d == '<':
+    elif d == "<":
         return x - 1, y
-    elif d == '^':
+    elif d == "^":
         return x, y - 1
-    elif d == 'v':
+    elif d == "v":
         return x, y + 1
     raise
 
@@ -63,6 +63,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2015, '3')
+    data = load_input(__file__, 2015, "3")
     print(part1(data))
     print(part2(data))

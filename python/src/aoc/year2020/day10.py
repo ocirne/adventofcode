@@ -13,9 +13,9 @@ def part1(lines):
     220
     """
     nums = sorted(map(int, lines))
-    diffs = [nums[i] - nums[i-1] for i in range(1, len(nums))]
+    diffs = [nums[i] - nums[i - 1] for i in range(1, len(nums))]
     c = Counter(diffs)
-    return (c[1]+1) * (c[3]+1)
+    return (c[1] + 1) * (c[3] + 1)
 
 
 def run_detection(diffs):
@@ -38,13 +38,13 @@ def part2(lines):
     19208
     """
     raw_nums = list(map(int, lines))
-    nums = sorted([0, max(raw_nums)+3] + raw_nums)
-    diffs = [nums[i] - nums[i-1] for i in range(1, len(nums))]
+    nums = sorted([0, max(raw_nums) + 3] + raw_nums)
+    diffs = [nums[i] - nums[i - 1] for i in range(1, len(nums))]
     runs = run_detection(diffs)
     return prod(MATCH[i] for i in runs)
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2020, '10')
+    data = load_input(__file__, 2020, "10")
     print(part1(data))
     print(part2(data))

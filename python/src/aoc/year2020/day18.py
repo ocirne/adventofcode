@@ -2,9 +2,9 @@ from aoc.util import load_input
 
 
 def calc(a, op, b):
-    if op == '+':
+    if op == "+":
         return a + b
-    if op == '*':
+    if op == "*":
         return a * b
     raise Exception
 
@@ -24,7 +24,7 @@ def solve_part1(expression, index=0):
     >>> solve_part1('((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2')
     13632
     """
-    result, op = 0, '+'
+    result, op = 0, "+"
     while index < len(expression):
         t = expression[index]
         index += 1
@@ -32,19 +32,19 @@ def solve_part1(expression, index=0):
             continue
         if t.isdigit():
             result = calc(result, op, int(t))
-        if t == '+':
-            op = '+'
-        if t == '*':
-            op = '*'
-        if t == '(':
+        if t == "+":
+            op = "+"
+        if t == "*":
+            op = "*"
+        if t == "(":
             value, index = solve_part1(expression, index)
             result = calc(result, op, value)
-        if t == ')':
+        if t == ")":
             return result, index
     return result
 
 
-PRECEDENCE = {'+': 3, '*': 2}
+PRECEDENCE = {"+": 3, "*": 2}
 
 
 def shunting_yard(expression):
@@ -59,18 +59,22 @@ def shunting_yard(expression):
             continue
         if token.isdigit():
             result.append(token)
-        if token in ['+', '*']:
-            while stack and stack[-1] in ['+', '*'] and PRECEDENCE[token] <= PRECEDENCE[stack[-1]]:
+        if token in ["+", "*"]:
+            while (
+                stack
+                and stack[-1] in ["+", "*"]
+                and PRECEDENCE[token] <= PRECEDENCE[stack[-1]]
+            ):
                 result.append(stack.pop())
             stack.append(token)
-        if token == '(':
+        if token == "(":
             stack.append(token)
-        if token == ')':
-            while stack[-1] != '(':
+        if token == ")":
+            while stack[-1] != "(":
                 result.append(stack.pop())
             stack.pop()
     while stack:
-        if stack[-1] == ')':
+        if stack[-1] == ")":
             raise
         result.append(stack.pop())
     return result
@@ -81,7 +85,7 @@ def evaluate(upn_stack):
     for token in upn_stack:
         if token.isdigit():
             stack.append(int(token))
-        elif token in '+*':
+        elif token in "+*":
             p1 = stack.pop()
             p2 = stack.pop()
             stack.append(calc(p1, token, p2))
@@ -122,6 +126,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2020, '18')
+    data = load_input(__file__, 2020, "18")
     print(part1(data))
     print(part2(data))

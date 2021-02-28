@@ -8,20 +8,20 @@ def endpoint(line, x=0, y=0):
     >>> endpoint('nwwswee')
     (0, 0)
     """
-    if line == '':
+    if line == "":
         return x, y
-    if line.startswith('nw'):
-        return endpoint(line[2:], x, y-1)
-    if line.startswith('ne'):
-        return endpoint(line[2:], x+1, y-1)
-    if line.startswith('sw'):
-        return endpoint(line[2:], x-1, y+1)
-    if line.startswith('se'):
-        return endpoint(line[2:], x, y+1)
-    if line.startswith('w'):
-        return endpoint(line[1:], x-1, y)
-    if line.startswith('e'):
-        return endpoint(line[1:], x+1, y)
+    if line.startswith("nw"):
+        return endpoint(line[2:], x, y - 1)
+    if line.startswith("ne"):
+        return endpoint(line[2:], x + 1, y - 1)
+    if line.startswith("sw"):
+        return endpoint(line[2:], x - 1, y + 1)
+    if line.startswith("se"):
+        return endpoint(line[2:], x, y + 1)
+    if line.startswith("w"):
+        return endpoint(line[1:], x - 1, y)
+    if line.startswith("e"):
+        return endpoint(line[1:], x + 1, y)
     else:
         raise Exception
 
@@ -41,17 +41,17 @@ def part1(lines):
 
 def count_env(endpoints, x, y):
     result = 0
-    if (x, y-1) in endpoints:
+    if (x, y - 1) in endpoints:
         result += 1
-    if (x+1, y-1) in endpoints:
+    if (x + 1, y - 1) in endpoints:
         result += 1
-    if (x-1, y+1) in endpoints:
+    if (x - 1, y + 1) in endpoints:
         result += 1
-    if (x, y+1) in endpoints:
+    if (x, y + 1) in endpoints:
         result += 1
-    if (x-1, y) in endpoints:
+    if (x - 1, y) in endpoints:
         result += 1
-    if (x+1, y) in endpoints:
+    if (x + 1, y) in endpoints:
         result += 1
     return result
 
@@ -126,11 +126,13 @@ def part2(lines, rounds=100):
     2208
     """
     endpoints = prepare_endpoints(lines)
-    real_endpoints = {ep: True for ep, count in Counter(endpoints).items() if count % 2 == 1}
+    real_endpoints = {
+        ep: True for ep, count in Counter(endpoints).items() if count % 2 == 1
+    }
     return simulate(real_endpoints, rounds)
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2020, '24')
+    data = load_input(__file__, 2020, "24")
     print(part1(data))
     print(part2(data))

@@ -5,8 +5,8 @@ def prepare_start_grid(lines):
     cube = set()
     for y, line in enumerate(map(str.strip, lines)):
         for x in range(len(line)):
-            if line[x] == '#':
-                cube.add((x-5, y-5, 0, 0))
+            if line[x] == "#":
+                cube.add((x - 5, y - 5, 0, 0))
     return cube
 
 
@@ -23,17 +23,17 @@ def count_env(cube, x, y, z, w, dim):
                 for dw in dw_range:
                     if dx == dy == dz == dw == 0:
                         continue
-                    if (x+dx, y+dy, z+dz, w+dw) in cube:
+                    if (x + dx, y + dy, z + dz, w + dw) in cube:
                         count += 1
     return count
 
 
 def step(i, cube, dim):
-    w_range = {3: [0], 4: range(-7-i, 8+i)}[dim]
+    w_range = {3: [0], 4: range(-7 - i, 8 + i)}[dim]
     result = set()
-    for x in range(-7-i, 8+i):
-        for y in range(-7-i, 8+i):
-            for z in range(-7-i, 8+i):
+    for x in range(-7 - i, 8 + i):
+        for y in range(-7 - i, 8 + i):
+            for z in range(-7 - i, 8 + i):
                 for w in w_range:
                     count = count_env(cube, x, y, z, w, dim)
                     coordinates = (x, y, z, w)
@@ -68,6 +68,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2020, '17')
+    data = load_input(__file__, 2020, "17")
     print(part1(data))
     print(part2(data))

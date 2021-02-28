@@ -16,11 +16,11 @@ def prepare_tree(lines):
     parents = {}
     nodes = {}
     for line in lines:
-        name_weight = line.split(')')[0]
-        name, weight = name_weight.split(' (')
+        name_weight = line.split(")")[0]
+        name, weight = name_weight.split(" (")
         node = Node(name, int(weight))
-        if '->' in line:
-            children = line.strip().split(') -> ')[1].split(', ')
+        if "->" in line:
+            children = line.strip().split(") -> ")[1].split(", ")
             node.children = children
             for child in children:
                 parents[child] = name
@@ -55,7 +55,9 @@ def calc_correction_weight(nodes, node: Node):
     counts = Counter(children_total_weights).most_common()
     if len(counts) > 1:
         (good_weight, _), (bad_weight, _) = counts
-        bad_child = next(child for child in node.children if nodes[child].total_weight == bad_weight)
+        bad_child = next(
+            child for child in node.children if nodes[child].total_weight == bad_weight
+        )
         return nodes[bad_child].weight - (bad_weight - good_weight)
     node.total_weight = node.weight + sum(children_total_weights)
 
@@ -71,6 +73,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2017, '7')
+    data = load_input(__file__, 2017, "7")
     print(part1(data))
     print(part2(data))

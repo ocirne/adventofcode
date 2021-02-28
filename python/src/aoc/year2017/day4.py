@@ -28,7 +28,7 @@ def is_valid_part2(line):
     >>> is_valid_part2('oiii ioii iioi iiio')
     False
     """
-    return max(Counter(''.join(sorted(word)) for word in line.split()).values()) == 1
+    return max(Counter("".join(sorted(word)) for word in line.split()).values()) == 1
 
 
 def run(lines, is_valid):
@@ -44,6 +44,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2017, '4')
+    data = load_input(__file__, 2017, "4")
     print(part1(data))
     print(part2(data))

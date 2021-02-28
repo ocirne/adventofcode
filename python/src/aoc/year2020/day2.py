@@ -9,8 +9,8 @@ def extract(line):
     (1, 3, 'a', 'abcde')
     """
     pw_range, pw_letter, pw_password = line.split()
-    first, second = map(int, pw_range.split('-'))
-    letter = pw_letter.split(':')[0]
+    first, second = map(int, pw_range.split("-"))
+    letter = pw_letter.split(":")[0]
     return first, second, letter, pw_password
 
 
@@ -60,6 +60,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2020, '2')
+    data = load_input(__file__, 2020, "2")
     print(part1(data))
     print(part2(data))

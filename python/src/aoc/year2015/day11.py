@@ -1,9 +1,9 @@
 from aoc.util import load_input
 
 CA = 97
-CO = ord('o') - CA
-CI = ord('i') - CA
-CL = ord('l') - CA
+CO = ord("o") - CA
+CI = ord("i") - CA
+CL = ord("l") - CA
 
 
 def to_int_array(s):
@@ -21,7 +21,7 @@ def to_char_array(i):
     >>> to_char_array([0, 1, 2, 25])
     'abcz'
     """
-    return ''.join([chr(x + CA) for x in i])
+    return "".join([chr(x + CA) for x in i])
 
 
 def is_run(part):
@@ -72,16 +72,25 @@ def find_next(arr, depth=0, run=False, pair1=None, pos1=None, letter1=None, pair
         inc_pos(arr, depth, False)
         if pair1:
             r_pair1, r_pos1, r_letter1 = True, pos1, letter1
-        elif is_pair(arr[depth-1:depth+1]):
+        elif is_pair(arr[depth - 1 : depth + 1]):
             r_pair1, r_pos1, r_letter1 = True, depth, arr[depth]
         else:
             r_pair1, r_pos1, r_letter1 = False, None, None
-        r_pair2 = pair2 or (pair1 and depth > pos1 + 1 and arr[depth] != letter1 and is_pair(arr[depth-1:depth+1]))
-        if find_next(arr,
-                     depth + 1,
-                     run or is_run(arr[depth-2:depth+1]),
-                     r_pair1, r_pos1, r_letter1,
-                     r_pair2):
+        r_pair2 = pair2 or (
+            pair1
+            and depth > pos1 + 1
+            and arr[depth] != letter1
+            and is_pair(arr[depth - 1 : depth + 1])
+        )
+        if find_next(
+            arr,
+            depth + 1,
+            run or is_run(arr[depth - 2 : depth + 1]),
+            r_pair1,
+            r_pos1,
+            r_letter1,
+            r_pair2,
+        ):
             return True
         inc_pos(arr, depth, True)
         if arr[depth] > 25:
@@ -132,6 +141,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2015, '11')
+    data = load_input(__file__, 2015, "11")
     print(part1(data))
     print(part2(data))
