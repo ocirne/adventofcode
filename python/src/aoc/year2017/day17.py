@@ -18,6 +18,18 @@ def part1(lines):
     return path[pos2017 + 1]
 
 
+def part2(lines):
+    steps = int(lines[0])
+    current = 0
+    result = None
+    for i in range(1, 50_000_001):
+        current = (current + 1 + steps) % i
+        if current == 0:
+            result = i
+    return result
+
+
 if __name__ == "__main__":
     data = load_input(__file__, 2017, "17")
     print(part1(data))
+    print(part2(data))
