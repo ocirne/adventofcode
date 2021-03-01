@@ -1,37 +1,37 @@
 from aoc.util import load_input, load_example
 
 
-def spin(s, v):
+def spin(s, param):
+    v = -int(param)
     return s[v:] + s[:v]
 
 
-def exchange(s, px, py):
-    s[int(px)], s[int(py)] = s[int(py)], s[int(px)]
+def exchange(s, param):
+    px, py = (int(i) for i in param.split("/"))
+    s[px], s[py] = s[py], s[px]
     return s
 
 
-def partner(s: str, x, y):
+def partner(s, param):
+    x, y = param.split("/")
     i = s.index(x)
     j = s.index(y)
     s[i], s[j] = s[j], s[i]
     return s
 
 
+COMMANDS = {
+    "s": spin,
+    "x": exchange,
+    "p": partner,
+}
+
+
 def dance(commands, initial_standing):
     standing = initial_standing
     for cmd in commands:
-        #  print(line, standing)
-        if cmd[0] == "s":
-            #     print('s')
-            standing = spin(standing, -int(cmd[1:]))
-        elif cmd[0] == "x":
-            #    print('x')
-            standing = exchange(standing, *cmd[1:].split("/"))
-        elif cmd[0] == "p":
-            #   print('p')
-            standing = partner(standing, *cmd[1:].split("/"))
-        else:
-            raise
+        fun = COMMANDS[cmd[0]]
+        standing = fun(standing, cmd[1:])
     return standing
 
 
