@@ -53,6 +53,12 @@ def part1(lines):
     return coprocessor.execute()
 
 
+def part2(lines):
+    """ disassemble by hand and translate to python """
+    return sum(any(b % d == 0 for d in range(2, b)) for b in range(107900, 124901, 17))
+
+
 if __name__ == "__main__":
     data = load_input(__file__, 2017, "23")
     print(part1(data))
+    print(part2(data))
