@@ -110,8 +110,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    assert part1(load_example(__file__, "24")) == 31
-    assert part2(load_example(__file__, "24")) == 19
     data = load_input(__file__, 2017, "24")
     print(part1(data))
     print(part2(data))
