@@ -1,4 +1,3 @@
-from collections import Counter
 from aoc.util import load_example, load_input
 
 
@@ -38,8 +37,7 @@ def step_part1(d):
 
 
 def count_seats(d):
-    c = Counter("".join(d))
-    return c["#"]
+    return "".join(d).count("#")
 
 
 def part1(lines):

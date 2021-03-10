@@ -1,5 +1,3 @@
-from collections import Counter
-
 from aoc.util import load_input
 
 
@@ -24,8 +22,7 @@ def is_valid_part1(line):
     True
     """
     first, second, letter, password = extract(line)
-    counter = Counter(password)
-    count_letter = int(counter[letter])
+    count_letter = password.count(letter)
     return first <= count_letter <= second
 
 

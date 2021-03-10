@@ -15,7 +15,7 @@ def binary_knot_hash(key, i):
 
 
 def count_bits(s):
-    return Counter(s).get("1")
+    return s.count("1")
 
 
 def count_squares(key):

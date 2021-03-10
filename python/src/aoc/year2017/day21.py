@@ -1,5 +1,3 @@
-from collections import Counter
-
 from aoc.util import load_input, load_example
 
 START = ".#./..#/###"
@@ -89,7 +87,7 @@ def run(lines, iterations):
     grid = START
     for i in range(iterations):
         grid = step(rules, grid)
-    return Counter(grid)["#"]
+    return grid.count("#")
 
 
 def part1(lines):
