@@ -7,8 +7,7 @@ class Day01(lines: List<String>) {
     private val line = lines[0]
 
     fun part1(): Int {
-        val counts = line.groupingBy { it }.eachCount()
-        return counts.getOrDefault('(', 0) - counts.getOrDefault(')', 0)
+        return line.count { it == '(' } - line.count { it == ')' }
     }
 
     fun part2(): Int {

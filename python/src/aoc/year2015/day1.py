@@ -1,5 +1,3 @@
-from collections import Counter
-
 from aoc.util import load_input
 
 
@@ -24,9 +22,8 @@ def part1(lines):
     >>> part1([')())())'])
     -3
     """
-    data = lines[0]
-    c = Counter(data)
-    return c["("] - c[")"]
+    line = lines[0]
+    return line.count("(") - line.count(")")
 
 
 def part2(lines):
