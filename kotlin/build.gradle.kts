@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 
 plugins {
     kotlin("jvm") version "1.4.30"
@@ -34,5 +35,11 @@ java {
 tasks {
     test {
         testLogging.showExceptions = true
+    }
+}
+
+sourceSets.test {
+    withConvention(KotlinSourceSet::class) {
+        kotlin.srcDirs("src/itest/kotlin")
     }
 }
