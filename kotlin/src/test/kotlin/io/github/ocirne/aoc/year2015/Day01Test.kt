@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 internal class Day01Test {
 
     @Test
-    fun `examples 2015 day 01 part1`() {
+    fun `examples year 2015 day 1 part 1`() {
         Day01(listOf("(())")).part1() shouldBe 0
         Day01(listOf("()()")).part1() shouldBe 0
         Day01(listOf("(((")).part1() shouldBe 3
@@ -19,7 +19,7 @@ internal class Day01Test {
     }
 
     @Test
-    fun `examples 2015 day 01 part2`() {
+    fun `examples year 2015 day 1 part 2`() {
         Day01(listOf(")")).part2() shouldBe 1
         Day01(listOf("()())")).part2() shouldBe 5
     }
