@@ -1,3 +1,6 @@
 
 .gradle/
 build/
+
+./src/test/kotlin/io/github/ocirne/aoc/inputs
+./src/test/resources

@@ -1,1 +1,0 @@
-../../../../../../../../../../adventofcode-input/kotlin/Year2018Test.kt
