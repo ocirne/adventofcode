@@ -1,18 +1,20 @@
 package io.github.ocirne.aoc.year2015
 
+import io.github.ocirne.aoc.AocChallenge
 import java.lang.RuntimeException
 
-class Day01(lines: List<String>) {
+class Day1(lines: List<String>) : AocChallenge {
 
     private val line = lines[0]
 
-    fun part1(): Int {
+    override fun part1(): Int {
         return line.count { it == '(' } - line.count { it == ')' }
     }
 
-    fun part2(): Int {
+    override fun part2(): Int {
         var floor = 0
-        line.forEachIndexed { index, bracket -> run {
+        line.forEachIndexed { index, bracket ->
+            run {
                 if (bracket == '(')
                     floor++
                 if (bracket == ')')

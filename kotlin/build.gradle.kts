@@ -1,11 +1,17 @@
-import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.4.30"
+    kotlin("jvm") version "1.4.31"
 }
 
 repositories {
     mavenCentral()
+}
+
+tasks.withType<KotlinCompile>().configureEach {
+    kotlinOptions {
+        jvmTarget = "11"
+    }
 }
 
 tasks.withType<Test> {
@@ -19,6 +25,8 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("io.kotest:kotest-runner-junit5:4.4.1")
     testImplementation("io.kotest:kotest-assertions-core:4.4.1")
+    testImplementation("com.opencsv:opencsv:5.4")
+    testImplementation("org.jetbrains.kotlin:kotlin-reflect:1.4.31")
 }
 
 configurations {
@@ -35,11 +43,5 @@ configure<JavaPluginConvention> {
 tasks {
     test {
         testLogging.showExceptions = true
-    }
-}
-
-sourceSets.test {
-    withConvention(KotlinSourceSet::class) {
-        kotlin.srcDirs("src/itest/kotlin")
     }
 }
