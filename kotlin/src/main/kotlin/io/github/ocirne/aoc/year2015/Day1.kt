@@ -3,7 +3,7 @@ package io.github.ocirne.aoc.year2015
 import io.github.ocirne.aoc.AocChallenge
 import java.lang.RuntimeException
 
-class Day1(lines: List<String>) : AocChallenge {
+class Day1(lines: List<String>) : AocChallenge(2015, 1) {
 
     private val line = lines[0]
 

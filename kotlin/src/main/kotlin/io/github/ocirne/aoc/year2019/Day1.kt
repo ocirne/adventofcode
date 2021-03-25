@@ -2,7 +2,7 @@ package io.github.ocirne.aoc.year2019
 
 import io.github.ocirne.aoc.AocChallenge
 
-class Day1(lines: List<String>) : AocChallenge {
+class Day1(lines: List<String>) : AocChallenge(2019, 1) {
 
     private val line = lines[0]
 

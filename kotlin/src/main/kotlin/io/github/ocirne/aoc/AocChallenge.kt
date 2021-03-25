@@ -1,8 +1,8 @@
 package io.github.ocirne.aoc
 
-interface AocChallenge {
+abstract class AocChallenge(val year: Int, val day: Int) {
 
-    fun part1(): Any
+    abstract fun part1(): Any
 
-    fun part2(): Any
+    abstract fun part2(): Any
 }

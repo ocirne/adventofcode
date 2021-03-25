@@ -27,6 +27,7 @@ dependencies {
     testImplementation("io.kotest:kotest-assertions-core:4.4.1")
     testImplementation("com.opencsv:opencsv:5.4")
     testImplementation("org.jetbrains.kotlin:kotlin-reflect:1.4.31")
+    testImplementation("org.reflections:reflections:0.9.12")
 }
 
 configurations {
