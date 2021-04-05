@@ -11,12 +11,12 @@ def turn(d, fun, sxy, exy):
             d[(x, y)] = fun(d[(x, y)])
 
 
-def run(data, toogle, turn_on, turn_off):
+def run(data, toggle, turn_on, turn_off):
     grid = defaultdict(lambda: 0)
     for line in data:
         token = line.split()
         if line.startswith("toggle"):
-            turn(grid, toogle, token[1], token[3])
+            turn(grid, toggle, token[1], token[3])
         elif line.startswith("turn on"):
             turn(grid, turn_on, token[2], token[4])
         elif line.startswith("turn off"):
