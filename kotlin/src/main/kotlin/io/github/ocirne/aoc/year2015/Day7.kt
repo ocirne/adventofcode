@@ -31,6 +31,9 @@ class Day7(val lines: List<String>) : AocChallenge(2015, 7) {
                 return wire.toInt()
             }
             val node = rules[wire]!!
+            if (node.value != 0) {
+                return node.value
+            }
             when (node.rule.size) {
                 1 -> {
                     node.value = deduct(node.rule[0])
