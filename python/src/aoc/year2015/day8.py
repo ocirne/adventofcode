@@ -1,16 +1,18 @@
+from collections import Counter
+
 from aoc.util import load_input
 
 
 def shrink(line):
     """
     >>> shrink('""')
-    (2, 0)
+    2
     >>> shrink('"abc"')
-    (5, 3)
+    2
     >>> shrink('"aaa\\\\"aaa"')
-    (10, 7)
+    3
     >>> shrink('"\\\\x27"')
-    (6, 1)
+    5
     """
     result = 0
     index = 0
@@ -30,43 +32,26 @@ def shrink(line):
                     raise
             result += 1
         index += 1
-    return len(line), result
+    return len(line) - result
 
 
 def expand(line):
     """
     >>> expand('""')
-    (6, 2)
+    4
     >>> expand('"abc"')
-    (9, 5)
+    4
     >>> expand('"aaa\\\\"aaa"')
-    (16, 10)
+    6
     >>> expand('"\\\\x27"')
-    (11, 6)
+    5
     """
-    result = 0
-    index = 0
-    while index < len(line):
-        character = line[index]
-        if character == '"':
-            result += 2
-        elif character == "\\":
-            result += 2
-        elif character == '"':
-            result += 3
-        else:
-            result += 1
-        index += 1
-    return result + 2, len(line)
+    counter = Counter(line)
+    return 2 + counter['"'] + counter["\\"]
 
 
 def loop_sum(data, fun):
-    greater, lower = 0, 0
-    for line in map(str.strip, data):
-        gre, low = fun(line)
-        greater += gre
-        lower += low
-    return greater - lower
+    return sum(fun(line) for line in map(str.strip, data))
 
 
 def part1(lines):
