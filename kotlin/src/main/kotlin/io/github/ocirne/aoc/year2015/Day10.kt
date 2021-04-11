@@ -15,26 +15,30 @@ class Day10(val lines: List<String>) : AocChallenge(2015, 10) {
     }
 
     private fun playLookAndSay(rounds: Int): Int {
-        var seq = startSequence!!
-        repeat(rounds) {
-            seq = step(seq) }
-        return seq.length
+        var seq = startSequence!!.toList()
+        repeat(rounds) { seq = step(seq) }
+        return seq.size
     }
 
-    fun step(seq: String):String {
-        var result = ""
+    fun step(seq: List<Char>): List<Char> {
+        val result = ArrayList<Char>()
         var count = 0
         var lc = seq[0]
         seq.forEach { c ->
             if (c == lc) {
                 count++
             } else {
-                result += count.toString() + lc
+                add(result, count, lc)
                 count = 1
                 lc = c
             }
         }
-        result += count.toString() + lc
+        add(result, count, lc)
         return result
+    }
+
+    fun add(result: ArrayList<Char>, count: Int, lastCharacter: Char) {
+        result.addAll(count.toString().toList())
+        result.add(lastCharacter)
     }
 }

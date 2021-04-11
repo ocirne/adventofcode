@@ -16,7 +16,7 @@ def step(seq):
     """
     result = ""
     count = 0
-    c = lc = seq[0]
+    lc = seq[0]
     for c in seq:
         if c == lc:
             count += 1
@@ -24,7 +24,7 @@ def step(seq):
             result += str(count) + lc
             count = 1
             lc = c
-    result += str(count) + c
+    result += str(count) + lc
     return result
 
 

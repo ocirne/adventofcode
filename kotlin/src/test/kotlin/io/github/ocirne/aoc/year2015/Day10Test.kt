@@ -7,10 +7,10 @@ internal class Day10Test {
 
     @Test
     fun `examples year 2015 day 10 step`() {
-        Day10(listOf()).step("1") shouldBe "11"
-        Day10(listOf()).step("11") shouldBe "21"
-        Day10(listOf()).step("21") shouldBe "1211"
-        Day10(listOf()).step("1211") shouldBe "111221"
-        Day10(listOf()).step("111221") shouldBe "312211"
+        Day10(listOf()).step("1".toList()) shouldBe "11".toList()
+        Day10(listOf()).step("11".toList()) shouldBe "21".toList()
+        Day10(listOf()).step("21".toList()) shouldBe "1211".toList()
+        Day10(listOf()).step("1211".toList()) shouldBe "111221".toList()
+        Day10(listOf()).step("111221".toList()) shouldBe "312211".toList()
     }
 }
