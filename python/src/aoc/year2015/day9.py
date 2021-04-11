@@ -19,21 +19,23 @@ def calc_distance(distances, route):
 
 
 def run(lines, fun):
-    """
-    >>> run(load_example(__file__, '9'), min)
-    605
-    >>> run(load_example(__file__, '9'), max)
-    982
-    """
     locations, distances = prepare_data(lines)
     return fun(calc_distance(distances, route) for route in permutations(locations))
 
 
 def part1(lines):
+    """
+    >>> part1(load_example(__file__, '9'))
+    605
+    """
     return run(lines, min)
 
 
 def part2(lines):
+    """
+    >>> part2(load_example(__file__, '9'))
+    982
+    """
     return run(lines, max)
 
 
