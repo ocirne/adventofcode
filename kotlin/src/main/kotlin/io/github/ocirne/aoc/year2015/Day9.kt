@@ -2,24 +2,24 @@ package io.github.ocirne.aoc.year2015
 
 import io.github.ocirne.aoc.AocChallenge
 
-fun <T> List<T>.permutations(): List<List<T>> {
+fun <T> Collection<T>.permutations(): Iterable<List<T>> {
     if (this.size <= 1) {
-        return listOf(this)
+        return listOf(this.toList())
     }
     val result = ArrayList<List<T>>()
-    this.forEachIndexed { index, pivot ->
-        val rest = this.without(index)
+    this.forEach { value ->
+        val rest = this.without(value)
         rest.permutations().forEach { permutation ->
-            result.add(listOf(pivot) + permutation)
+            result.add(listOf(value) + permutation)
         }
     }
     return result
 }
 
-fun <T> List<T>.without(index: Int): List<T> {
-    val copy = this.toMutableList()
-    copy.removeAt(index)
-    return copy.toList()
+fun <T> Collection<T>.without(value: T): Collection<T> {
+    val copy = this.toMutableSet()
+    copy.remove(value)
+    return copy.toSet()
 }
 
 typealias Edge = Pair<String, String>
@@ -55,6 +55,6 @@ class Day9(val lines: List<String>) : AocChallenge(2015, 9) {
     }
 
     private fun run(): List<Int> {
-        return locations.toList().permutations().map { route -> calcDistance(route) }
+        return locations.permutations().map { route -> calcDistance(route) }
     }
 }

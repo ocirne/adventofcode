@@ -8,7 +8,7 @@ internal class Day9Test {
 
     @Test
     fun `can generate permutations`() {
-        val numbers = listOf(1, 2, 3)
+        val numbers = setOf(1, 2, 3)
         val permutations = numbers.permutations()
         System.err.println(permutations)
         permutations shouldContainAll listOf(
