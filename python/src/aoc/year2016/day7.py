@@ -1,8 +1,25 @@
 from aoc.util import load_input
-import regex
 
-INVALID_PATTERN = r"\[\w*(\w)(\w)\2\1\w*\]"
-VALID_PATTERN = r"(\w)(\w)\2\1"
+
+def separate_nets(ip, extract_valid):
+    inner = []
+    outer = []
+    tokens = ip.split("[")
+    outer.extend(extract_valid(tokens[0]))
+    for t in tokens[1:]:
+        left, right = t.split("]")
+        inner.extend(extract_valid(left, True))
+        outer.extend(extract_valid(right))
+    return inner, outer
+
+
+def extract_abba(word, flip=None):
+    result = []
+    for i in range(len(word) - 3):
+        c = word[i : i + 4]
+        if c[0] == c[3] and c[1] == c[2] and c[0] != c[1]:
+            result.append(c)
+    return result
 
 
 def is_valid1(ip):
@@ -16,18 +33,11 @@ def is_valid1(ip):
     >>> is_valid1('ioxxoj[asdfgh]zxcvbn')
     True
     """
-    if regex.findall(INVALID_PATTERN, ip):
-        return False
-    m = regex.findall(VALID_PATTERN, ip)
-    if not m:
-        return False
-    for x, y in m:
-        if x != y:
-            return True
-    return False
+    inner, outer = separate_nets(ip, extract_abba)
+    return len(outer) > 0 and len(inner) == 0
 
 
-def valid_triplets(word, flip=False):
+def extract_aba(word, flip=False):
     result = []
     for i in range(len(word) - 2):
         c = word[i : i + 3]
@@ -50,14 +60,7 @@ def is_valid2(ip):
     >>> is_valid2('zazbz[bzb]cdb')
     True
     """
-    inner = []
-    outer = []
-    tokens = ip.split("[")
-    outer.extend(valid_triplets(tokens[0]))
-    for t in tokens[1:]:
-        left, right = t.split("]")
-        inner.extend(valid_triplets(left, True))
-        outer.extend(valid_triplets(right))
+    inner, outer = separate_nets(ip, extract_aba)
     return bool(set(inner).intersection(set(outer)))
 
 
