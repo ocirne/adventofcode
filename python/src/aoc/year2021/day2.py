@@ -11,6 +11,10 @@ def extract(lines, word):
 
 
 def part1(lines):
+    """
+    >>> part1(load_example(__file__, "2"))
+    150
+    """
     down = sum(extract(lines, "down"))
     forward = sum(extract(lines, "forward"))
     up = sum(extract(lines, "up"))
@@ -18,6 +22,10 @@ def part1(lines):
 
 
 def part2(lines):
+    """
+    >>> part2(load_example(__file__, "2"))
+    900
+    """
     hor = 0
     dep = 0
     aim = 0
