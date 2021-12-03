@@ -44,7 +44,52 @@ def part2(lines):
     """
     >>> part2(load_example(__file__, "12"))
     """
-    pass
+    a = b = c = d = 0
+    # cpy 1 a
+    a = 1
+    # cpy 1 b
+    b = 1
+    # cpy 26 d
+    d = 26
+    # jnz c 2
+    if c != 0:
+        # cpy 7 c
+        c = 7
+        while c != 0:
+            # inc d
+            d += 1
+            # dec c
+            c -= 1
+            # jnz c -2
+    while d != 0:
+        # cpy a c
+        c = a
+        while b != 0:
+            # inc a
+            a += 1
+            # dec b
+            b -= 1
+            # jnz b -2
+        # cpy c b
+        b = c
+        # dec d
+        d -= 1
+        # jnz d -6
+    # cpy 16 c
+    c = 16
+    while c != 0:
+        # cpy 12 d
+        d = 12
+        while d != 0:
+            # inc a
+            a += 1
+            # dec d
+            d -= 1
+            # jnz d -2
+        # dec c
+        c -= 1
+        # jnz c -5
+    return a
 
 
 if __name__ == "__main__":
