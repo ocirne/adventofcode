@@ -25,13 +25,18 @@ class Board:
                     yield self.board[y][x]
 
 
+def read_data(lines):
+    numbers = [int(n) for n in lines[0].strip().split(",")]
+    boards = [Board(lines[ln : ln + 5]) for ln in range(2, len(lines), 6)]
+    return numbers, boards
+
+
 def part1(lines):
     """
     >>> part1(load_example(__file__, "4"))
     4512
     """
-    numbers = [int(n) for n in lines[0].strip().split(",")]
-    boards = [Board(lines[ln : ln + 5]) for ln in range(2, len(lines), 6)]
+    numbers, boards = read_data(lines)
     for number in numbers:
         for b in boards:
             b.mark(number)
@@ -43,12 +48,20 @@ def part1(lines):
 def part2(lines):
     """
     >>> part2(load_example(__file__, "4"))
+    1924
     """
-    pass
+    numbers, boards = read_data(lines)
+    for number in numbers:
+        for b in boards:
+            b.mark(number)
+        for b in boards:
+            if b.wins():
+                if len(boards) == 1:
+                    return sum(b.unmarked()) * number
+                boards.remove(b)
 
 
 if __name__ == "__main__":
     data = load_input(__file__, 2021, "4")
-    assert part1(load_example(__file__, "4")) == 4512
     print(part1(data))
-#    print(part2(data))
+    print(part2(data))
