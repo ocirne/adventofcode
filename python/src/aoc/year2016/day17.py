@@ -2,6 +2,10 @@ import hashlib
 
 from aoc.util import load_input
 
+import sys
+
+sys.setrecursionlimit(1712)
+
 
 class Node:
     def __init__(self, x, y, path):
@@ -56,6 +60,29 @@ def part1(lines):
     return bfs(passcode)
 
 
+def dfs(passcode, node):
+    if node.wins():
+        return len(node.path)
+    results = [dfs(passcode, next_node) for next_node in next_moves(passcode, node)]
+    if not results:
+        return 0
+    return max(results)
+
+
+def part2(lines):
+    """
+    >>> part2(['ihgpwlah'])
+    370
+    >>> part2(['kglvqrro'])
+    492
+    >>> part2(['ulqzkmiv'])
+    830
+    """
+    passcode = lines[0].strip()
+    return dfs(passcode, Node(0, 0, ""))
+
+
 if __name__ == "__main__":
     data = load_input(__file__, 2016, "17")
     print(part1(data))
+    print(part2(data))
