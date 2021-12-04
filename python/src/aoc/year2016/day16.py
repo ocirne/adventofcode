@@ -33,7 +33,7 @@ def checksum(a, verbose=False):
     return checksum("".join((CHECKSUM[a[i : i + 2]] for i in range(0, len(a), 2))), verbose)
 
 
-def part1(lines, disk_length=272, verbose=False):
+def complete_checksum(initial_state, disk_length=None, verbose=False):
     """
     >>> part1(['10000'], disk_length=20, verbose=True)
     10000
@@ -43,7 +43,7 @@ def part1(lines, disk_length=272, verbose=False):
     0111110101
     '01100'
     """
-    state = lines[0].strip()
+    state = initial_state
     while len(state) < disk_length:
         if verbose:
             print(state)
@@ -53,11 +53,14 @@ def part1(lines, disk_length=272, verbose=False):
     return checksum(state[:disk_length], verbose)
 
 
+def part1(lines):
+    initial_state = lines[0].strip()
+    return complete_checksum(initial_state, disk_length=272)
+
+
 def part2(lines):
-    """
-    >>> part2(['abc'])
-    """
-    ...
+    initial_state = lines[0].strip()
+    return complete_checksum(initial_state, disk_length=35651584)
 
 
 if __name__ == "__main__":
