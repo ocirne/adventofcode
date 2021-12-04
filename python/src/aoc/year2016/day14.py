@@ -8,6 +8,7 @@ REP = {5 * hex(i)[2:]: 3 * hex(i)[2:] for i in range(16)}
 
 def find_three(md5_hash):
     lowest_index = 100
+    result = None
     for three in REP.values():
         f = md5_hash.find(three)
         if f >= 0:
@@ -19,17 +20,21 @@ def find_three(md5_hash):
     return result
 
 
-def part1(lines):
-    """
-    >>> part1(['abc'])
-    22728
-    """
-    salt = lines[0].strip()
+def key_stretch(orig_hash):
+    md = orig_hash
+    for _ in range(2016):
+        md = hashlib.md5(md.encode()).hexdigest()
+    return md
+
+
+def find_otp(salt, key_stretching=False):
     three_findings = defaultdict(list)
     otp_keys = set()
     i = 0
     while len(otp_keys) < 64:
         md5_hash = hashlib.md5((salt + str(i)).encode()).hexdigest()
+        if key_stretching:
+            md5_hash = key_stretch(md5_hash)
         three = find_three(md5_hash)
         if three is not None:
             three_findings[three].append(i)
@@ -37,19 +42,18 @@ def part1(lines):
             if f in md5_hash:
                 for c in three_findings[t]:
                     if 0 < i - c < 1001:
-                        # not clean, but works
                         otp_keys.add(c)
         i += 1
-    t = list(otp_keys)
-    t.sort()
-    return t[63]
+    return sorted(otp_keys)[63]
 
 
-def key_stretch(orig_hash):
-    md = orig_hash
-    for _ in range(2016):
-        md = hashlib.md5(md.encode()).hexdigest()
-    return md
+def part1(lines):
+    """
+    >>> part1(['abc'])
+    22728
+    """
+    salt = lines[0].strip()
+    return find_otp(salt)
 
 
 def part2(lines):
@@ -58,24 +62,7 @@ def part2(lines):
     22551
     """
     salt = lines[0].strip()
-    three_findings = defaultdict(list)
-    otp_keys = set()
-    i = 0
-    while len(otp_keys) < 64:
-        md5_hash = hashlib.md5((salt + str(i)).encode()).hexdigest()
-        stretched = key_stretch(md5_hash)
-        three = find_three(stretched)
-        if three is not None:
-            three_findings[three].append(i)
-        for f, t in REP.items():
-            if f in stretched:
-                for c in three_findings[t]:
-                    if 0 < i - c < 1001:
-                        otp_keys.add(c)
-        i += 1
-    t = list(otp_keys)
-    t.sort()
-    return t[63]
+    return find_otp(salt, key_stretching=True)
 
 
 if __name__ == "__main__":
