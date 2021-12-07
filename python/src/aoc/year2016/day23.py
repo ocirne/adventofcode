@@ -69,7 +69,7 @@ def part1(lines, init_a=7):
     return registers["a"]
 
 
-def part2(init_a=12):  # noqa: C901
+def part2(init_a=12):
     default = {24: True, 22: True, 20: True, 18: True}
     a = init_a
     #  0: cpy a b
@@ -80,24 +80,8 @@ def part2(init_a=12):  # noqa: C901
         #  2: cpy a d
         d = a
         #  3: cpy 0 a
-        a = 0
-        #        while True:
-        #  4: cpy b c
-        # c = b
-        # while True:
-        #  5: inc a
-        a += d * b
-        #  6: dec c
-        # c -= b
-        #  7: jnz c -2
-        # if c == 0:
-        #    break
-        #  8: dec d
+        a = d * b
         d -= 1
-        #  9: jnz d -5
-        #           if d == 0:
-        #               break
-        d = 0
         # 10: dec b
         b -= 1
         # 11: cpy b c
