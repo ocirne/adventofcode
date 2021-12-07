@@ -85,10 +85,11 @@ def part2(init_a=12):  # noqa: C901
             #  4: cpy b c
             c = b
             while True:
+                t = c
                 #  5: inc a
-                a += 1
+                a += t
                 #  6: dec c
-                c -= 1
+                c -= t
                 #  7: jnz c -2
                 if c == 0:
                     break
@@ -104,10 +105,12 @@ def part2(init_a=12):  # noqa: C901
         # 12: cpy c d
         d = c
         while True:
+            t = d
             # 13: dec d
-            d -= 1
+            d -= t
             # 14: inc c
-            c += 1
+            c += t
+
             # 15: jnz d -2
             if d == 0:
                 break
@@ -123,7 +126,7 @@ def part2(init_a=12):  # noqa: C901
         # 18: jnz 1 c
         if default[18]:
             assert c == -16
-            print("hop to 18 + %s =" % c, 18 + c)
+            # print("hop to 18 + %s =" % c, 18 + c)
         else:
             c = 1
             break
@@ -132,6 +135,7 @@ def part2(init_a=12):  # noqa: C901
     while True:
         # 20: jnz 95 d
         if default[20]:
+            assert False
             if d != 0:
                 print("Problem: weiter bei 20 + %s =" % d, 20 + d)
                 raise
@@ -142,6 +146,7 @@ def part2(init_a=12):  # noqa: C901
             a += 1
             # 22: inc d
             if default[22]:
+                assert False
                 d += 1
             else:
                 d -= 1
@@ -150,6 +155,7 @@ def part2(init_a=12):  # noqa: C901
                 break
         # 24: inc c
         if default[24]:
+            assert False
             c += 1
         else:
             c -= 1
@@ -162,7 +168,7 @@ def part2(init_a=12):  # noqa: C901
 
 if __name__ == "__main__":
     data = load_input(__file__, 2016, "23")
-    print(part1(data))
+    #    print(part1(data))
     assert part2(7) == 14160
     print("#")
     print(part2())
