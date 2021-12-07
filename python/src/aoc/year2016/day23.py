@@ -81,23 +81,23 @@ def part2(init_a=12):  # noqa: C901
         d = a
         #  3: cpy 0 a
         a = 0
-        while True:
-            #  4: cpy b c
-            c = b
-            # while True:
-            t = c
-            #  5: inc a
-            a += t
-            #  6: dec c
-            c -= t
-            #  7: jnz c -2
-            # if c == 0:
-            #    break
-            #  8: dec d
-            d -= 1
-            #  9: jnz d -5
-            if d == 0:
-                break
+        #        while True:
+        #  4: cpy b c
+        # c = b
+        # while True:
+        #  5: inc a
+        a += d * b
+        #  6: dec c
+        # c -= b
+        #  7: jnz c -2
+        # if c == 0:
+        #    break
+        #  8: dec d
+        d -= 1
+        #  9: jnz d -5
+        #           if d == 0:
+        #               break
+        d = 0
         # 10: dec b
         b -= 1
         # 11: cpy b c
