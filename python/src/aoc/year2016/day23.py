@@ -84,15 +84,15 @@ def part2(init_a=12):  # noqa: C901
         while True:
             #  4: cpy b c
             c = b
-            while True:
-                t = c
-                #  5: inc a
-                a += t
-                #  6: dec c
-                c -= t
-                #  7: jnz c -2
-                if c == 0:
-                    break
+            # while True:
+            t = c
+            #  5: inc a
+            a += t
+            #  6: dec c
+            c -= t
+            #  7: jnz c -2
+            # if c == 0:
+            #    break
             #  8: dec d
             d -= 1
             #  9: jnz d -5
@@ -104,16 +104,14 @@ def part2(init_a=12):  # noqa: C901
         c = b
         # 12: cpy c d
         d = c
-        while True:
-            t = d
-            # 13: dec d
-            d -= t
-            # 14: inc c
-            c += t
-
-            # 15: jnz d -2
-            if d == 0:
-                break
+        t = d
+        # 13: dec d
+        d -= t
+        # 14: inc c
+        c += t
+        # 15: jnz d -2
+        # if d == 0:
+        #    break
         # 16: tgl c
         tp = 16 + c
         if 0 <= tp <= 25:
