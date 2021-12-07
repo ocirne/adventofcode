@@ -65,9 +65,104 @@ def part1(lines, init_a=7):
                     else:
                         tins.cmd = "jnz"
         pp += 1
+    print(registers)
     return registers["a"]
+
+
+def part2(init_a=12):  # noqa: C901
+    default = {24: True, 22: True, 20: True, 18: True}
+    a = init_a
+    #  0: cpy a b
+    b = a
+    #  1: dec b
+    b -= 1
+    while True:
+        #  2: cpy a d
+        d = a
+        #  3: cpy 0 a
+        a = 0
+        while True:
+            #  4: cpy b c
+            c = b
+            while True:
+                #  5: inc a
+                a += 1
+                #  6: dec c
+                c -= 1
+                #  7: jnz c -2
+                if c == 0:
+                    break
+            #  8: dec d
+            d -= 1
+            #  9: jnz d -5
+            if d == 0:
+                break
+        # 10: dec b
+        b -= 1
+        # 11: cpy b c
+        c = b
+        # 12: cpy c d
+        d = c
+        while True:
+            # 13: dec d
+            d -= 1
+            # 14: inc c
+            c += 1
+            # 15: jnz d -2
+            if d == 0:
+                break
+        # 16: tgl c
+        tp = 16 + c
+        if 0 <= tp <= 25:
+            if tp in default:
+                default[tp] = not default[tp]
+            else:
+                raise Exception("unknown command %s to toggle" % tp)
+        # 17: cpy -16 c
+        c = -16
+        # 18: jnz 1 c
+        if default[18]:
+            assert c == -16
+            print("hop to 18 + %s =" % c, 18 + c)
+        else:
+            c = 1
+            break
+    # 19: cpy 96 c
+    c = 96
+    while True:
+        # 20: jnz 95 d
+        if default[20]:
+            if d != 0:
+                print("Problem: weiter bei 20 + %s =" % d, 20 + d)
+                raise
+        else:
+            d = 95
+        while True:
+            # 21: inc a
+            a += 1
+            # 22: inc d
+            if default[22]:
+                d += 1
+            else:
+                d -= 1
+            # 23: jnz d -2
+            if d == 0:
+                break
+        # 24: inc c
+        if default[24]:
+            c += 1
+        else:
+            c -= 1
+        # 25: jnz c -5
+        if c == 0:
+            break
+    print(a, b, c, d)
+    return a
 
 
 if __name__ == "__main__":
     data = load_input(__file__, 2016, "23")
     print(part1(data))
+    assert part2(7) == 14160
+    print("#")
+    print(part2())
