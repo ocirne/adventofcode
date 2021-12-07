@@ -65,7 +65,6 @@ def part1(lines, init_a=7):
                     else:
                         tins.cmd = "jnz"
         pp += 1
-    print(registers)
     return registers["a"]
 
 
@@ -144,13 +143,10 @@ def part2(init_a=12):
         # 25: jnz c -5
         if c == 0:
             break
-    print(a, b, c, d)
     return a
 
 
 if __name__ == "__main__":
     data = load_input(__file__, 2016, "23")
-    #    print(part1(data))
-    assert part2(7) == 14160
-    print("#")
+    print(part1(data))
     print(part2())
