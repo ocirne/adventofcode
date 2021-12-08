@@ -71,50 +71,32 @@ def part1(lines, init_a=7):
 def part2(init_a=12):
     default = {24: True, 22: True, 20: True, 18: True}
     a = init_a
-    #  0: cpy a b
     b = a
-    #  1: dec b
     b -= 1
     while True:
-        #  2: cpy a d
         d = a
-        #  3: cpy 0 a
         a = d * b
         d -= 1
-        # 10: dec b
         b -= 1
-        # 11: cpy b c
         c = b
-        # 12: cpy c d
         d = c
         t = d
-        # 13: dec d
         d -= t
-        # 14: inc c
         c += t
-        # 15: jnz d -2
-        # if d == 0:
-        #    break
-        # 16: tgl c
         tp = 16 + c
         if 0 <= tp <= 25:
             if tp in default:
                 default[tp] = not default[tp]
             else:
                 raise Exception("unknown command %s to toggle" % tp)
-        # 17: cpy -16 c
         c = -16
-        # 18: jnz 1 c
         if default[18]:
             assert c == -16
-            # print("hop to 18 + %s =" % c, 18 + c)
         else:
             c = 1
             break
-    # 19: cpy 96 c
     c = 96
     while True:
-        # 20: jnz 95 d
         if default[20]:
             assert False
             if d != 0:
@@ -123,24 +105,19 @@ def part2(init_a=12):
         else:
             d = 95
         while True:
-            # 21: inc a
             a += 1
-            # 22: inc d
             if default[22]:
                 assert False
                 d += 1
             else:
                 d -= 1
-            # 23: jnz d -2
             if d == 0:
                 break
-        # 24: inc c
         if default[24]:
             assert False
             c += 1
         else:
             c -= 1
-        # 25: jnz c -5
         if c == 0:
             break
     return a
