@@ -12,13 +12,16 @@ class Node:
         self.elevator = elevator
         self.items = items
         self.parent = parent
+        self.g = 0
+        self.h = 0
+        self.f = 0
 
     def elements_on_current_floor(self):
         return [item for item, floor in self.items.items() if floor == self.elevator]
 
     def is_valid_state(self):
         for (name, mc_type), mc_floor in self.items.items():
-            if mc_type == "g":
+            if mc_type != "m":
                 continue
             if self.items[name, "g"] == mc_floor:
                 continue
@@ -28,6 +31,12 @@ class Node:
 
     def is_end_state(self):
         return all(floor == 4 for floor in self.items.values())
+
+    def __eq__(self, other):
+        return self.items.values() == other.items.values()
+
+    def __hash__(self):
+        return hash(self.items.values())
 
 
 def valid_moves(node: Node):
@@ -56,7 +65,7 @@ def valid_moves(node: Node):
             c[i1] += 1
             c[i2] += 1
             moves.append(Node(node.elevator + 1, c, node))
-    return [move for move in moves if node.is_valid_state()]
+    return [move for move in moves if move.is_valid_state()]
 
 
 def read_initial_state(lines):
@@ -70,26 +79,42 @@ def read_initial_state(lines):
     return Node(1, items)
 
 
-def bfs(initial_node):
-    next_level = [initial_node]
-    depth = 0
-    while True:
-        depth += 1
-        current_level = next_level
-        print(depth, len(current_level))
-        next_level = []
-        for node in current_level:
-            next_level.extend(valid_moves(node))
-        for node in next_level:
-            #            print(node.items)
-            if node.is_end_state():
-                print("win", depth, node.items)
-                while node is not None:
-                    print(node.elevator, node.items)
-                    node = node.parent
-                return depth
-        if not next_level:
-            return
+def a_star(initial_node):
+    open_list = [initial_node]
+    closed_set = set()
+    while open_list:
+        print("open:", len(open_list), "closed:", len(closed_set))
+        current_node = open_list[0]
+        current_index = 0
+        for index, item in enumerate(open_list):
+            if item.f < current_node.f:
+                current_node = item
+                current_index = index
+
+        open_list.pop(current_index)
+        closed_set.add(current_node)
+
+        if current_node.is_end_state():
+            print("win condition:", current_node.items)
+            depth = -1
+            while current_node is not None:
+                print("path:", current_node.elevator, current_node.items)
+                current_node = current_node.parent
+                depth += 1
+            print("return", depth)
+            return depth
+        # expand node
+        for successor in valid_moves(current_node):
+            if successor in closed_set:
+                continue
+            successor.g = current_node.g + 1
+            successor.h = sum(4 - floor for floor in successor.items.values())
+            successor.f = successor.g + successor.h
+            if successor in open_list:
+                index = open_list.index(successor)
+                if successor.g > open_list[index].g:
+                    continue
+            open_list.insert(0, successor)
 
 
 def part1(lines):
@@ -97,7 +122,8 @@ def part1(lines):
     >>> part1(load_example(__file__, "11"))
     11
     """
-    return bfs(read_initial_state(lines))
+    initial_node = read_initial_state(lines)
+    return a_star(initial_node)
 
 
 def part2(lines):
@@ -112,5 +138,5 @@ if __name__ == "__main__":
     data = load_input(__file__, 2016, "11")
     assert part1(load_example(__file__, "11")) == 11
     print("--")
-    print(part1(data))
+#    print(part1(data))
 #    print(part2(data))
