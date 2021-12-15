@@ -48,7 +48,7 @@ def a_star(score, end_node):
             if neighbor in closed_set:
                 continue
             tentative_g = g[current_node] + score(*neighbor)
-            if neighbor in open_heap and tentative_g >= g[neighbor]:
+            if neighbor in closed_set and tentative_g >= g[neighbor]:
                 continue
             if tentative_g < g.get(neighbor, 0) or neighbor not in [i[1] for i in open_heap]:
                 parent[neighbor] = current_node
