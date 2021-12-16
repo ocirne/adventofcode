@@ -59,11 +59,11 @@ def valid_moves(parent: Node):
             c[i] -= 1
             moves.append(Node(parent.elevator - 1, c, parent))
         # two items
-        for i1, i2 in combinations(parent.elements_on_current_floor(), 2):
-            c = parent.items.copy()
-            c[i1] -= 1
-            c[i2] -= 1
-            moves.append(Node(parent.elevator - 1, c, parent))
+    #        for i1, i2 in combinations(parent.elements_on_current_floor(), 2):
+    #            c = parent.items.copy()
+    #            c[i1] -= 1
+    #            c[i2] -= 1
+    #            moves.append(Node(parent.elevator - 1, c, parent))
     if parent.elevator < 4:
         # one item
         for i in parent.elements_on_current_floor():
@@ -101,9 +101,10 @@ def a_star(initial_node):
         if current_node.is_end_state():
             print("win condition:", current_node.items)
             depth = -1
-            while current_node is not None:
-                print("path:", current_node.elevator, current_node.items)
-                current_node = current_node.parent
+            path_node = current_node
+            while path_node is not None:
+                print("path:", path_node.elevator, path_node.items)
+                path_node = path_node.parent
                 depth += 1
             print("return", depth)
             return depth
@@ -145,7 +146,5 @@ if __name__ == "__main__":
     data = load_input(__file__, 2016, "11")
     assert part1(load_example(__file__, "11")) == 11
     print("--")
-#    print(part1(data))
+    print(part1(data))
 #    print(part2(data))
-
-# falsch: 23
