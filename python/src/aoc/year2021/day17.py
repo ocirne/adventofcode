@@ -7,33 +7,21 @@ from aoc.util import load_input, load_example
 PATTERN = r"target area: x=(-?\d+)..(-?\d+), y=(-?\d+)..(-?\d+)"
 
 
-def simulate(vx, vy, x1, x2, y1, y2):
-    px, py = 0, 0
-    max_y = 0
-    while True:
-        px += vx
-        py += vy
-        max_y = max(max_y, py)
-        vx = max(vx - 1, 0)
-        vy -= 1
-        if x1 <= px <= x2 and y1 <= py <= y2:
-            return max_y
-        if x2 < px or py < y1:
-            return None
-        if vx == 0 and (px < x1 or x2 < px):
-            return None
-
-
-def count_in_target_area(x1, x2, y1, y2):
+def count_in_target_area(line):
+    x1, x2, y1, y2 = map(int, re.match(PATTERN, line).groups())
     target_y = defaultdict(set)
+    total_max_y = 0
     for start_vy in range(-1100, 1100):
         py = 0
+        max_y = 0
         vy = start_vy
         for step in count(start=1):
             py += vy
+            max_y = max(max_y, py)
             vy -= 1
             if y1 <= py <= y2:
                 target_y[step].add(start_vy)
+                total_max_y = max(total_max_y, max_y)
             if py < y1:
                 break
     max_steps = max(target_y.keys())
@@ -52,7 +40,7 @@ def count_in_target_area(x1, x2, y1, y2):
     all_combinations = []
     for step in range(max_steps + 1):
         all_combinations.extend(product(target_x[step], target_y[step]))
-    return len(set(all_combinations))
+    return total_max_y, len(set(all_combinations))
 
 
 def part1(lines):
@@ -60,15 +48,7 @@ def part1(lines):
     >>> part1(load_example(__file__, "17"))
     45
     """
-    x1, x2, y1, y2 = map(int, re.match(PATTERN, lines[0]).groups())
-    #    return two(x1, x2, y1, y2)
-    max_y = 0
-    for px in range(x2 + 1):
-        for py in range(1000):
-            y = simulate(px, py, x1, x2, y1, y2)
-            if y is not None:
-                max_y = max(max_y, y)
-    return max_y
+    return count_in_target_area(lines[0])[0]
 
 
 def part2(lines):
@@ -76,12 +56,10 @@ def part2(lines):
     >>> part2(load_example(__file__, "17"))
     112
     """
-    return count_in_target_area(*map(int, re.match(PATTERN, lines[0]).groups()))
+    return count_in_target_area(lines[0])[1]
 
 
 if __name__ == "__main__":
     data = load_input(__file__, 2021, "17")
-    #    assert part1(load_example(__file__, "17")) == 45
-    #    print(part1(data))
-    assert part2(load_example(__file__, "17")) == 112
+    print(part1(data))
     print(part2(data))
