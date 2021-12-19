@@ -18,28 +18,28 @@ class Pair:
         if depth >= 4:
             return True, True, self.left.value, self.right.value
 
-        replace, left_done, lefty, righty = self.left.explode(depth + 1)
+        left_done, replace, lefty, righty = self.left.explode(depth + 1)
         if left_done:
             if replace:
                 self.left = Number(0)
                 self.right.add_to_left(righty)
-                return False, True, lefty, None
+                return True, False, lefty, None
             if righty is not None:
                 self.right.add_to_left(righty)
-                return False, True, lefty, None
-            return False, True, lefty, righty
+                return True, False, lefty, None
+            return True, False, lefty, righty
 
-        replace, right_done, lefty, righty = self.right.explode(depth + 1)
+        right_done, replace, lefty, righty = self.right.explode(depth + 1)
         if right_done:
             if replace:
                 self.right = Number(0)
                 self.left.add_to_right(lefty)
-                return False, True, None, righty
+                return True, False, None, righty
             if lefty is not None:
 
                 self.left.add_to_right(lefty)
-                return False, True, None, righty
-            return False, True, lefty, righty
+                return True, False, None, righty
+            return True, False, lefty, righty
 
         return False, False, None, None
 
@@ -79,7 +79,7 @@ class Number:
     def __str__(self):
         return str(self.value)
 
-    def explode(self, depth=0):
+    def explode(self, unused):
         return False, False, None, None
 
     def add_to_left(self, value):
@@ -141,32 +141,28 @@ def parse(sn):
 
 def explode(sn):
     """
-    >>> str(explode('[[[[[9,8],1],2],3],4]'))
+    >>> str(explode(parse('[[[[[9,8],1],2],3],4]')))
     '[[[[0,9],2],3],4]'
-    >>> str(explode('[7,[6,[5,[4,[3,2]]]]]'))
+    >>> str(explode(parse('[7,[6,[5,[4,[3,2]]]]]')))
     '[7,[6,[5,[7,0]]]]'
-    >>> str(explode('[[6,[5,[4,[3,2]]]],1]'))
+    >>> str(explode(parse('[[6,[5,[4,[3,2]]]],1]')))
     '[[6,[5,[7,0]]],3]'
-    >>> str(explode('[[3,[2,[1,[7,3]]]],[6,[5,[4,[3,2]]]]]'))
+    >>> str(explode(parse('[[3,[2,[1,[7,3]]]],[6,[5,[4,[3,2]]]]]')))
     '[[3,[2,[8,0]]],[9,[5,[4,[3,2]]]]]'
-    >>> str(explode('[[3,[2,[8,0]]],[9,[5,[4,[3,2]]]]]'))
+    >>> str(explode(parse('[[3,[2,[8,0]]],[9,[5,[4,[3,2]]]]]')))
     '[[3,[2,[8,0]]],[9,[5,[7,0]]]]'
     """
-    if not isinstance(sn, Pair):
-        sn = parse(sn)
     sn.explode()
     return sn
 
 
 def split(sn):
     """
-    >>> str(split('[[[[0,7],4],[15,[0,13]]],[1,1]]'))
+    >>> str(split(parse('[[[[0,7],4],[15,[0,13]]],[1,1]]')))
     '[[[[0,7],4],[[7,8],[0,13]]],[1,1]]'
-    >>> str(split('[[[[0,7],4],[[7,8],[0,13]]],[1,1]]'))
+    >>> str(split(parse('[[[[0,7],4],[[7,8],[0,13]]],[1,1]]')))
     '[[[[0,7],4],[[7,8],[0,[6,7]]]],[1,1]]'
     """
-    if not isinstance(sn, Pair):
-        sn = parse(sn)
     sn.split()
     return sn
 
@@ -183,8 +179,8 @@ def add(a, b):
     x = a + b
     while True:
         while True:
-            _, did, _, _ = x.explode()
-            if not did:
+            done, _, _, _ = x.explode()
+            if not done:
                 break
         if not x.split():
             break
@@ -232,10 +228,7 @@ def magnitude(sn):
     >>> magnitude('[[[[6,6],[7,6]],[[7,7],[7,0]]],[[[7,7],[7,7]],[[7,8],[9,9]]]]')
     4140
     """
-    if isinstance(sn, Pair):
-        return sn.magnitude()
-    else:
-        return parse(sn).magnitude()
+    return parse(sn).magnitude()
 
 
 def part1(lines):
@@ -251,13 +244,7 @@ def part2(lines):
     >>> part2(load_example(__file__, "18b"))
     3993
     """
-    max_x = 0
-    for a in lines:
-        for b in lines:
-            x = add_list([a, b]).magnitude()
-            if max_x < x:
-                max_x = x
-    return max_x
+    return max(add(a, b).magnitude() for a in lines for b in lines)
 
 
 if __name__ == "__main__":
