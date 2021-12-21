@@ -65,8 +65,29 @@ def part1(lines, tx=31, ty=39):
     return a_star(start=(1, 1), target=(tx, ty), fav=fav)
 
 
+def flood(start, max_steps, fav):
+    open_heap = []
+    closed_set = set()
+    heappush(open_heap, (0, start))
+    g = defaultdict(lambda: 0)
+    while open_heap:
+        current_node = heappop(open_heap)[1]
+        closed_set.add(current_node)
+        for neighbor in valid_moves(*current_node, fav):
+            tentative_g = g[current_node] + 1
+            if tentative_g > max_steps:
+                continue
+            if neighbor in closed_set and tentative_g >= g[neighbor]:
+                continue
+            if tentative_g < g[neighbor] or neighbor not in [i[1] for i in open_heap]:
+                g[neighbor] = tentative_g
+                heappush(open_heap, (tentative_g, neighbor))
+    return len(closed_set)
+
+
 def part2(lines):
-    ...
+    fav = int(lines[0])
+    return flood(start=(1, 1), max_steps=50, fav=fav)
 
 
 if __name__ == "__main__":
