@@ -33,9 +33,9 @@ def checksum(a, verbose=False):
     return checksum("".join((CHECKSUM[a[i : i + 2]] for i in range(0, len(a), 2))), verbose)
 
 
-def complete_checksum(initial_state, disk_length=None, verbose=False):
+def complete_checksum(initial_state, disk_length, verbose=False):
     """
-    >>> part1(['10000'], disk_length=20, verbose=True)
+    >>> complete_checksum('10000', disk_length=20, verbose=True)
     10000
     10000011110
     10000011110010000111110
