@@ -73,13 +73,13 @@ def solve(fixed_cube, rotated_cubes):
     scanners = []
     while open_list:
         for known in known_cubes:
-            for rotations in open_list:
-                for r in rotations:
+            for rotated_cubes in open_list:
+                for r in rotated_cubes:
                     transformed_cube, scanner = find_overlap(known, r)
                     if transformed_cube is not None:
                         known_cubes.append(transformed_cube)
                         scanners.append(scanner)
-                        open_list.remove(rotations)
+                        open_list.remove(rotated_cubes)
     return set().union(*known_cubes), scanners
 
 
@@ -111,8 +111,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    assert part1(load_example(__file__, "19")) == 79
-    assert part2(load_example(__file__, "19")) == 3621
     data = load_input(__file__, 2021, "19")
-    #    print(part1(data))
+    print(part1(data))
     print(part2(data))
