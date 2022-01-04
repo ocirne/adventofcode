@@ -19,10 +19,14 @@ def part1(lines):
 
 
 def part2(lines):
+    """
+    >>> part1(['5'])
+    2
+    """
     ...
 
 
 if __name__ == "__main__":
     data = load_input(__file__, 2016, "19")
     print(part1(data))
-#    print(part2(data))
+    print(part2(data))
