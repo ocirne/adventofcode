@@ -1,4 +1,5 @@
 from aoc.util import load_input
+from sortedcontainers import SortedList
 
 
 def part1(lines):
@@ -20,10 +21,20 @@ def part1(lines):
 
 def part2(lines):
     """
-    >>> part1(['5'])
+    >>> part2(['5'])
     2
     """
-    ...
+    count_elves = int(lines[0])
+    elves = SortedList(range(count_elves))
+    current_index = 0
+    while len(elves) > 1:
+        opposite_index = (current_index + len(elves) // 2) % len(elves)
+        elves.pop(opposite_index)
+        if opposite_index > current_index:
+            current_index += 1
+        if current_index >= len(elves):
+            current_index = 0
+    return elves[0] + 1
 
 
 if __name__ == "__main__":
