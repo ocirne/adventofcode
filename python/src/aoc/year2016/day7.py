@@ -68,7 +68,15 @@ def count(lines, fun):
     return sum(fun(line.strip()) for line in lines)
 
 
+def part1(lines):
+    return count(lines, is_valid1)
+
+
+def part2(lines):
+    return count(lines, is_valid2)
+
+
 if __name__ == "__main__":
     data = load_input(__file__, 2016, "7")
-    print(count(data, is_valid1))
-    print(count(data, is_valid2))
+    print(part1(data))
+    print(part2(data))

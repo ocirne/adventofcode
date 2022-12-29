@@ -4,7 +4,7 @@ from aoc.util import load_input
 
 import sys
 
-sys.setrecursionlimit(1712)
+sys.setrecursionlimit(2_000)
 
 
 class Node:
