@@ -64,22 +64,31 @@ class Screen:
         self._handle_rotate_row(line)
         self._handle_rotate_column(line)
         if visual:
-            self.print()
+            print(self.printable())
 
-    def print(self):
-        for row in self.screen:
-            print("".join(row))
+    def printable(self):
+        return "\n".join("".join(row) for row in self.screen)
 
     def count(self):
         return sum(sum(pixel == ON for pixel in row) for row in self.screen)
 
 
+def run_screen(lines):
+    screen = Screen(50, 6)
+    for line in lines:
+        screen.cmd(line.strip(), visual=False)
+    return screen
+
+
+def part1(lines):
+    return run_screen(lines).count()
+
+
+def part2(lines):
+    return run_screen(lines).printable()
+
+
 if __name__ == "__main__":
     data = load_input(__file__, 2016, "8")
-    screen = Screen(50, 6)
-    for line in data:
-        screen.cmd(line.strip(), visual=False)
-    # part 1
-    print(screen.count())
-    # part 2
-    screen.print()
+    print(part1(data))
+    print(part2(data))
