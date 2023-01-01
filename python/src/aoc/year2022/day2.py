@@ -1,28 +1,70 @@
 from aoc.util import load_input, load_example
+from enum import Enum
 
-mapping = {
-    "A": "R",
-    "B": "P",
-    "C": "S",
-    "X": "R",
-    "Y": "P",
-    "Z": "S",
+
+class Shape(Enum):
+    ROCK = 1
+    PAPER = 2
+    SCISSOR = 3
+
+
+class Score(Enum):
+    WIN = 6
+    DRAW = 3
+    LOST = 0
+
+
+# opponent, me, score
+result = [
+    (Shape.ROCK, Shape.ROCK, Score.DRAW),
+    (Shape.ROCK, Shape.PAPER, Score.WIN),
+    (Shape.ROCK, Shape.SCISSOR, Score.LOST),
+    (Shape.PAPER, Shape.ROCK, Score.LOST),
+    (Shape.PAPER, Shape.PAPER, Score.DRAW),
+    (Shape.PAPER, Shape.SCISSOR, Score.WIN),
+    (Shape.SCISSOR, Shape.ROCK, Score.WIN),
+    (Shape.SCISSOR, Shape.PAPER, Score.LOST),
+    (Shape.SCISSOR, Shape.SCISSOR, Score.DRAW),
+]
+
+mappingOpponent = {
+    "A": Shape.ROCK,
+    "B": Shape.PAPER,
+    "C": Shape.SCISSOR,
 }
 
-# opponent, me -> result
-result = {
-    ("R", "R"): 3,
-    ("R", "P"): 6,
-    ("R", "S"): 0,
-    ("P", "R"): 0,
-    ("P", "P"): 3,
-    ("P", "S"): 6,
-    ("S", "R"): 6,
-    ("S", "P"): 0,
-    ("S", "S"): 3,
+mapping1 = {
+    "X": Shape.ROCK,
+    "Y": Shape.PAPER,
+    "Z": Shape.SCISSOR,
 }
 
-score_shape = {"R": 1, "P": 2, "S": 3}
+mapping2 = {
+    "X": Score.LOST,
+    "Y": Score.DRAW,
+    "Z": Score.WIN,
+}
+
+
+def scoring_part1(o, me):
+    m: Shape = mapping1[me]
+    s: Score = next(filter(lambda t: t[0] == o and t[1] == m, result))[2]
+    return m, s
+
+
+def scoring_part2(o, me):
+    s: Score = mapping2[me]
+    m: Shape = next(filter(lambda t: t[0] == o and t[2] == s, result))[1]
+    return m, s
+
+
+def score_lines(lines, fun):
+    for line in lines:
+        if not line:
+            continue
+        opponent, me = line.split()
+        m, r = fun(mappingOpponent[opponent], me)
+        yield m.value + r.value
 
 
 def part1(lines):
@@ -30,38 +72,7 @@ def part1(lines):
     >>> part1(load_example(__file__, "2"))
     15
     """
-    res = 0
-    for line in lines:
-        if not line:
-            continue
-        opponent, me = line.split()
-        o = mapping[opponent]
-        m = mapping[me]
-        r = result[(o, m)]
-        s = score_shape[m] + r
-        res += s
-    return res
-
-
-mapping2 = {
-    "X": 0,
-    "Y": 3,
-    "Z": 6,
-}
-
-
-# opponent, me -> result
-result2 = {
-    ("R", 3): "R",
-    ("R", 6): "P",
-    ("R", 0): "S",
-    ("P", 0): "R",
-    ("P", 3): "P",
-    ("P", 6): "S",
-    ("S", 6): "R",
-    ("S", 0): "P",
-    ("S", 3): "S",
-}
+    return sum(score_lines(lines, scoring_part1))
 
 
 def part2(lines):
@@ -69,17 +80,7 @@ def part2(lines):
     >>> part2(load_example(__file__, "2"))
     12
     """
-    res = 0
-    for line in lines:
-        if not line:
-            continue
-        opponent, me = line.split()
-        o = mapping[opponent]
-        m = mapping2[me]
-        r = result2[(o, m)]
-        s = score_shape[r] + m
-        res += s
-    return res
+    return sum(score_lines(lines, scoring_part2))
 
 
 if __name__ == "__main__":
