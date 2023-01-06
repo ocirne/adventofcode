@@ -8,34 +8,32 @@ class Node:
         self.children = []
         self.size = size
 
+    def calculate_sizes(self):
+        if not self.children:
+            return
+        for child in self.children:
+            child.calculate_sizes()
+        self.size = sum(child.size for child in self.children)
 
-def calc_sizes(node):
-    if not node.children:
-        return
-    for child in node.children:
-        calc_sizes(child)
-    node.size = sum(child.size for child in node.children)
-
-
-def collect_sizes(node):
-    if not node.children:
-        return []
-    sizes = [node.size]
-    for child in node.children:
-        for sub_size in collect_sizes(child):
-            sizes.append(sub_size)
-    return sizes
+    def collect_sizes(self):
+        if not self.children:
+            return []
+        sizes = [self.size]
+        for child in self.children:
+            for sub_size in child.collect_sizes():
+                sizes.append(sub_size)
+        return sizes
 
 
-def foo(lines):
-    root: Node
-    pwd: Node
+def create_tree(lines):
+    root = Node("/", None)
+    pwd = root
     for line in lines:
         if line.startswith("$ cd"):
             directory = line.strip().split()[2]
             if directory == "/":
-                root = Node(directory, None)
-                pwd = root
+                # ignored, using knowledge that only first line is "$ cd /"
+                ...
             elif directory == "..":
                 pwd = pwd.parent
             else:
@@ -50,8 +48,7 @@ def foo(lines):
         else:
             size, name = line.strip().split()
             pwd.children.append(Node(name, pwd, int(size)))
-
-    calc_sizes(root)
+    root.calculate_sizes()
     return root
 
 
@@ -60,8 +57,8 @@ def part1(lines):
     >>> part1(load_example(__file__, "7"))
     95437
     """
-    root = foo(lines)
-    return sum(size for size in collect_sizes(root) if size < 100_000)
+    root = create_tree(lines)
+    return sum(size for size in root.collect_sizes() if size < 100_000)
 
 
 def part2(lines):
@@ -69,8 +66,8 @@ def part2(lines):
     >>> part2(load_example(__file__, "7"))
     24933642
     """
-    root = foo(lines)
-    sizes = collect_sizes(root)
+    root = create_tree(lines)
+    sizes = root.collect_sizes()
     necessary = root.size - (70000000 - 30000000)
     return min(size for size in sizes if size >= necessary)
 
