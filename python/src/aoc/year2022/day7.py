@@ -27,15 +27,10 @@ def collect_sizes(node):
     return sizes
 
 
-def part1(lines):
-    """
-    >>> part1(load_example(__file__, "7"))
-    95437
-    """
+def foo(lines):
     root: Node
     pwd: Node
     for line in lines:
-        print(line)
         if line.startswith("$ cd"):
             directory = line.strip().split()[2]
             if directory == "/":
@@ -57,17 +52,30 @@ def part1(lines):
             pwd.children.append(Node(name, pwd, int(size)))
 
     calc_sizes(root)
+    return root
+
+
+def part1(lines):
+    """
+    >>> part1(load_example(__file__, "7"))
+    95437
+    """
+    root = foo(lines)
     return sum(size for size in collect_sizes(root) if size < 100_000)
 
 
 def part2(lines):
     """
     >>> part2(load_example(__file__, "7"))
-    .
+    24933642
     """
+    root = foo(lines)
+    sizes = collect_sizes(root)
+    necessary = root.size - (70000000 - 30000000)
+    return min(size for size in sizes if size >= necessary)
 
 
 if __name__ == "__main__":
     data = load_input(__file__, 2022, "7")
     print(part1(data))
-#    print(part2(data))
+    print(part2(data))
