@@ -1,19 +1,20 @@
 from aoc.util import load_input, load_example
 
 
-class Foo:
+class Program:
     def __init__(self, program):
         self.program = program
         self.cycle = 0
         self.x = 1
-        self.baz = []
+        self.signal_strength = []
         self.crt = [40 * ["."] for _ in range(6)]
+        self.run()
 
     def click(self):
         self.cycle += 1
         # part1
         if (self.cycle - 20) % 40 == 0:
-            self.baz.append(self.cycle * self.x)
+            self.signal_strength.append(self.cycle * self.x)
         # part2
         pos = self.cycle - 1
         if self.x - 1 <= pos % 40 <= self.x + 1:
@@ -31,9 +32,6 @@ class Foo:
             else:
                 raise
 
-    def bar(self):
-        return self.baz
-
     def print_crt(self):
         for line in self.crt:
             print("".join(line))
@@ -44,9 +42,8 @@ def part1(lines):
     >>> part1(load_example(__file__, "10"))
     13140
     """
-    foo = Foo(lines)
-    foo.run()
-    return sum(foo.bar())
+    program = Program(lines)
+    return sum(program.signal_strength)
 
 
 def part2(lines):
@@ -59,9 +56,8 @@ def part2(lines):
     ######......######......######......####
     #######.......#######.......#######.....
     """
-    foo = Foo(lines)
-    foo.run()
-    foo.print_crt()
+    program = Program(lines)
+    program.print_crt()
 
 
 if __name__ == "__main__":
