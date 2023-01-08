@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.4.31"
+    id("org.cyclonedx.bom") version "1.7.3"
 }
 
 repositories {
@@ -45,4 +46,14 @@ tasks {
     test {
         testLogging.showExceptions = true
     }
+}
+
+tasks.cyclonedxBom {
+    setIncludeConfigs(listOf("runtimeClasspath"))
+    setProjectType("application")
+    setSchemaVersion("1.4")
+    setDestination(project.file("build/reports"))
+    setOutputName("bom")
+    setOutputFormat("json")
+    setIncludeBomSerialNumber(false)
 }
