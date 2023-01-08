@@ -21,29 +21,37 @@ def foo(lookup, node):
             raise
 
 
+def read_ops(lines):
+    lookup = {}
+    for line in lines:
+        token = line.split()
+        key = token[0].strip(":")
+        if len(token) == 2:
+            lookup[key] = ("num", int(token[1]))
+        else:
+            lookup[key] = ("op", (token[1], token[2], token[3]))
+    return lookup
+
+
 def part1(lines):
     """
     >>> part1(load_example(__file__, "21"))
     152
     """
-    lookup = {}
-    for line in lines:
-        token = line.split()
-        key = token[0].strip(":")
-        print(token)
-        if len(token) == 2:
-            lookup[key] = ("num", int(token[1]))
-        else:
-            lookup[key] = ("op", (token[1], token[2], token[3]))
-    print(lookup)
+    lookup = read_ops(lines)
     return foo(lookup, "root")
 
 
 def part2(lines):
     """
     >>> part2(load_example(__file__, "21"))
-    .
+    301
     """
+    lookup = read_ops(lines)
+    old_root = lookup["root"][1]
+    lookup["root"] = ("op", (old_root[0], "=", old_root[2]))
+    del lookup["humn"]
+    print(lookup)
 
 
 if __name__ == "__main__":
