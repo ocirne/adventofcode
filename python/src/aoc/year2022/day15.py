@@ -11,17 +11,17 @@ def foo(lines, y):
         if m is None:
             continue
         sx, sy, bx, by = map(int, m.groups())
-        if sy == y:
-            print("sensor at %s, %s!" % (sx, sy))
-        if by == y:
-            print("beacon at %s, %s!" % (bx, by))
+        #        if sy == y:
+        #            print("sensor at %s, %s!" % (sx, sy))
+        #        if by == y:
+        #            print("beacon at %s, %s!" % (bx, by))
         md = abs(sx - bx) + abs(sy - by)
         t = md - abs(sy - y)
         if t < 0:
             continue
         a, b = sx - t, sx + t
 
-        print("s", sx, sy, "b", bx, by, "md", md, "x", a, b + 1)
+        #        print("s", sx, sy, "b", bx, by, "md", md, "x", a, b + 1)
         yield a, b + 1
 
 
@@ -43,24 +43,35 @@ def part1(lines, y=2_000_000):
     26
     """
     segments = sorted(foo(lines, y))
-    print(segments)
+    #    print(segments)
     segments = merge(merge(segments))
-    print("----")
-    print(segments)
+    #    print("----")
+    #    print(segments)
     total_length = sum(t - f for f, t in segments)
     # -1 for counting beacons by hand
     return total_length - 1
 
 
-def part2(lines):
+# definitiv segment tree in 2d
+def part2(lines, m=4_000_000):
     """
-    >>> part2(load_example(__file__, "15"))
-    .
+    >>> part2(load_example(__file__, "15"), m=20)
+    56000011
     """
-    ...
+    for y in range(m + 1):
+        print(y)
+        segments = sorted(foo(lines, y))
+        #        print(segments)
+        segments = merge(merge(merge(segments)))
+        #        print("----")
+        if len(segments) > 1:
+            total_length = sum(t - f for f, t in segments)
+            print("y", y, segments, total_length)
+            x = segments[0][1]
+            return x * 4000000 + y
 
 
 if __name__ == "__main__":
     data = load_input(__file__, 2022, "15")
     print(part1(data))
-#    print(part2(data))
+    print(part2(data))
