@@ -21,7 +21,6 @@ class HeightMap:
                     self.heightmap[position] = ord("z") - BASE
                 else:
                     self.heightmap[position] = ord(mark) - BASE
-        print("w", self.width, "h", self.height)
 
     def print(self):
         for y in range(self.height):
@@ -40,53 +39,10 @@ class HeightMap:
             neighbors.append((cx, cy - 1))
         if cy + 1 < self.height:
             neighbors.append((cx, cy + 1))
-        return (n for n in neighbors if self.heightmap[n] - self.heightmap[current_node] <= 1)
-
-    def find_path(self):
-        """A*"""
-        start_node = self.start
-        open_heap = []
-        closed_set = set()
-        parent = {}
-        g = {start_node: 0}
-        heappush(open_heap, (0, self.start))
-        while open_heap:
-            current_node = heappop(open_heap)[1]
-            if current_node == self.target:
-                length = 0
-                while current_node in parent:
-                    print(current_node, self.heightmap[current_node])
-                    length += 1
-                    current_node = parent[current_node]
-                return length
-            closed_set.add(current_node)
-            # expand node
-            for neighbor in self.find_neighbors(current_node):
-                if neighbor in closed_set:
-                    continue
-                tentative_g = g[current_node] + 1
-                if neighbor in closed_set and tentative_g >= g[neighbor]:
-                    continue
-                if tentative_g < g.get(neighbor, 0) or neighbor not in [i[1] for i in open_heap]:
-                    parent[neighbor] = current_node
-                    g[neighbor] = tentative_g
-                    heappush(open_heap, (tentative_g, neighbor))
-
-    def find_neighbors2(self, current_node):
-        cx, cy = current_node
-        neighbors = []
-        if cx > 0:
-            neighbors.append((cx - 1, cy))
-        if cx + 1 < self.width:
-            neighbors.append((cx + 1, cy))
-        if cy > 0:
-            neighbors.append((cx, cy - 1))
-        if cy + 1 < self.height:
-            neighbors.append((cx, cy + 1))
         return (n for n in neighbors if self.heightmap[current_node] - self.heightmap[n] <= 1)
 
-    def find_path2(self):
-        """A*"""
+    def find_path(self, is_target):
+        """A* from endpoint E to start (part1) or any elevation a (part2)"""
         start_node = self.target
         open_heap = []
         closed_set = set()
@@ -95,16 +51,15 @@ class HeightMap:
         heappush(open_heap, (0, self.target))
         while open_heap:
             current_node = heappop(open_heap)[1]
-            if self.heightmap[current_node] == 0:
+            if is_target(current_node):
                 length = 0
                 while current_node in parent:
-                    print(current_node, self.heightmap[current_node])
                     length += 1
                     current_node = parent[current_node]
                 return length
             closed_set.add(current_node)
             # expand node
-            for neighbor in self.find_neighbors2(current_node):
+            for neighbor in self.find_neighbors(current_node):
                 if neighbor in closed_set:
                     continue
                 tentative_g = g[current_node] + 1
@@ -122,8 +77,7 @@ def part1(lines):
     31
     """
     heightmap = HeightMap(lines)
-    heightmap.print()
-    return heightmap.find_path()
+    return heightmap.find_path(lambda target: target == heightmap.start)
 
 
 def part2(lines):
@@ -132,8 +86,7 @@ def part2(lines):
     29
     """
     heightmap = HeightMap(lines)
-    heightmap.print()
-    return heightmap.find_path2()
+    return heightmap.find_path(lambda target: heightmap.heightmap[target] == 0)
 
 
 if __name__ == "__main__":
