@@ -117,7 +117,7 @@ class Cave:
 
     def search4(
         self,
-        turn="me",  # ??
+        turn="me",
         me="AA",
         me_wait=0,
         elephant="AA",
