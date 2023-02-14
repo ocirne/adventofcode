@@ -106,6 +106,7 @@ class Cave:
             return result
         return max(action() for action in self.actions1(current, opened, duration, limit, flow_rate, flow))
 
+    # TODO refactor
     def search_part2(
         self,
         turn="me",
@@ -258,7 +259,6 @@ def part2(lines):
 
 
 if __name__ == "__main__":
-    #    data = load_input(__file__, 2022, "16")
-    data = load_example(__file__, "16")
+    data = load_input(__file__, 2022, "16")
     print(part1(data))
     print(part2(data))
