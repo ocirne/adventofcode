@@ -62,27 +62,17 @@ class Cave:
     def are_all_open(self, opened):
         return self.non_empty_valves == set(opened)
 
-    def search_part1(self):
+    def search(self, f):
         result = 0
         for limit in range(self.minutes):
-            best_flow = self.search(limit=limit)
+            best_flow = f(self, limit)
             if self.are_all_open(best_flow.opened):
                 return best_flow.expected_flow
             self.expect[limit] = best_flow.current_flow
             result = max(result, best_flow.expected_flow)
         return result
 
-    def search_part2(self):
-        result = 0
-        for limit in range(self.minutes):
-            best_flow = self.search4(limit=limit)
-            if self.are_all_open(best_flow.opened):
-                return best_flow.expected_flow
-            self.expect[limit] = best_flow.current_flow
-            result = max(result, best_flow.expected_flow)
-        return result
-
-    def search(self, current="AA", opened=[], duration=0, limit=30, flow_rate=0, flow=0) -> Result:
+    def search_part1(self, current="AA", opened=[], duration=0, limit=30, flow_rate=0, flow=0) -> Result:
         if duration > limit:
             return Result(0, [], 0)
         result = Result(flow, opened, flow + (self.minutes - duration - 1) * flow_rate)
@@ -95,7 +85,7 @@ class Cave:
             new_flow_rate = flow_rate + self.valves[current].flow_rate
             result = max(
                 result,
-                self.search(
+                self.search_part1(
                     current,
                     opened + [current],
                     duration + 1,
@@ -108,7 +98,7 @@ class Cave:
         for n in self.valves[current].neighbors:
             result = max(
                 result,
-                self.search(
+                self.search_part1(
                     n,
                     opened,
                     duration + self.valves[current].neighbors[n],
@@ -119,7 +109,7 @@ class Cave:
             )
         return result
 
-    def search4(
+    def search_part2(
         self,
         turn="me",
         me="AA",
@@ -135,7 +125,7 @@ class Cave:
         result = Result(flow, opened, flow + (self.minutes - duration - 1) * flow_rate)
         if turn == "me":
             if me_wait > 0:
-                return self.search4(
+                return self.search_part2(
                     turn="elephant",
                     me=me,
                     me_wait=me_wait - 1,
@@ -152,7 +142,7 @@ class Cave:
                 new_flow_rate = flow_rate + self.valves[me].flow_rate
                 result = max(
                     result,
-                    self.search4(
+                    self.search_part2(
                         turn="elephant",
                         me=me,
                         me_wait=0,
@@ -169,7 +159,7 @@ class Cave:
             for n_me in self.valves[me].neighbors:
                 result = max(
                     result,
-                    self.search4(
+                    self.search_part2(
                         turn="elephant",
                         me=n_me,
                         me_wait=self.valves[me].neighbors[n_me] - 1,
@@ -185,7 +175,7 @@ class Cave:
             return result
         elif turn == "elephant":
             if elephant_wait > 0:
-                return self.search4(
+                return self.search_part2(
                     turn="wrap",
                     me=me,
                     me_wait=me_wait,
@@ -202,7 +192,7 @@ class Cave:
                 new_flow_rate = flow_rate + self.valves[elephant].flow_rate
                 result = max(
                     result,
-                    self.search4(
+                    self.search_part2(
                         turn="wrap",
                         me=me,
                         me_wait=me_wait,
@@ -219,7 +209,7 @@ class Cave:
             for n_elephant in self.valves[elephant].neighbors:
                 result = max(
                     result,
-                    self.search4(
+                    self.search_part2(
                         turn="wrap",
                         me=me,
                         me_wait=me_wait,
@@ -240,7 +230,7 @@ class Cave:
                 return result
             if duration in self.expect and flow + 50 < self.expect[duration]:
                 return result
-            return self.search4(
+            return self.search_part2(
                 turn="me",
                 me=me,
                 me_wait=me_wait,
@@ -259,7 +249,7 @@ def part1(lines):
     >>> part1(load_example(__file__, "16"))
     1651
     """
-    return Cave(lines, 30).search_part1()
+    return Cave(lines, 30).search(lambda cave, limit: cave.search_part1(limit=limit))
 
 
 def part2(lines):
@@ -267,7 +257,7 @@ def part2(lines):
     >>> part2(load_example(__file__, "16"))
     1707
     """
-    return Cave(lines, 26).search_part2()
+    return Cave(lines, 26).search(lambda cave, limit: cave.search_part2(limit=limit))
 
 
 if __name__ == "__main__":
