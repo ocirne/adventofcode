@@ -63,6 +63,7 @@ class Cave:
         return self.non_empty_valves == set(opened)
 
     def search(self, f):
+        """iterative dfs"""
         result = 0
         for limit in range(self.minutes):
             best_flow = f(self, limit)
@@ -72,6 +73,29 @@ class Cave:
             result = max(result, best_flow.expected_flow)
         return result
 
+    def actions1(self, current="AA", opened=[], duration=0, limit=30, flow_rate=0, flow=0):
+        # open valve
+        if current not in opened and self.valves[current].flow_rate > 0:
+            new_flow_rate = flow_rate + self.valves[current].flow_rate
+            yield lambda: self.search_part1(
+                current,
+                opened + [current],
+                duration + 1,
+                limit,
+                new_flow_rate,
+                flow + new_flow_rate,
+            )
+        # visit neighbors
+        for n in self.valves[current].neighbors:
+            yield lambda: self.search_part1(
+                n,
+                opened,
+                duration + self.valves[current].neighbors[n],
+                limit,
+                flow_rate,
+                flow + flow_rate * self.valves[current].neighbors[n],
+            )
+
     def search_part1(self, current="AA", opened=[], duration=0, limit=30, flow_rate=0, flow=0) -> Result:
         if duration > limit:
             return Result(0, [], 0)
@@ -80,34 +104,7 @@ class Cave:
             return result
         if duration in self.expect and flow + 100 < self.expect[duration]:
             return result
-        # open valve
-        if current not in opened and self.valves[current].flow_rate > 0:
-            new_flow_rate = flow_rate + self.valves[current].flow_rate
-            result = max(
-                result,
-                self.search_part1(
-                    current,
-                    opened + [current],
-                    duration + 1,
-                    limit,
-                    new_flow_rate,
-                    flow + new_flow_rate,
-                ),
-            )
-        # visit neighbors
-        for n in self.valves[current].neighbors:
-            result = max(
-                result,
-                self.search_part1(
-                    n,
-                    opened,
-                    duration + self.valves[current].neighbors[n],
-                    limit,
-                    flow_rate,
-                    flow + flow_rate * self.valves[current].neighbors[n],
-                ),
-            )
-        return result
+        return max(action() for action in self.actions1(current, opened, duration, limit, flow_rate, flow))
 
     def search_part2(
         self,
