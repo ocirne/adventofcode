@@ -1,4 +1,5 @@
 import re
+from collections import namedtuple
 
 from aoc.util import load_input, load_example
 
@@ -39,6 +40,9 @@ def simplify(valves: dict):
         del valves[middle]
 
 
+Result = namedtuple("Result", "current_flow opened expected_flow")
+
+
 class Cave:
     def __init__(self, lines, minutes):
         self.valves = self.initialize_valves(lines)
@@ -55,37 +59,37 @@ class Cave:
             valves[name] = Valve(name, int(flow_rate), {n: 1 for n in neighbors.split(", ")})
         return simplify(valves)
 
-    def all_are_open(self, opened):
+    def are_all_open(self, opened):
         return self.non_empty_valves == set(opened)
 
     def search_part1(self):
         result = 0
         for limit in range(self.minutes):
             best_flow = self.search(limit=limit)
-            if self.all_are_open(best_flow[1]):
-                return best_flow[2]
-            self.expect[limit] = best_flow[0]
-            result = max(result, best_flow[2])
+            if self.are_all_open(best_flow.opened):
+                return best_flow.expected_flow
+            self.expect[limit] = best_flow.current_flow
+            result = max(result, best_flow.expected_flow)
         return result
 
     def search_part2(self):
         result = 0
         for limit in range(self.minutes):
             best_flow = self.search4(limit=limit)
-            if self.all_are_open(best_flow[1]):
-                return best_flow[2]
-            self.expect[limit] = best_flow[0]
-            result = max(result, best_flow[2])
+            if self.are_all_open(best_flow.opened):
+                return best_flow.expected_flow
+            self.expect[limit] = best_flow.current_flow
+            result = max(result, best_flow.expected_flow)
         return result
 
-    def search(self, current="AA", opened=[], duration=0, limit=30, flow_rate=0, flow=0):
+    def search(self, current="AA", opened=[], duration=0, limit=30, flow_rate=0, flow=0) -> Result:
         if duration > limit:
-            return 0, [], 0
-        if duration == limit or self.all_are_open(opened):
-            return flow, opened, flow + (self.minutes - duration - 1) * flow_rate
+            return Result(0, [], 0)
+        result = Result(flow, opened, flow + (self.minutes - duration - 1) * flow_rate)
+        if duration == limit or self.are_all_open(opened):
+            return result
         if duration in self.expect and flow + 100 < self.expect[duration]:
-            return flow, opened, flow + (self.minutes - duration - 1) * flow_rate
-        result = flow, opened, flow + (self.minutes - duration - 1) * flow_rate
+            return result
         # open valve
         if current not in opened and self.valves[current].flow_rate > 0:
             new_flow_rate = flow_rate + self.valves[current].flow_rate
@@ -127,8 +131,8 @@ class Cave:
         limit=30,
         flow_rate=0,
         flow=0,
-    ):
-        result = flow, opened, flow + (self.minutes - duration - 1) * flow_rate
+    ) -> Result:
+        result = Result(flow, opened, flow + (self.minutes - duration - 1) * flow_rate)
         if turn == "me":
             if me_wait > 0:
                 return self.search4(
@@ -231,8 +235,8 @@ class Cave:
             return result
         else:
             if duration > limit:
-                return 0, [], 0
-            if duration == limit or self.all_are_open(opened):
+                return Result(0, [], 0)
+            if duration == limit or self.are_all_open(opened):
                 return result
             if duration in self.expect and flow + 50 < self.expect[duration]:
                 return result
