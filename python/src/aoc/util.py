@@ -1,14 +1,22 @@
 import csv
 from pathlib import Path
-from typing import List
+from typing import List, AnyStr
 
 
-def load_example(file_ref: str, day: str) -> List[str]:
-    return open(Path(file_ref).parent / ("examples/%s.txt" % day)).readlines()
+def load_example(file_ref: str, day: str, strip: bool = False) -> List[AnyStr]:
+    lines = open(Path(file_ref).parent / ("examples/%s.txt" % day)).readlines()
+    if strip:
+        return [line.strip() for line in lines]
+    else:
+        return lines
 
 
-def load_input(file_ref: str, year: int, day: str) -> List[str]:
-    return open(Path(file_ref).parent / ("../../../tests/resources/%s/%s/input" % (year, day))).readlines()
+def load_input(file_ref: str, year: int, day: str, strip: bool = False) -> List[AnyStr]:
+    lines = open(Path(file_ref).parent / ("../../../tests/resources/%s/%s/input" % (year, day))).readlines()
+    if strip:
+        return [line.strip() for line in lines]
+    else:
+        return lines
 
 
 class AocTestUtil:
