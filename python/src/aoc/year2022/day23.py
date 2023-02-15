@@ -34,12 +34,12 @@ def propose_move(elves: set, position: tuple, round: int):
 
 
 def propose_moves(elves: set, round: int):
-    print("elves", elves)
+    #    print("elves", elves)
     proposals = {}
     for position in elves:
         target = propose_move(elves, position, round)
         proposals[position] = target
-    print(proposals)
+    #    print(proposals)
     return proposals
 
 
@@ -97,13 +97,27 @@ def part1(lines):
 def part2(lines):
     """
     >>> part2(load_example(__file__, "23"))
-    .
+    20
     """
-    ...
+    elves = set()
+    for y, line in enumerate(lines):
+        for x, c in enumerate(line.strip()):
+            if c == "#":
+                elves.add((x, y))
+    round = 0
+    while True:
+        proposals = propose_moves(elves, round)
+        moved_elves = [(f, t) for f, t in proposals.items() if f != t]
+        #   print('##', round, moved_elves, len(moved_elves))
+        round += 1
+        if not moved_elves:
+            return round
+        elves = move(proposals)
+        print("##", round, len(moved_elves), len(elves))
 
 
 if __name__ == "__main__":
-    # data = load_input(__file__, 2022, "23")
-    data = load_example(__file__, "23")
+    data = load_input(__file__, 2022, "23")
+    # data = load_example(__file__, "23")
     # print(part1(data))
     print(part2(data))
