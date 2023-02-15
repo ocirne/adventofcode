@@ -4,10 +4,10 @@ from aoc.util import load_input, load_example
 
 
 def read_data(lines):
-    template = lines[0].strip()
+    template = lines[0]
     rules = {}
     for line in lines[2:]:
-        pair, _, result = line.strip().split()
+        pair, _, result = line.split()
         rules[pair] = result
     return template, rules
 

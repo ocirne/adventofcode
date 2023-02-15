@@ -47,7 +47,7 @@ def move(proposals: dict):
 
 
 def move_elves(lines, is_part1):
-    elves = set((x, y) for y, line in enumerate(lines) for x, c in enumerate(line.strip()) if c == "#")
+    elves = set((x, y) for y, line in enumerate(lines) for x, c in enumerate(line) if c == "#")
     r = 0
     while True:
         proposals = propose_moves(elves, r)

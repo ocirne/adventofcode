@@ -30,7 +30,7 @@ def create_tree(lines):
     pwd = root
     for line in lines:
         if line.startswith("$ cd"):
-            directory = line.strip().split()[2]
+            directory = line.split()[2]
             if directory == "/":
                 # ignored, using knowledge that only first line is "$ cd /"
                 ...
@@ -43,10 +43,10 @@ def create_tree(lines):
             # can be ignored
             ...
         elif line.startswith("dir"):
-            directory = line.strip().split()[1]
+            directory = line.split()[1]
             pwd.children.append(Node(directory, pwd))
         else:
-            size, name = line.strip().split()
+            size, name = line.split()
             pwd.children.append(Node(name, pwd, int(size)))
     root.calculate_sizes()
     return root

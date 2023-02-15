@@ -28,10 +28,10 @@ def step(c0, width, height):
 
 def read_cucumbers(lines):
     cucumbers = defaultdict(lambda: ".")
-    width = len(lines[0].strip())
+    width = len(lines[0])
     height = len(lines)
     for y, line in enumerate(lines):
-        for x, value in enumerate(line.strip()):
+        for x, value in enumerate(line):
             cucumbers[x, y] = value
     return cucumbers, width, height
 

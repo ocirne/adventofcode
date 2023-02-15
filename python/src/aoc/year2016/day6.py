@@ -5,7 +5,7 @@ from aoc.util import load_input, load_example
 
 def column_counts(lines, pos):
     result = ""
-    for i in range(len(lines[0].strip())):
+    for i in range(len(lines[0])):
         result += Counter(line[i] for line in lines).most_common()[pos][0]
     return result
 

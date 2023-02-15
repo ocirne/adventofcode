@@ -10,7 +10,7 @@ def prepare_part1(data):
 
 
 def prepare_part2(data):
-    m = 10 ** 6
+    m = 10**6
     values = list(map(int, data))
     result = list(range(m + 1))
     for i in range(1, len(values)):
@@ -70,13 +70,11 @@ def run(data, rounds, m, prepare_data, collect_answer):
 
 
 def part1(lines):
-    line = lines[0].strip()
-    return run(line, 100, 9, prepare_part1, answer_part1)
+    return run(lines[0], 100, 9, prepare_part1, answer_part1)
 
 
 def part2(lines):
-    line = lines[0].strip()
-    return run(line, 10 ** 7, 10 ** 6, prepare_part2, answer_part2)
+    return run(lines[0], 10**7, 10**6, prepare_part2, answer_part2)
 
 
 if __name__ == "__main__":

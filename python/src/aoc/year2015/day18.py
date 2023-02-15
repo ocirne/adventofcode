@@ -12,7 +12,7 @@ def corners_on(stay_on, grid, size):
 def prepare_data(lines):
     grid = {}
     for y, line in enumerate(lines):
-        for x, light in enumerate(line.strip()):
+        for x, light in enumerate(line):
             if light == "#":
                 grid[(x, y)] = True
     return grid

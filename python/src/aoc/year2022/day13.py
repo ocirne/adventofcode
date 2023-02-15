@@ -26,7 +26,7 @@ def compare(left, right):
 
 
 def packets_in_pairs(lines):
-    it = iter(map(lambda s: s.strip(), lines))
+    it = iter(lines)
     while True:
         left = next(it)
         right = next(it)
@@ -44,7 +44,7 @@ def part1(lines):
 
 
 def packets(lines):
-    it = iter(map(lambda s: s.strip(), lines))
+    it = iter(lines)
     while True:
         left = next(it)
         right = next(it)

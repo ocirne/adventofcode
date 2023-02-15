@@ -26,7 +26,7 @@ class Board:
 
 
 def read_data(lines):
-    numbers = [int(n) for n in lines[0].strip().split(",")]
+    numbers = [int(n) for n in lines[0].split(",")]
     boards = [Board(lines[ln : ln + 5]) for ln in range(2, len(lines), 6)]
     return numbers, boards
 

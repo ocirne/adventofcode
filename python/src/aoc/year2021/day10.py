@@ -51,7 +51,7 @@ def match_brackets(expression):
 
 def handle_lines(lines):
     for line in lines:
-        yield match_brackets(line.strip())
+        yield match_brackets(line)
 
 
 def part1(lines):

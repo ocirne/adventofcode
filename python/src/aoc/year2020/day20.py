@@ -24,13 +24,13 @@ def prepare_tiles(lines):
     tiles = {}
     current_number = None
     for line in lines:
-        if line.isspace():
+        if not line:
             continue
         elif line.startswith("Tile"):
             current_number = line.split(" ")[1].split(":")[0]
             tiles[current_number] = []
         else:
-            tiles[current_number].append(line.strip())
+            tiles[current_number].append(line)
     return tiles
 
 
@@ -58,7 +58,7 @@ def part1(lines):
 
 
 def part2(lines):
-    """ TODO """
+    """TODO"""
     pass
 
 

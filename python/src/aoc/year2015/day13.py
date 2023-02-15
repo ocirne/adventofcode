@@ -7,7 +7,7 @@ def prepare_data(lines, with_me):
     guests = {}
     happiness = defaultdict(lambda: 0)
     for line in lines:
-        token = line.strip().strip(".").split()
+        token = line.strip(".").split()
         guest, direction, value, neighbor = [token[i] for i in [0, 2, 3, 10]]
         guests[guest] = True
         if direction == "gain":

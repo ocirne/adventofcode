@@ -31,7 +31,7 @@ def simulate_step(area):
 def simulate(lines, steps):
     area = {}
     for y, line in enumerate(lines):
-        for x, octopus in enumerate(line.strip()):
+        for x, octopus in enumerate(line):
             area[x, y] = int(octopus)
     total_flashes = 0
     for i in range(steps):

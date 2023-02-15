@@ -56,7 +56,7 @@ def part1(lines):
     >>> part1(['ulqzkmiv'])
     'DRURDRUDDLLDLUURRDULRLDUUDDDRR'
     """
-    passcode = lines[0].strip()
+    passcode = lines[0]
     return bfs(passcode)
 
 
@@ -78,7 +78,7 @@ def part2(lines):
     >>> part2(['ulqzkmiv'])
     830
     """
-    passcode = lines[0].strip()
+    passcode = lines[0]
     return dfs(passcode, Node(0, 0, ""))
 
 

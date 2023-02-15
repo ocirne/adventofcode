@@ -63,7 +63,7 @@ def part2(lines):
     d = {}
     for line in lines:
         if line.startswith("mask"):
-            mask = line.split(" ")[2].strip()
+            mask = line.split(" ")[2]
         else:
             _, address, _, _, str_value = re.split(r"[\[\] ]", line)
             value = int(str_value)

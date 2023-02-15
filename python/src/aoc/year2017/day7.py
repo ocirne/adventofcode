@@ -20,7 +20,7 @@ def prepare_tree(lines):
         name, weight = name_weight.split(" (")
         node = Node(name, int(weight))
         if "->" in line:
-            children = line.strip().split(") -> ")[1].split(", ")
+            children = line.split(") -> ")[1].split(", ")
             node.children = children
             for child in children:
                 parents[child] = name

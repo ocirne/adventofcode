@@ -45,7 +45,7 @@ def gen_rotate_flip(in_pat):
 def prepare_rules(lines):
     rules = {}
     for line in lines:
-        in_pat, out_pat = line.strip().split(" => ")
+        in_pat, out_pat = line.split(" => ")
         for in_pat_rf in gen_rotate_flip(in_pat):
             if in_pat_rf in rules:
                 if out_pat != rules[in_pat_rf]:

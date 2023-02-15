@@ -22,13 +22,13 @@ def step(old_lights, img_enh_algo, min_x, min_y, max_x, max_y):
 
 
 def enhance_image(lines, steps):
-    img_enh_algo = lines[0].strip()
+    img_enh_algo = lines[0]
     lights = defaultdict(lambda: ".")
-    max_x = len(lines[2])
+    max_x = len(lines[2]) + 1
     max_y = len(lines)
     min_x = -1
     min_y = -1
-    lights.update({(x, y): light for y, line in enumerate(lines[2:]) for x, light in enumerate(line.strip())})
+    lights.update({(x, y): light for y, line in enumerate(lines[2:]) for x, light in enumerate(line)})
     for i in range(steps):
         lights = step(lights, img_enh_algo, min_x - i, min_y - i, max_x + i, max_y + i)
     return Counter(lights.values())["#"]

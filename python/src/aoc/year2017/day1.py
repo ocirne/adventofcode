@@ -16,7 +16,7 @@ def solve_captcha(line):
 
 
 def part1(lines):
-    return solve_captcha(lines[0].strip())
+    return solve_captcha(lines[0])
 
 
 def solve_new_captcha(line):
@@ -36,7 +36,7 @@ def solve_new_captcha(line):
 
 
 def part2(lines):
-    return solve_new_captcha(lines[0].strip())
+    return solve_new_captcha(lines[0])
 
 
 if __name__ == "__main__":

@@ -54,12 +54,12 @@ def complete_checksum(initial_state, disk_length, verbose=False):
 
 
 def part1(lines):
-    initial_state = lines[0].strip()
+    initial_state = lines[0]
     return complete_checksum(initial_state, disk_length=272)
 
 
 def part2(lines):
-    initial_state = lines[0].strip()
+    initial_state = lines[0]
     return complete_checksum(initial_state, disk_length=35651584)
 
 

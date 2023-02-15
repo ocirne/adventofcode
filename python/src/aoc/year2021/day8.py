@@ -10,7 +10,7 @@ def part1(lines):
     """
     result = 0
     for line in lines:
-        signal_pattern, output_values = line.strip().split("|")
+        signal_pattern, output_values = line.split("|")
         result += sum(1 for output_value in output_values.split() if len(output_value) in [2, 3, 4, 7])
     return result
 
@@ -65,7 +65,7 @@ def decode_output_values(mapping, output_values):
 
 
 def find_valid_mapping(all_mappings, line):
-    signal_pattern, output_values = line.strip().split("|")
+    signal_pattern, output_values = line.split("|")
     normalized_signal_pattern = [normalize_pattern(p) for p in signal_pattern.split()]
     normalized_output_values = [normalize_pattern(p) for p in output_values.split()]
     all_patterns = normalized_signal_pattern + normalized_output_values

@@ -6,7 +6,7 @@ from aoc.util import load_input, load_example
 def load_cave(lines):
     cave = {}
     for y, line in enumerate(lines):
-        for x, risk_level in enumerate(map(int, line.strip())):
+        for x, risk_level in enumerate(map(int, line)):
             cave[x, y] = risk_level
     return cave
 

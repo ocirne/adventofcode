@@ -4,7 +4,7 @@ from aoc.util import load_example
 def prepare_data(lines):
     it = iter(lines)
     n = int(next(it))
-    ids = [int(x) for x in filter(lambda x: x != "x", next(it).strip().split(","))]
+    ids = [int(x) for x in filter(lambda x: x != "x", next(it).split(","))]
     return n, ids
 
 

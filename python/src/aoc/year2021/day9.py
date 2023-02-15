@@ -15,7 +15,7 @@ def part1(lines):
     height = len(lines)
     width = len(lines[0])
     for y, line in enumerate(lines):
-        for x, c in enumerate(line.strip()):
+        for x, c in enumerate(line):
             area[x, y] = int(c)
     result = 0
     for x in range(width):
@@ -39,7 +39,7 @@ def part2(lines):
     height = len(lines)
     width = len(lines[0])
     for y, line in enumerate(lines):
-        for x, c in enumerate(line.strip()):
+        for x, c in enumerate(line):
             if c == "9":
                 continue
             area[x, y] = (x, y)

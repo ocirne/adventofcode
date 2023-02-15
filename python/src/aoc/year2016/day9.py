@@ -36,7 +36,7 @@ def part1(lines):
     >>> part1(['X(8x2)(3x3)ABCY'])
     18
     """
-    return decompress(lines[0].strip())
+    return decompress(lines[0])
 
 
 def part2(lines):
@@ -50,7 +50,7 @@ def part2(lines):
     >>> part2(['(25x3)(3x3)ABC(2x3)XY(5x2)PQRSTX(18x9)(3x2)TWO(5x7)SEVEN'])
     445
     """
-    return decompress(lines[0].strip(), recursive=True)
+    return decompress(lines[0], recursive=True)
 
 
 if __name__ == "__main__":

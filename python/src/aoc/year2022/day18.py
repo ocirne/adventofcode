@@ -17,7 +17,7 @@ def neighbors(x, y, z, m):
 
 
 def parse_droplets(lines):
-    return {tuple(map(int, line.strip().split(","))) for line in lines}
+    return {tuple(map(int, line.split(","))) for line in lines}
 
 
 def count_sides(droplets, it_matters=lambda _: True):

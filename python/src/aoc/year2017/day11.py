@@ -41,11 +41,11 @@ def max_distance(line):
 
 
 def part1(lines):
-    return count_steps(lines[0].strip())
+    return count_steps(lines[0])
 
 
 def part2(lines):
-    return max_distance(lines[0].strip())
+    return max_distance(lines[0])
 
 
 if __name__ == "__main__":

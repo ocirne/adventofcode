@@ -12,8 +12,7 @@ def part1(lines):
     """
     parent_colors = defaultdict(list)
     for line in lines:
-        trim_line = line.strip()
-        outer, inner_list = trim_line.split(" bags contain ")
+        outer, inner_list = line.split(" bags contain ")
         if inner_list == "no other bags.":
             continue
         for inner in inner_list.split(","):
@@ -46,8 +45,7 @@ def part2(lines):
     """
     parent_colors = defaultdict(list)
     for line in lines:
-        trim_line = line.strip()
-        outer, inner_list = trim_line.split(" bags contain ")
+        outer, inner_list = line.split(" bags contain ")
         if inner_list == "no other bags.":
             parent_colors[outer] = []
             continue

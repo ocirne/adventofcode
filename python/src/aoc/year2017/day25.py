@@ -17,7 +17,7 @@ def prepare_rules(lines):
         for i in range(2):
             next(it)
             next_value = int(next(it)[22])
-            movement = -1 if next(it).strip().endswith("left.") else 1
+            movement = -1 if next(it).endswith("left.") else 1
             next_state = next(it)[26]
             rules[(current_state, i)] = (next_value, movement, next_state)
     return start, steps, rules

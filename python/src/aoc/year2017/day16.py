@@ -40,7 +40,7 @@ def part1(lines, initial_standing="abcdefghijklmnop"):
     >>> part1(load_example(__file__, "16"), "abcde")
     'baedc'
     """
-    commands = lines[0].strip().split(",")
+    commands = lines[0].split(",")
     standing = dance(commands, list(initial_standing))
     return "".join(standing)
 
@@ -59,12 +59,12 @@ def find_loop(commands, initial_standing):
         i += 1
 
 
-def part2(lines, initial_standing="abcdefghijklmnop", count_dances=10 ** 9):
+def part2(lines, initial_standing="abcdefghijklmnop", count_dances=10**9):
     """
     >>> part2(load_example(__file__, "16"), "abcde", 10)
     'ceadb'
     """
-    commands = lines[0].strip().split(",")
+    commands = lines[0].split(",")
     cache, s = find_loop(commands, initial_standing)
     return list(cache.keys())[count_dances % s]
 

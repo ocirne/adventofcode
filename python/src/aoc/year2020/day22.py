@@ -7,7 +7,7 @@ def prepare_data(lines):
     cards2 = deque()
     player = None
     for line in lines:
-        if line.isspace():
+        if not line:
             continue
         elif line.startswith("Player"):
             player = int(line.split()[1].split(":")[0])

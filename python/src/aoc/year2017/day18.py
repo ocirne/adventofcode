@@ -101,7 +101,7 @@ def part1(lines):
     >>> part1(load_example(__file__, "18"))
     4
     """
-    program = [line.strip().split() for line in lines]
+    program = [line.split() for line in lines]
     solo = Solo(program)
     while True:
         sound = solo.step()
@@ -110,7 +110,7 @@ def part1(lines):
 
 
 def part2(lines):
-    program = [line.strip().split() for line in lines]
+    program = [line.split() for line in lines]
     duet0 = Duet(program, 0)
     duet1 = Duet(program, 1)
     duet0.other = duet1

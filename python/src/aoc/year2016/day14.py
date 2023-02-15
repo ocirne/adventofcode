@@ -52,7 +52,7 @@ def part1(lines):
     >>> part1(['abc'])
     22728
     """
-    salt = lines[0].strip()
+    salt = lines[0]
     return find_otp(salt)
 
 
@@ -61,7 +61,7 @@ def part2(lines):
     >>> part2(['abc'])
     22551
     """
-    salt = lines[0].strip()
+    salt = lines[0]
     return find_otp(salt, key_stretching=True)
 
 

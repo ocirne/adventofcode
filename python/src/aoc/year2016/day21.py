@@ -14,7 +14,7 @@ def rotate_right(word, x):
 def scramble(instructions, password, verbose):
     sp = password
     for instruction in instructions:
-        token = instruction.strip().split()
+        token = instruction.split()
         if instruction.startswith("swap position"):
             x, y = int(token[2]), int(token[5])
             sp[x], sp[y] = sp[y], sp[x]

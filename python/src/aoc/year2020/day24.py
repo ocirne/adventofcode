@@ -27,7 +27,7 @@ def endpoint(line, x=0, y=0):
 
 
 def prepare_endpoints(lines):
-    return (endpoint(line.strip()) for line in lines)
+    return (endpoint(line) for line in lines)
 
 
 def part1(lines):

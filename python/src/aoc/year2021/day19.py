@@ -7,7 +7,7 @@ def read_data(lines):
     base_cubes = []
     cube = []
     for line in lines[1:]:
-        if not line.strip():
+        if not line:
             continue
         elif "scanner" in line:
             base_cubes.append(cube)

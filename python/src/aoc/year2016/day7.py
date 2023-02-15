@@ -65,7 +65,7 @@ def is_valid2(ip):
 
 
 def count(lines, fun):
-    return sum(fun(line.strip()) for line in lines)
+    return sum(fun(line) for line in lines)
 
 
 def part1(lines):

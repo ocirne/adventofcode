@@ -12,7 +12,7 @@ class Forest:
     def __init__(self, lines):
         self.trees = {}
         for y, line in enumerate(lines):
-            for x, height in enumerate(line.strip()):
+            for x, height in enumerate(line):
                 self.trees[x, y] = Tree(int(height))
         self.max_xy = len(lines)
 

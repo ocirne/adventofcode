@@ -76,7 +76,7 @@ class Screen:
 def run_screen(lines):
     screen = Screen(50, 6)
     for line in lines:
-        screen.cmd(line.strip(), visual=False)
+        screen.cmd(line, visual=False)
     return screen
 
 

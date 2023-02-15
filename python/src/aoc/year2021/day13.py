@@ -7,7 +7,7 @@ def read_instructions(lines):
     it = iter(lines)
     while True:
         line = next(it, None)
-        if not line.strip():
+        if not line:
             break
         x, y = map(int, line.split(","))
         paper[x, y] = True

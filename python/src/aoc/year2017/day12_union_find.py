@@ -7,7 +7,7 @@ from aoc.disjoint import find, union
 def run(lines, count):
     a = [i for i in range(count)]
     for line in lines:
-        root, children = line.strip().split(" <-> ")
+        root, children = line.split(" <-> ")
         p = [int(root)] + [int(c) for c in children.split(", ")]
         for i, j in combinations(p, 2):
             union(a, i, j)

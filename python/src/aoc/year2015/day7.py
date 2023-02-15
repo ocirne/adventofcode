@@ -1,12 +1,12 @@
 from aoc.util import load_example, load_input
 
-M = 2 ** 16
+M = 2**16
 
 
 def prepare_rules(lines):
     rules = {}
     for line in lines:
-        l, r = line.strip().split(" -> ")
+        l, r = line.split(" -> ")
         rules[r] = l.split()
     return rules
 

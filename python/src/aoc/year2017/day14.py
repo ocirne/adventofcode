@@ -50,11 +50,11 @@ def count_regions(key):
 
 
 def part1(lines):
-    return count_squares(lines[0].strip())
+    return count_squares(lines[0])
 
 
 def part2(lines):
-    return count_regions(lines[0].strip())
+    return count_regions(lines[0])
 
 
 if __name__ == "__main__":

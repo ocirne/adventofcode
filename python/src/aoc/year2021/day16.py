@@ -12,7 +12,7 @@ def read_bits(bits):
     >>> read_bits('04005AC33890')
     '000001000000000001011010110000110011100010010000'
     """
-    return "".join(bin(int(c, 16))[2:].rjust(4, "0") for c in bits.strip())
+    return "".join(bin(int(c, 16))[2:].rjust(4, "0") for c in bits)
 
 
 def read_literal(binary, i):

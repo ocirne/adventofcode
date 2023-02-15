@@ -4,7 +4,7 @@ from aoc.util import load_input, load_example
 def prepare_data(lines):
     edges = {}
     for line in lines:
-        root, children = line.strip().split(" <-> ")
+        root, children = line.split(" <-> ")
         edges[int(root)] = [int(c) for c in children.split(", ")]
     return edges
 

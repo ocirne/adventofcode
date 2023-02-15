@@ -21,7 +21,7 @@ class Program:
             self.crt[pos // 40][pos % 40] = "#"
 
     def run(self):
-        for line in (s.strip() for s in self.program):
+        for line in self.program:
             if line == "noop":
                 self.click()
             elif line.startswith("addx"):

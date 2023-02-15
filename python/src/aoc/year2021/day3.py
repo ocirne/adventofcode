@@ -14,7 +14,7 @@ def find_common(values, pos, preference, i):
 
 
 def column_counts(lines, pos):
-    return "".join(find_common(lines, pos, None, i) for i in range(len(lines[0].strip())))
+    return "".join(find_common(lines, pos, None, i) for i in range(len(lines[0])))
 
 
 def part1(lines):
@@ -40,10 +40,9 @@ def part2(lines):
     >>> part2(load_example(__file__, "3"))
     230
     """
-    values = [line.strip() for line in lines]
-    oxygen = determine(values, MOST_COMMON, preference="1")
+    oxygen = determine(lines, MOST_COMMON, preference="1")
     assert len(oxygen) == 1
-    co2 = determine(values, LEAST_COMMON, preference="0")
+    co2 = determine(lines, LEAST_COMMON, preference="0")
     assert len(co2) == 1
     return int(oxygen[0], 2) * int(co2[0], 2)
 

@@ -32,7 +32,7 @@ def is_valid_part2(line):
 
 
 def run(lines, is_valid):
-    return sum(is_valid(line.strip()) for line in lines)
+    return sum(is_valid(line) for line in lines)
 
 
 def part1(lines):

@@ -9,7 +9,7 @@ class HeightMap:
     def __init__(self, lines):
         self.heightmap = {}
         self.height = len(lines)
-        for y, row in enumerate(line.strip() for line in lines):
+        for y, row in enumerate(lines):
             self.width = len(row)
             for x, mark in enumerate(row):
                 position = x, y

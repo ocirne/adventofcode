@@ -23,7 +23,7 @@ def part1(lines):
     >>> part1(['abc'])
     '18f47a30'
     """
-    door_id = lines[0].strip()
+    door_id = lines[0]
     return "".join(islice(search(door_id, is_part1=True), 8))
 
 
@@ -34,7 +34,7 @@ def part2(lines, be_extra_proud=True):
     """
     result = 8 * [" "]
     count = 0
-    for position, character in search(lines[0].strip(), is_part2=True):
+    for position, character in search(lines[0], is_part2=True):
         if result[position] == " ":
             result[position] = character
             count += 1

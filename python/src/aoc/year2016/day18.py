@@ -14,7 +14,7 @@ def trap_field(lines, rows):
     >>> trap_field(load_example(__file__, "18b"), 10)
     38
     """
-    row = [{".": 0, "^": 1}[c] for c in lines[0].strip()]
+    row = [{".": 0, "^": 1}[c] for c in lines[0]]
     length = len(row)
     total = len(row) * rows
     for i in range(rows):

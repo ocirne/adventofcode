@@ -32,7 +32,7 @@ def part2(lines):
     >>> part2(load_example('13b'))
     1068781
     """
-    return wrap_crt(lines[1].strip())
+    return wrap_crt(lines[1])
 
 
 if __name__ == "__main__":

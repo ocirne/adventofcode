@@ -16,7 +16,7 @@ def part1(lines):
     x, y = 1, 1
     r = ""
     for line in lines:
-        for d in line.strip():
+        for d in line:
             x, y = MOVES_1[d](x, y)
         r += str(y * 3 + x + 1)
     return r
@@ -54,7 +54,7 @@ def part2(lines):
     x, y = 0, 2
     r = ""
     for line in lines:
-        for d in line.strip():
+        for d in line:
             x, y = MOVES_2[d](x, y)
         r += FIELD[x, y]
     return r

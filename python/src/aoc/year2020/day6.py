@@ -10,11 +10,11 @@ def part1(lines):
     answers = []
     a = {}
     for line in lines:
-        if not line.strip():
+        if not line:
             answers.append(len(a.keys()))
             a = {}
         else:
-            for k in line.strip():
+            for k in line:
                 a[k] = True
     answers.append(len(a.keys()))
     return sum(answers)
@@ -29,12 +29,12 @@ def part2(lines):
     a = defaultdict(lambda: 0)
     count_people = 0
     for line in lines:
-        if not line.strip():
+        if not line:
             answers.append(len([1 for v in a.values() if v == count_people]))
             a = defaultdict(lambda: 0)
             count_people = 0
         else:
-            for k in line.strip():
+            for k in line:
                 a[k] += 1
             count_people += 1
     answers.append(len([1 for v in a.values() if v == count_people]))

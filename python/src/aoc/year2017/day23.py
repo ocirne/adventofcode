@@ -48,13 +48,13 @@ class Coprocessor:
 
 
 def part1(lines):
-    program = [line.strip().split() for line in lines]
+    program = [line.split() for line in lines]
     coprocessor = Coprocessor(program)
     return coprocessor.execute()
 
 
 def part2(lines):
-    """ disassemble by hand and translate to python """
+    """disassemble by hand and translate to python"""
     return sum(any(b % d == 0 for d in range(2, b)) for b in range(107900, 124901, 17))
 
 

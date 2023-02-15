@@ -7,12 +7,11 @@ def prepare_data(lines, is_part2):
     messages = []
     f = iter(lines)
     line = next(f)
-    while not line.isspace():
+    while line:
         rule_no, rule_desc = line.split(":")
-        rules[rule_no] = rule_desc.strip().replace('"', "")
+        rules[rule_no] = rule_desc.replace('"', "")
         line = next(f)
-    for line in f:
-        messages.append(line.strip())
+    messages.extend(f)
     if is_part2:
         rules["8"] = "42 | 42 8"
         rules["11"] = "42 31 | 42 11 31"
@@ -23,6 +22,8 @@ def rec_create_regex(rules, no, depth):
     if depth > 4:
         return ""
     regex = ""
+    if not no:
+        return ""
     for token in rules[no].split(" "):
         if token == "|":
             regex += token

@@ -48,7 +48,7 @@ PRECEDENCE = {"+": 3, "*": 2}
 
 
 def shunting_yard(expression):
-    """ https://de.wikipedia.org/wiki/Shunting-yard-Algorithmus """
+    """https://de.wikipedia.org/wiki/Shunting-yard-Algorithmus"""
     stack = []
     result = []
     index = 0
@@ -110,7 +110,7 @@ def solve_part2(expression):
 
 
 def run(lines, solve):
-    return sum(solve(line.strip()) for line in lines)
+    return sum(solve(line) for line in lines)
 
 
 def part1(lines):

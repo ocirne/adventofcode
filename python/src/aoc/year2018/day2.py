@@ -36,7 +36,7 @@ def part2(lines):
     'fgij'
     """
     for line1, line2 in combinations(lines, 2):
-        count, common = count_diff(line1.strip(), line2.strip())
+        count, common = count_diff(line1, line2)
         if count == 1:
             return common
 

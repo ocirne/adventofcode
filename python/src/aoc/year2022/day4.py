@@ -2,7 +2,7 @@ from aoc.util import load_input, load_example
 
 
 def deconstruct(line):
-    a, b = line.strip().split(",")
+    a, b = line.split(",")
     a0, b0 = map(int, a.split("-"))
     a1, b1 = map(int, b.split("-"))
     return a0, b0, a1, b1

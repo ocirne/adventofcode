@@ -10,7 +10,7 @@ def read_data(lines):
     field = {}
     air_ducts = {}
     for y, line in enumerate(lines):
-        for x, v in enumerate(line.strip()):
+        for x, v in enumerate(line):
             field[x, y] = v
             if v.isnumeric():
                 air_ducts[int(v)] = (x, y)

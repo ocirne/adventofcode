@@ -8,7 +8,7 @@ def simulate(lines, days):
     >>> simulate(load_example(__file__, "6"), 18)
     26
     """
-    state = Counter(map(int, lines[0].strip().split(",")))
+    state = Counter(map(int, lines[0].split(",")))
     for i in range(days):
         next_state = defaultdict(lambda: 0)
         for k, v in state.items():

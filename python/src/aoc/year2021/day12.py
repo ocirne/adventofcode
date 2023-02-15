@@ -21,7 +21,7 @@ def dfs(nodes, current="start", visited=None, twice_allowed=True):
 def count_all_paths(lines, twice_allowed):
     nodes = defaultdict(list)
     for line in lines:
-        a, b = line.strip().split("-")
+        a, b = line.split("-")
         nodes[a].append(b)
         nodes[b].append(a)
     return dfs(nodes, twice_allowed=twice_allowed)

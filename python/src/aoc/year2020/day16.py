@@ -12,7 +12,7 @@ def part1(lines):
     f = iter(lines)
     d = set()
     line = next(f)
-    while not line.isspace():
+    while line:
         range1, _, range2 = line.split(":")[1].split()
         from1, to1 = (int(t) for t in range1.split("-"))
         from2, to2 = (int(t) for t in range2.split("-"))
@@ -58,7 +58,7 @@ def part2(lines):
     f = iter(lines)
     ranges = {}
     line = next(f)
-    while not line.isspace():
+    while line:
         name, category_ranges = line.split(":")
         range1, _, range2 = category_ranges.split()
         from1, to1 = (int(t) for t in range1.split("-"))

@@ -48,7 +48,7 @@ def part1(lines):
     >>> part1(load_example(__file__, "3"))
     157
     """
-    return sum(priority(common_item(line.strip())) for line in lines)
+    return sum(priority(common_item(line)) for line in lines)
 
 
 def chunks(lines: list):
@@ -63,7 +63,7 @@ def common_badge(f, s, t):
     >>> common_badge("wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn", "ttgJtRGJQctTZtZT", "CrZsJsPPZsGzwwsLwLmpwMDw")
     'Z'
     """
-    return set(f.strip()).intersection(set(s.strip())).intersection(set(t.strip())).pop()
+    return set(f).intersection(set(s)).intersection(set(t)).pop()
 
 
 def part2(lines):

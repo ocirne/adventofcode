@@ -56,7 +56,7 @@ def check_hgt(hgt):
 
 
 def check_hcl(hcl):
-    """ hcl (Hair Color) - a # followed by exactly six characters 0-9 or a-f. """
+    """hcl (Hair Color) - a # followed by exactly six characters 0-9 or a-f."""
     if len(hcl) == 7 and hcl.startswith("#"):
         int(hcl[1:], 16)
     else:
@@ -106,12 +106,12 @@ def run(lines, check):
     passports = []
     p = {}
     for line in lines:
-        if not line.strip():
+        if not line:
             passports.append(p)
             p = {}
         else:
             for k, v in [token.split(":") for token in line.split(" ")]:
-                p[k] = v.strip()
+                p[k] = v
     passports.append(p)
     return sum(check(passport) for passport in passports)
 

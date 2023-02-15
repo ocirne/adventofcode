@@ -27,11 +27,11 @@ def knot_hash(data):
 
 
 def part1(lines):
-    return one_round(lines[0].strip())
+    return one_round(lines[0])
 
 
 def part2(lines):
-    return knot_hash(lines[0].strip())
+    return knot_hash(lines[0])
 
 
 if __name__ == "__main__":

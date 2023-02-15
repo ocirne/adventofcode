@@ -4,7 +4,7 @@ from aoc.util import load_example, load_input
 def prepare_program(lines):
     program = []
     for line in lines:
-        instruction, ops = line.strip().split(" ", maxsplit=1)
+        instruction, ops = line.split(" ", maxsplit=1)
         program.append((instruction, ops.split(", ")))
     return program
 

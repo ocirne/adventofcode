@@ -95,7 +95,7 @@ def part1(lines):
     >>> part1(load_example(__file__, "25"))
     '2=-1=0'
     """
-    return decimal_to_snafu(sum(snafu_to_decimal(line.strip()) for line in lines))
+    return decimal_to_snafu(sum(snafu_to_decimal(line) for line in lines))
 
 
 def part2(lines):

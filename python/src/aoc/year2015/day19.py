@@ -6,10 +6,10 @@ def prepare_data(lines):
     replacements = []
     while True:
         line = next(f)
-        if line.isspace():
+        if not line:
             break
-        replacements.append(line.strip().split(" => "))
-    molecule = next(f).strip()
+        replacements.append(line.split(" => "))
+    molecule = next(f)
     return replacements, molecule
 
 

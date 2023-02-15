@@ -4,7 +4,7 @@ from aoc.util import load_example, load_input
 def prepare_ops(lines):
     ops = []
     for line in lines:
-        op, arg = line.strip().split()
+        op, arg = line.split()
         ops.append((op, int(arg)))
     return ops
 
