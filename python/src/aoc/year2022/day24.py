@@ -1,4 +1,3 @@
-from collections import defaultdict
 from functools import cache
 from heapq import heappush, heappop
 
@@ -27,8 +26,7 @@ class Blizzards:
         return lines[-1].find(".") - 1, len(lines) - 2
 
     @cache
-    def at_minute(self, minute):
-        print("recalc at minute", minute)
+    def free_at_minute(self, minute):
         positions = set()
         for x, y in self.blizzards["<"]:
             positions.add(((x - minute) % self.cols, y))
@@ -42,21 +40,10 @@ class Blizzards:
         free.add(self.start)
         free.add(self.end)
         result = free.difference(positions)
-        #        self.print_blizzards(result)
         return result
 
-    def print_blizzards(self, positions):
-        for y in range(-2, self.rows + 2):
-            for x in range(-2, self.cols + 2):
-                if (x, y) in positions:
-                    print(".", end="")
-                else:
-                    print("#", end="")
-            print()
-        print("start", self.start, "end", self.end)
-
     def find_neighbors(self, minute, x, y):
-        free_positions = self.at_minute(minute + 1)
+        free_positions = self.free_at_minute(minute + 1)
         neighbors = []
         if (x, y) in free_positions:
             neighbors.append((x, y))
@@ -70,21 +57,18 @@ class Blizzards:
             neighbors.append((x, y + 1))
         return neighbors
 
-    def a_star(self):
+    def dijkstra(self):
         open_heap = []
-        parent = {}
+        closed_set = set()
         heappush(open_heap, (0, self.start))
         while open_heap:
-            #            print('len', len(open_heap))
             minute, position = heappop(open_heap)
             if position == self.end:
-                print("tata", minute)
-                #                while (minute, position) in parent:
-                #                    minute, position = parent[minute, position]
-                #                    print(minute, position)
                 return minute
+            if (minute, position) in closed_set:
+                continue
+            closed_set.add((minute, position))
             for neighbor in self.find_neighbors(minute, *position):
-                parent[minute + 1, neighbor] = minute, position
                 heappush(open_heap, (minute + 1, neighbor))
 
 
@@ -94,24 +78,19 @@ def part1(lines):
     18
     """
     blizzards = Blizzards(lines)
-    #    for m in range(2):
-    #        print('-- Minute %s --' % m)
-    #        foo = blizzards.at_minute(m)
-    #        blizzards.print_blizzards(foo)
-    #        print('--')
-    return blizzards.a_star()
+    return blizzards.dijkstra()
 
 
 def part2(lines):
     """
     >>> part2(load_example(__file__, "24"))
-    ...
+    54
     """
     ...
 
 
 if __name__ == "__main__":
-    # data = load_input(__file__, 2022, "24")
-    data = load_example(__file__, "24")
+    data = load_input(__file__, 2022, "24")
+    # data = load_example(__file__, "24")
     print(part1(data))
 #    print(part2(data))
