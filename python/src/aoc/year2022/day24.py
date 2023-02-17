@@ -57,14 +57,14 @@ class Blizzards:
             neighbors.append((x, y + 1))
         return neighbors
 
-    def dijkstra(self):
+    def dijkstra(self, start, end, minute_0=0):
         open_heap = []
         closed_set = set()
-        heappush(open_heap, (0, self.start))
+        heappush(open_heap, (minute_0, start))
         while open_heap:
             minute, position = heappop(open_heap)
-            if position == self.end:
-                return minute
+            if position == end:
+                return minute - minute_0
             if (minute, position) in closed_set:
                 continue
             closed_set.add((minute, position))
@@ -78,7 +78,7 @@ def part1(lines):
     18
     """
     blizzards = Blizzards(lines)
-    return blizzards.dijkstra()
+    return blizzards.dijkstra(blizzards.start, blizzards.end)
 
 
 def part2(lines):
@@ -86,11 +86,14 @@ def part2(lines):
     >>> part2(load_example(__file__, "24"))
     54
     """
-    ...
+    blizzards = Blizzards(lines)
+    m1 = blizzards.dijkstra(blizzards.start, blizzards.end)
+    m2 = blizzards.dijkstra(blizzards.end, blizzards.start, m1)
+    m3 = blizzards.dijkstra(blizzards.start, blizzards.end, m1 + m2)
+    return m1 + m2 + m3
 
 
 if __name__ == "__main__":
     data = load_input(__file__, 2022, "24")
-    # data = load_example(__file__, "24")
     print(part1(data))
-#    print(part2(data))
+    print(part2(data))
