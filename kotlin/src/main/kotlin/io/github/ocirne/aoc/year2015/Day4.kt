@@ -4,9 +4,7 @@ import io.github.ocirne.aoc.AocChallenge
 import java.math.BigInteger
 import java.security.MessageDigest
 
-class Day4(lines: List<String>) : AocChallenge(2015, 4) {
-
-    private val base = lines[0]
+class Day4(val lines: List<String>) : AocChallenge(2015, 4) {
 
     private val md = MessageDigest.getInstance("MD5")
 
@@ -15,17 +13,17 @@ class Day4(lines: List<String>) : AocChallenge(2015, 4) {
         return BigInteger(1, bytes).toString(16).length > length
     }
 
-    fun search(zeros: Int): Int {
+    fun search(base: String, zeros: Int): Int {
         return generateSequence(1, Int::inc)
             .dropWhile { i -> check(base + i.toString(), 32 - zeros) }
             .first()
     }
 
     override fun part1(): Int {
-        return search(5)
+        return search(lines.first(), 5)
     }
 
     override fun part2(): Int {
-        return search(6)
+        return search(lines.first(), 6)
     }
 }

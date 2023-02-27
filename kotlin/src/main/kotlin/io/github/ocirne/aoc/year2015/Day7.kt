@@ -15,8 +15,7 @@ class Day7(val lines: List<String>) : AocChallenge(2015, 7) {
 
     private fun prepareRules(newRuleB : String?): Map<String, Node> {
         return lines.map { it.trim().split(" -> ") }
-            .map { Pair(it[1], if (it[1] == "b" && newRuleB != null) Node(newRuleB) else Node(it[0])) }
-            .toMap()
+            .associate { Pair(it[1], if (it[1] == "b" && newRuleB != null) Node(newRuleB) else Node(it[0])) }
     }
 
     fun run(wire: String, newRuleB : String? = null): Int {

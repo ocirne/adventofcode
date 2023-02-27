@@ -1,9 +1,10 @@
 package io.github.ocirne.aoc.year2018
 
+import io.github.ocirne.aoc.AocTest
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 
-internal class Day1Test {
+internal class Day1Test : AocTest(Day1::class, loadExample = false) {
 
     @Test
     fun `examples year 2018 day 1 part 1`() {

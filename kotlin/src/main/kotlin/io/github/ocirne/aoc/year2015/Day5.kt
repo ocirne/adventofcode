@@ -5,11 +5,11 @@ import io.github.ocirne.aoc.AocChallenge
 class Day5(val lines: List<String>) : AocChallenge(2015, 5) {
 
     override fun part1(): Int {
-        return lines.filter { s -> isNicePart1(s) }.count()
+        return lines.count { s -> isNicePart1(s) }
     }
 
     override fun part2(): Int {
-        return lines.filter { s -> isNicePart2(s) }.count()
+        return lines.count { s -> isNicePart2(s) }
     }
 
     fun isNicePart1(s: String): Boolean {
@@ -21,7 +21,7 @@ class Day5(val lines: List<String>) : AocChallenge(2015, 5) {
     }
 
     private fun containsAtLeastThreeVowels(s: String) : Boolean {
-        return s.filter { c -> "aeiou".contains(c) }.count() >= 3
+        return s.count { c -> "aeiou".contains(c) } >= 3
     }
 
     private fun containsDoubleLetter(s: String) : Boolean {
@@ -44,7 +44,7 @@ class Day5(val lines: List<String>) : AocChallenge(2015, 5) {
     }
 
     private fun containsOneLetterBetween(s: String) : Boolean {
-        return s.zip(s.drop(2)).filter { (a, b) -> a == b }.any()
+        return s.zip(s.drop(2)).any { (a, b) -> a == b }
     }
 
     companion object {

@@ -1,24 +1,27 @@
 package io.github.ocirne.aoc.year2017
 
+import io.github.ocirne.aoc.AocTest
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 
-internal class Day1Test {
+internal class Day1Test : AocTest(Day1::class, loadExample = false) {
 
     @Test
     fun `examples year 2015 day 1 part 1`() {
-        Day1(listOf("1122")).part1() shouldBe 3
-        Day1(listOf("1111")).part1() shouldBe 4
-        Day1(listOf("1234")).part1() shouldBe 0
-        Day1(listOf("91212129")).part1() shouldBe 9
+        subject as Day1
+        subject.solveCaptcha1("1122") shouldBe 3
+        subject.solveCaptcha1("1111") shouldBe 4
+        subject.solveCaptcha1("1234") shouldBe 0
+        subject.solveCaptcha1("91212129") shouldBe 9
     }
 
     @Test
     fun `examples year 2015 day 1 part 2`() {
-        Day1(listOf("1212")).part2() shouldBe 6
-        Day1(listOf("1221")).part2() shouldBe 0
-        Day1(listOf("123425")).part2() shouldBe 4
-        Day1(listOf("123123")).part2() shouldBe 12
-        Day1(listOf("12131415")).part2() shouldBe 4
+        subject as Day1
+        subject.solveCaptcha2("1212") shouldBe 6
+        subject.solveCaptcha2("1221") shouldBe 0
+        subject.solveCaptcha2("123425") shouldBe 4
+        subject.solveCaptcha2("123123") shouldBe 12
+        subject.solveCaptcha2("12131415") shouldBe 4
     }
 }

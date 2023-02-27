@@ -3,15 +3,17 @@ package io.github.ocirne.aoc.year2015
 import io.github.ocirne.aoc.AocChallenge
 import java.lang.RuntimeException
 
-class Day1(lines: List<String>) : AocChallenge(2015, 1) {
+class Day1(val lines: List<String>) : AocChallenge(2015, 1) {
 
-    private val line = lines[0]
-
-    override fun part1(): Int {
+    fun countBrackets(line: String): Int {
         return line.count { it == '(' } - line.count { it == ')' }
     }
 
-    override fun part2(): Int {
+    override fun part1(): Int {
+        return countBrackets(lines[0])
+    }
+
+    fun findBasement(line: String): Int {
         var floor = 0
         line.forEachIndexed { index, bracket ->
             run {
@@ -24,5 +26,9 @@ class Day1(lines: List<String>) : AocChallenge(2015, 1) {
             }
         }
         throw RuntimeException()
+    }
+
+    override fun part2(): Int {
+        return findBasement(lines[0])
     }
 }

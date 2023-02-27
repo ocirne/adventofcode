@@ -2,9 +2,7 @@ package io.github.ocirne.aoc.year2015
 
 import io.github.ocirne.aoc.AocChallenge
 
-class Day3(lines: List<String>) : AocChallenge(2015, 3) {
-
-    private val line = lines[0]
+class Day3(val lines: List<String>) : AocChallenge(2015, 3) {
 
     private fun move(c: Char, pos: Pair<Int, Int>): Pair<Int, Int> {
         return when (c) {
@@ -16,7 +14,7 @@ class Day3(lines: List<String>) : AocChallenge(2015, 3) {
         }
     }
 
-    override fun part1(): Int {
+    fun solve1(line: String): Int {
         var pos = Pair(0, 0)
         val houses = mutableSetOf(pos)
         line.forEach { c ->
@@ -26,7 +24,11 @@ class Day3(lines: List<String>) : AocChallenge(2015, 3) {
         return houses.size
     }
 
-    override fun part2(): Int {
+    override fun part1(): Int {
+        return solve1(lines.first())
+    }
+
+    fun solve2(line: String): Int {
         var sPos = Pair(0, 0)
         var rPos = Pair(0, 0)
         val houses = mutableSetOf(0 to 0)
@@ -40,5 +42,9 @@ class Day3(lines: List<String>) : AocChallenge(2015, 3) {
             }
         }
         return houses.size
+    }
+
+    override fun part2(): Int {
+        return solve2(lines.first())
     }
 }

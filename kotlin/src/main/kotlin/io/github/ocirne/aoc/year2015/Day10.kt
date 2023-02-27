@@ -37,7 +37,7 @@ class Day10(val lines: List<String>) : AocChallenge(2015, 10) {
         return result
     }
 
-    fun add(result: ArrayList<Char>, count: Int, lastCharacter: Char) {
+    private fun add(result: ArrayList<Char>, count: Int, lastCharacter: Char) {
         result.addAll(count.toString().toList())
         result.add(lastCharacter)
     }
