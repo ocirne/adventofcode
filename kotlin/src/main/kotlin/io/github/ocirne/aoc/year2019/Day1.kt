@@ -2,12 +2,14 @@ package io.github.ocirne.aoc.year2019
 
 import io.github.ocirne.aoc.AocChallenge
 
-class Day1(lines: List<String>) : AocChallenge(2019, 1) {
+class Day1(val lines: List<String>) : AocChallenge(2019, 1) {
 
-    private val line = lines[0]
+    fun getFuel(mass: Int): Int {
+        return mass / 3 - 2
+    }
 
     override fun part1(): Int {
-        return 0
+        return lines.sumOf { getFuel(it.toInt()) }
     }
 
     override fun part2(): Int {
