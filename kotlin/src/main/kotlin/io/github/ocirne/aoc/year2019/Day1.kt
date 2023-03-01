@@ -12,15 +12,16 @@ class Day1(val lines: List<String>) : AocChallenge(2019, 1) {
         return lines.sumOf { getFuel(it.toInt()) }
     }
 
-    fun getTotalFuel(mass: Int): Int {
-        var m = getFuel(mass)
-        var total = 0
-        while (m > 0) {
-            total += m
-            m = getFuel(m)
+    fun getTotalFuel(initialMass: Int) = sequence {
+        var mass = initialMass
+        while (true) {
+            mass = getFuel(mass)
+            if (mass <= 0) {
+                break
+            }
+            yield(mass)
         }
-        return total
-    }
+    }.sum()
 
     override fun part2(): Int {
         return lines.sumOf { getTotalFuel(it.toInt()) }
