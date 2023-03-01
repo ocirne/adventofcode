@@ -4,8 +4,6 @@ import io.github.ocirne.aoc.AocChallenge
 
 class Day10(val lines: List<String>) : AocChallenge(2015, 10) {
 
-    private val startSequence = lines.getOrNull(0)
-
     override fun part1(): Int {
         return playLookAndSay(40)
     }
@@ -15,7 +13,7 @@ class Day10(val lines: List<String>) : AocChallenge(2015, 10) {
     }
 
     private fun playLookAndSay(rounds: Int): Int {
-        var seq = startSequence!!.toList()
+        var seq = lines.first().toList()
         repeat(rounds) { seq = step(seq) }
         return seq.size
     }
@@ -23,7 +21,7 @@ class Day10(val lines: List<String>) : AocChallenge(2015, 10) {
     fun step(seq: List<Char>): List<Char> {
         val result = ArrayList<Char>()
         var count = 0
-        var lc = seq[0]
+        var lc = seq.first()
         seq.forEach { c ->
             if (c == lc) {
                 count++

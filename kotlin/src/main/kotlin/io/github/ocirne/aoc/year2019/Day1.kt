@@ -13,6 +13,6 @@ class Day1(val lines: List<String>) : AocChallenge(2019, 1) {
     }
 
     override fun part2(): Int {
-        return 0
+        TODO()
     }
 }

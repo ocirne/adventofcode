@@ -10,7 +10,7 @@ class Day1(val lines: List<String>) : AocChallenge(2015, 1) {
     }
 
     override fun part1(): Int {
-        return countBrackets(lines[0])
+        return countBrackets(lines.first())
     }
 
     fun findBasement(line: String): Int {
@@ -29,6 +29,6 @@ class Day1(val lines: List<String>) : AocChallenge(2015, 1) {
     }
 
     override fun part2(): Int {
-        return findBasement(lines[0])
+        return findBasement(lines.first())
     }
 }

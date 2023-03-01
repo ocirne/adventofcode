@@ -9,6 +9,6 @@ class Day1(private val lines: List<String>) : AocChallenge(2018, 1) {
     }
 
     override fun part2(): Any {
-        return 0
+        TODO()
     }
 }
