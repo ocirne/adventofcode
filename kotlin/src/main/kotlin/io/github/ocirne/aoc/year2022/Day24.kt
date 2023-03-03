@@ -22,7 +22,8 @@ class Day24(val lines: List<String>) : AocChallenge(2022, 24) {
     private val end = Position(width-2, height-1)
 
     private fun createInitialMap(): Map<Position, Char> {
-        return lines.flatMapIndexed { y, line -> line.mapIndexed { x, t -> Pair(x, y) to t } }.filter { (_, t) -> t != '.' }.toMap()
+        return lines.flatMapIndexed { y, line -> line.mapIndexed { x, t -> Pair(x, y) to t } }
+            .filter { (_, t) -> t != '.' }.toMap()
     }
 
     private fun atMinute(minute: Int): Set<Position> {
@@ -30,19 +31,20 @@ class Day24(val lines: List<String>) : AocChallenge(2022, 24) {
             val (x, y) = pos
             when (t) {
                 '#' -> pos
-                '<' -> Position((x-1 - minute).mod(6) + 1, y)
-                '>' -> Position((x-1 + minute).mod(6) + 1, y)
-                '^' -> Position(x, (y-1 - minute).mod(4) + 1)
-                'v' -> Position(x, (y-1 + minute).mod(4) + 1)
+                '<' -> Position((x-1 - minute).mod(width-2) + 1, y)
+                '>' -> Position((x-1 + minute).mod(width-2) + 1, y)
+                '^' -> Position(x, (y-1 - minute).mod(height-2) + 1)
+                'v' -> Position(x, (y-1 + minute).mod(height-2) + 1)
                 else -> throw IllegalArgumentException("$pos $t")
             }
         }.toSet()
     }
 
     private fun findNeighbors(minute: Int, position: Position): List<Position> {
-        val walls = allMaps.computeIfAbsent(minute) { atMinute(it) }
+        val walls = allMaps.computeIfAbsent(minute) { atMinute(it + 1) }
         val (x, y) = position
-        return listOf(Position(x - 1, y), Position(x + 1, y), Position(x, y - 1), Position(x, y + 1))
+        return listOf(position, Position(x - 1, y), Position(x + 1, y), Position(x, y - 1), Position(x, y + 1))
+            .filter { p -> p.first in 0 .. width && p.second in 0 .. height }
             .filter { p -> p !in walls }
     }
 
