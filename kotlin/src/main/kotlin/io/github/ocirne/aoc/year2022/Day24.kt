@@ -9,45 +9,25 @@ val oldest: Comparator<Pair<Int, Position>> = compareBy { it.first }
 
 class Day24(val lines: List<String>) : AocChallenge(2022, 24) {
 
-    fun findNeighbors(afoo: Map<Int, Set<Position>>, minute: Int, position: Position): List<Position> {
-        println("minute $minute")
-        val walls = afoo[minute]!!
-        val result = mutableListOf<Position>()
-        val (x, y) = position
-        for (p in listOf(Position(x - 1, y), Position(x + 1, y), Position(x, y - 1), Position(x, y + 1))) {
-            if (p !in walls) {
-                result.add(p)
-            }
-        }
-        return result
+    private val initialMap = createInitialMap()
+
+    private val allMaps = mutableMapOf<Int, Set<Position>>()
+
+    private val width = if (lines.isNotEmpty()) lines.first().length else 0
+
+    private val height = lines.size
+
+    private val start = Position(1, 0)
+
+    private val end = Position(width-2, height-1)
+
+    private fun createInitialMap(): Map<Position, Char> {
+        return lines.flatMapIndexed { y, line -> line.mapIndexed { x, t -> Pair(x, y) to t } }.filter { (_, t) -> t != '.' }.toMap()
     }
 
-    fun dijkstra(afoo: Map<Int, Set<Position>>, start: Position, end: Position, minute_0:Int=0): Int {
-        val openHeap = PriorityQueue<Pair<Int, Position>>(oldest)
-        val closedSet = mutableSetOf<Pair<Int, Position>>()
-        openHeap.add(Pair(minute_0, start))
-        while (openHeap.isNotEmpty()) {
-            val (minute, position) = openHeap.remove()
-            if (position == end) {
-                return minute - minute_0
-            }
-            if (Pair(minute, position) in closedSet) {
-                continue
-            }
-            closedSet.add(Pair(minute, position))
-            for (neighbor in findNeighbors(afoo, minute, position)) {
-                openHeap.add(Pair(minute + 1, neighbor))
-            }
-        }
-        throw RuntimeException("No solution")
-    }
-
-    fun atMinute(foo: Map<Position, Char>, minute: Int): Set<Position> {
-        return foo.map { (pos, t) ->
+    private fun atMinute(minute: Int): Set<Position> {
+        return initialMap.map { (pos, t) ->
             val (x, y) = pos
-//            if (pos == Position(5, 1)) {
-//                println(Position(x, (y-1 - minute + 4).mod(4) + 1))
-//            }
             when (t) {
                 '#' -> pos
                 '<' -> Position((x-1 - minute).mod(6) + 1, y)
@@ -59,35 +39,40 @@ class Day24(val lines: List<String>) : AocChallenge(2022, 24) {
         }.toSet()
     }
 
-    fun allMinutes(foo: Map<Position, Char>): Map<Int, Set<Position>> {
-        return (0..1000).associateWith { m -> atMinute(foo, m) }
+    private fun findNeighbors(minute: Int, position: Position): List<Position> {
+        val walls = allMaps.computeIfAbsent(minute) { atMinute(it) }
+        val (x, y) = position
+        return listOf(Position(x - 1, y), Position(x + 1, y), Position(x, y - 1), Position(x, y + 1))
+            .filter { p -> p !in walls }
     }
 
-    fun printWalls(walls: Set<Position>) {
-        for (y in 0..10) {
-            for (x in 0.. 10) {
-                if (Position(x, y) in walls) {
-                    print('#')
-                } else {
-                    print('.')
-                }
+    private fun dijkstra(start: Position, end: Position, minute_0:Int=0): Int {
+        val openHeap = PriorityQueue(oldest)
+        val closedSet = mutableSetOf<Pair<Int, Position>>()
+        openHeap.add(Pair(minute_0, start))
+        while (openHeap.isNotEmpty()) {
+            val (minute, position) = openHeap.remove()
+            if (position == end) {
+                return minute
             }
-            println()
+            if (Pair(minute, position) in closedSet) {
+                continue
+            }
+            closedSet.add(Pair(minute, position))
+            for (neighbor in findNeighbors(minute, position)) {
+                openHeap.add(Pair(minute + 1, neighbor))
+            }
         }
+        throw RuntimeException()
     }
 
     override fun part1(): Int {
-        val foo = lines.flatMapIndexed { y, line -> line.mapIndexed { x, t -> Pair(x, y) to t } }.filter { (_, t) -> t != '.' }.toMap()
-        val afoo = allMinutes(foo)
-        return dijkstra(afoo, start=Position(1, 0), end=Position(6, 5))
+        return dijkstra(start=start, end=end)
     }
 
     override fun part2(): Int {
-        val foo = lines.flatMapIndexed { y, line -> line.mapIndexed { x, t -> Pair(x, y) to t } }.filter { (_, t) -> t != '.' }.toMap()
-        val afoo = allMinutes(foo)
-        val m1 = dijkstra(afoo, start=Position(1, 0), end=Position(6, 5))
-        val m2 = dijkstra(afoo, start=Position(6, 5), end=Position(1, 0), m1)
-        val m3 = dijkstra(afoo, start=Position(1, 0), end=Position(6, 5), m1+ m2)
-        return m1 + m2 + m3
+        val m1 = dijkstra(start=start, end=end)
+        val m2 = dijkstra(start=end, end=start, m1)
+        return dijkstra(start=start, end=end, m2)
     }
 }
