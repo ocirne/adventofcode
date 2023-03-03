@@ -5,7 +5,20 @@ import java.util.*
 
 typealias Position = Pair<Int, Int>
 
-val oldest: Comparator<Pair<Int, Position>> = compareBy { it.first }
+data class MinutePosition(val minute: Int, val x: Int, val y: Int) {
+
+    constructor(minute: Int, p: Position) : this(minute, p.first, p.second)
+
+    fun position(): Position {
+        return Position(x, y)
+    }
+
+    fun move(dx: Int, dy: Int): MinutePosition {
+        return MinutePosition(minute + 1, x + dx, y + dy)
+    }
+}
+
+val oldest: Comparator<MinutePosition> = compareBy { it.minute }
 
 class Day24(val lines: List<String>) : AocChallenge(2022, 24) {
 
@@ -19,7 +32,9 @@ class Day24(val lines: List<String>) : AocChallenge(2022, 24) {
 
     private val start = Position(1, 0)
 
-    private val end = Position(width-2, height-1)
+    private val end = Position(width - 2, height - 1)
+
+    private val movements: List<Position> = listOf(Pair(0, 0), Pair(-1, 0), Pair(1, 0), Pair(0, -1), Pair(0, 1))
 
     private fun createInitialMap(): Map<Position, Char> {
         return lines.flatMapIndexed { y, line -> line.mapIndexed { x, t -> Pair(x, y) to t } }
@@ -31,50 +46,50 @@ class Day24(val lines: List<String>) : AocChallenge(2022, 24) {
             val (x, y) = pos
             when (t) {
                 '#' -> pos
-                '<' -> Position((x-1 - minute).mod(width-2) + 1, y)
-                '>' -> Position((x-1 + minute).mod(width-2) + 1, y)
-                '^' -> Position(x, (y-1 - minute).mod(height-2) + 1)
-                'v' -> Position(x, (y-1 + minute).mod(height-2) + 1)
+                '<' -> Position((x - 1 - minute).mod(width - 2) + 1, y)
+                '>' -> Position((x - 1 + minute).mod(width - 2) + 1, y)
+                '^' -> Position(x, (y - 1 - minute).mod(height - 2) + 1)
+                'v' -> Position(x, (y - 1 + minute).mod(height - 2) + 1)
                 else -> throw IllegalArgumentException("$pos $t")
             }
         }.toSet()
     }
 
-    private fun findNeighbors(minute: Int, position: Position): List<Position> {
-        val walls = allMaps.computeIfAbsent(minute) { atMinute(it + 1) }
-        val (x, y) = position
-        return listOf(position, Position(x - 1, y), Position(x + 1, y), Position(x, y - 1), Position(x, y + 1))
-            .filter { p -> p.first in 0 .. width && p.second in 0 .. height }
-            .filter { p -> p !in walls }
+    private fun findNeighbors(current: MinutePosition): List<MinutePosition> {
+        val walls = allMaps.computeIfAbsent(current.minute + 1) { atMinute(it) }
+        return movements
+            .map { (dx, dy) -> current.move(dx, dy) }
+            .filter { it.x in 0..width && it.y in 0..height }
+            .filter { it.position() !in walls }
     }
 
-    private fun dijkstra(start: Position, end: Position, minute_0:Int=0): Int {
+    private fun dijkstra(start: Position, end: Position, minute_0: Int = 0): Int {
         val openHeap = PriorityQueue(oldest)
-        val closedSet = mutableSetOf<Pair<Int, Position>>()
-        openHeap.add(Pair(minute_0, start))
+        val closedSet = mutableSetOf<MinutePosition>()
+        openHeap.add(MinutePosition(minute_0, start))
         while (openHeap.isNotEmpty()) {
-            val (minute, position) = openHeap.remove()
-            if (position == end) {
-                return minute
+            val current = openHeap.remove()
+            if (current.position() == end) {
+                return current.minute
             }
-            if (Pair(minute, position) in closedSet) {
+            if (current in closedSet) {
                 continue
             }
-            closedSet.add(Pair(minute, position))
-            for (neighbor in findNeighbors(minute, position)) {
-                openHeap.add(Pair(minute + 1, neighbor))
+            closedSet.add(current)
+            for (neighbor in findNeighbors(current)) {
+                openHeap.add(neighbor)
             }
         }
         throw RuntimeException()
     }
 
     override fun part1(): Int {
-        return dijkstra(start=start, end=end)
+        return dijkstra(start = start, end = end)
     }
 
     override fun part2(): Int {
-        val m1 = dijkstra(start=start, end=end)
-        val m2 = dijkstra(start=end, end=start, m1)
-        return dijkstra(start=start, end=end, m2)
+        val m1 = dijkstra(start = start, end = end)
+        val m2 = dijkstra(start = end, end = start, m1)
+        return dijkstra(start = start, end = end, m2)
     }
 }
