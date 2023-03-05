@@ -8,13 +8,13 @@ const val MUL = 2
 
 class Day2(val lines: List<String>) : AocChallenge(2019, 2) {
 
-    fun runProgram(programStr: String): Int {
+    fun runProgram(programStr: String, verb: Int=12, noun: Int=2): Int {
         println(programStr)
         println(programStr.split(','))
         val program = programStr.split(',').map { it.toInt() }.toMutableList()
         println(program)
-        program[1] = 12
-        program[2] = 2
+        program[1] = verb
+        program[2] = noun
 
         var p = 0
         while (true) {
@@ -44,6 +44,14 @@ class Day2(val lines: List<String>) : AocChallenge(2019, 2) {
     }
 
     override fun part2(): Int {
-        return -1
+        val target = 19690720
+        for (noun in 0 .. 99) {
+            for (verb in 0 .. 99) {
+                if (runProgram(lines.first(), noun, verb) == target) {
+                    return 100 * noun + verb
+                }
+            }
+        }
+        throw IllegalStateException("unreachable")
     }
 }
