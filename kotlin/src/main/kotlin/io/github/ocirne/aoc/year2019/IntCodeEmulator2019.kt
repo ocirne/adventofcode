@@ -2,12 +2,19 @@ package io.github.ocirne.aoc.year2019
 
 import kotlin.math.pow
 
-class IntCodeEmulator2019(programStr: String) {
+class IntCodeEmulator2019(programStr: String, noun: Int? = null, verb: Int? = null) {
 
     val program = programStr.split(',').map { it.toInt() }.toMutableList()
 
+    init {
+        if (noun != null) program[1] = noun
+        if (verb != null) program[2] = verb
+    }
+
     // program pointer
     private var pp = 0
+
+    private val inputList = mutableListOf<Int>()
 
     private val output = mutableListOf<Int>()
 
@@ -42,17 +49,26 @@ class IntCodeEmulator2019(programStr: String) {
         pp = if (evaluation(p1)) p2 else pp + 3
     }
 
-    fun run(vararg inputs: Int, noun: Int? = null, verb: Int? = null): IntCodeEmulator2019 {
-        if (noun != null) program[1] = noun
-        if (verb != null) program[2] = verb
-        val inputList = inputs.toMutableList()
+    fun addInput(i: Int): IntCodeEmulator2019 {
+        inputList.add(i)
+        return this
+    }
+
+    fun run(vararg inputs: Int): IntCodeEmulator2019 {
+        inputList.addAll(inputs.toList())
+        while(!step()) { /* */ }
+        return this
+    }
+
+    /** runs the emulation until the next generated output */
+    fun step(): Boolean {
         while (true) {
             when (val opcode = program[pp] % 100) {
-                STOP -> return this
+                STOP -> return true
                 ADD -> mathInstruction { v1, v2 -> v1 + v2 }
                 MUL -> mathInstruction { v1, v2 -> v1 * v2 }
                 INPUT -> ioInstruction(immediate = true) { program[it] = inputList.removeFirst() }
-                OUTPUT -> ioInstruction(immediate = false) { output.add(it) }
+                OUTPUT -> { ioInstruction(immediate = false) { output.add(it) }; return false }
                 JMP_TRUE -> jumpInstruction { it != 0 }
                 JMP_FALSE -> jumpInstruction { it == 0 }
                 LESS_THAN -> mathInstruction { v1, v2 -> if (v1 < v2) 1 else 0 }
@@ -62,7 +78,7 @@ class IntCodeEmulator2019(programStr: String) {
         }
     }
 
-    fun getDiagnosticCode(): Int {
+    fun getLastOutput(): Int {
         return output.last()
     }
 

@@ -1,6 +1,7 @@
 package io.github.ocirne.aoc.year2015
 
 import io.github.ocirne.aoc.AocTest
+import io.github.ocirne.aoc.permutations
 import io.kotest.matchers.collections.shouldContainAll
 import org.junit.jupiter.api.Test
 

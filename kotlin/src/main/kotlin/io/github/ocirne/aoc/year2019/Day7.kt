@@ -1,27 +1,36 @@
 package io.github.ocirne.aoc.year2019
 
 import io.github.ocirne.aoc.AocChallenge
-import io.github.ocirne.aoc.year2015.permutations
+import io.github.ocirne.aoc.permutations
 
 class Day7(val lines: List<String>) : AocChallenge(2019, 7) {
 
-    fun amplifierChain(program: String, vararg inputs: Int): Int {
+    fun amplifierChain(program: String, phaseSettings: List<Int>): Int {
+        val amplifiers = phaseSettings.map { IntCodeEmulator2019(program).addInput(it) }
         var t = 0
-        // TODO Reduce?
-        inputs.forEach { i ->
-            IntCodeEmulator2019(program).run(i, t).getDiagnosticCode().also { t = it }
+        while (true) {
+            for (amp in amplifiers) {
+                amp.addInput(t)
+                val done = amp.step()
+                if (done) {
+                    return amplifiers.last().getLastOutput()
+                }
+                t = amp.getLastOutput()
+            }
         }
-        return t
+    }
+
+    private fun maximumForPhaseSettings(vararg phaseSettings: Int): Int {
+        return phaseSettings.toList()
+            .permutations()
+            .maxOf { amplifierChain(lines.first(), it) }
     }
 
     override fun part1(): Int {
-        val inputs = listOf(0, 1,2, 3, 4)
-        return inputs.permutations().map { p ->
-            amplifierChain(lines.first(), *p.toIntArray())
-        }.max()
+        return maximumForPhaseSettings(0, 1, 2, 3, 4)
     }
 
     override fun part2(): Int {
-        TODO()
+        return maximumForPhaseSettings(5, 6, 7, 8, 9)
     }
 }
