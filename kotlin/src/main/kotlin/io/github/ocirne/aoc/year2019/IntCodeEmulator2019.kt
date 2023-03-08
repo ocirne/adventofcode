@@ -66,12 +66,12 @@ class IntCodeEmulator2019(programStr: String, noun: Long? = null, verb: Long? = 
 
     fun run(vararg inputs: Long): IntCodeEmulator2019 {
         inputList.addAll(inputs.toList())
-        while (!step()) { /* */ }
+        while (!tick()) { /* */ }
         return this
     }
 
     /** runs the emulation until the next generated output */
-    fun step(): Boolean {
+    fun tick(): Boolean {
         while (true) {
             when (val opcode = currentOpcode()) {
                 STOP -> return true

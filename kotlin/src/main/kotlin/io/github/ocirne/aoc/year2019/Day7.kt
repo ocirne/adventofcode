@@ -11,7 +11,7 @@ class Day7(val lines: List<String>) : AocChallenge(2019, 7) {
         while (true) {
             for (amp in amplifiers) {
                 amp.addInput(t)
-                val done = amp.step()
+                val done = amp.tick()
                 if (done) {
                     return amplifiers.last().getLastOutput()
                 }
