@@ -22,7 +22,7 @@ abstract class AocTest(
 
     @Test
     fun `examples part 2 is correct`() {
-        Assumptions.assumeTrue(expectedPart1 != null)
+        Assumptions.assumeTrue(expectedPart2 != null)
         subject.part2() shouldBe expectedPart2
     }
 

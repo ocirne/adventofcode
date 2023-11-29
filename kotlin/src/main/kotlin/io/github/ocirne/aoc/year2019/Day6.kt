@@ -20,7 +20,25 @@ class Day6(val lines: List<String>) : AocChallenge(2019, 6) {
         return orbitsAround.keys.sumOf { countOrbits(it) }
     }
 
+    fun commonParent(you: String, san: String): String {
+        var planets_you = mutableSetOf<String>()
+        var py = you
+        while (py != "COM") {
+            planets_you.add(py)
+            py = orbitsAround[py]!!
+        }
+        var ps = san
+        while (!planets_you.contains(ps)) {
+            ps = orbitsAround[ps]!!
+        }
+        return ps
+    }
+
     override fun part2(): Int {
-        return 42
+        val p = commonParent("YOU", "SAN")
+        val y = countOrbits("YOU")
+        val s = countOrbits("SAN")
+        val b = countOrbits(p)
+        return (y-b) + (s-b) - 2
     }
 }
