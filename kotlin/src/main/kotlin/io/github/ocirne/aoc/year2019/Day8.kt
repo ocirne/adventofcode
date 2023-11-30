@@ -4,6 +4,10 @@ import io.github.ocirne.aoc.AocChallenge
 
 class Day8(val lines: List<String>) : AocChallenge(2019, 8) {
 
+    val BLACK = '0'
+    val WHITE = '1'
+    val TRANSPARENT = '2'
+
     private fun countDigit(layer: String, digit: Char): Int {
         return layer.count { c -> c == digit }
     }
@@ -21,7 +25,23 @@ class Day8(val lines: List<String>) : AocChallenge(2019, 8) {
         return checkUncorrupted(25, 6)
     }
 
-    override fun part2(): Int {
-        return -1
+    override fun part2(): String {
+        val width = 25
+        val height = 6
+        val layerSize = width * height
+        val imageData = lines.first()
+        val layers = imageData.chunked(layerSize)
+        val finalImage = MutableList(layerSize) { TRANSPARENT }
+        layers.forEach { layer ->
+            layer.mapIndexed { i, c ->
+                if (finalImage[i] == TRANSPARENT && layer[i] != TRANSPARENT) {
+                    finalImage[i] = c
+                }
+            }
+        }
+        finalImage.chunked(width).forEach { line ->
+            println(line.map { if (it == WHITE) '#' else ' ' }.joinToString(""))
+        }
+        return "."
     }
 }

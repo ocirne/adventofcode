@@ -11,9 +11,4 @@ internal class Day8Test : AocTest(Day8::class) {
         subject as Day8
         subject.checkUncorrupted(width = 3, height = 2) shouldBe 1
     }
-
-    @Test
-    fun `examples year 2019 day 8 part 2`() {
-        subject as Day8
-    }
 }
