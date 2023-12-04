@@ -33,12 +33,16 @@ abstract class AocTest(
             if (!loadExample) {
                 return peek
             }
-            val content = this::class.java.classLoader
-                .getResourceAsStream("examples/${peek.year}/${peek.day}.txt")!!
-                .bufferedReader()
-                .readLines()
-                .map { it.trim() }
+            val content = loadExample(peek.year, peek.day.toString())
             return dayClass.constructors.first().call(content)
         }
     }
+}
+
+fun loadExample(year: Int, filename: String): List<String> {
+    return AocTest::class.java.classLoader
+        .getResourceAsStream("examples/$year/$filename.txt")!!
+        .bufferedReader()
+        .readLines()
+        .map { it.trim() }
 }
