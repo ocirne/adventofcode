@@ -50,16 +50,30 @@ def part1(lines):
     return min(map_seed(almanac, seed) for seed in seeds)
 
 
+class Foo:
+    def __init__(self, almanac):
+        self.almanac = almanac
+
+    def foo(self, base, width, depth=0):
+        if depth >= len(self.almanac):
+            return base
+        return self.foo(base, width, depth + 1)
+
+
 def part2(lines):
     """
     >>> part2(load_example(__file__, "5"))
-    281
+    46
     """
-    ...
+    seeds, almanac = read_almanac(lines)
+    s1, s2, s3, s4 = seeds
+    foo = Foo(almanac)
+    print(foo.foo(s1, s2))
+    print(foo.foo(s3, s4))
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2023, "5")
-    #    data = load_example(__file__, "5")
-    print(part1(data))
-#    print(part2(data))
+    # data = load_input(__file__, 2023, "5")
+    data = load_example(__file__, "5")
+    # print(part1(data))
+    print(part2(data))
