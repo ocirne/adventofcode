@@ -1,4 +1,4 @@
-from math import prod
+from math import prod, sqrt, floor, ceil
 
 from aoc.util import load_input, load_example
 
@@ -10,11 +10,13 @@ def find_best_p(t, d):
     t: time
 
     p * (t-p) > d
+    - p^2 + t * p - d > 0
+    a = -1, b = t, c = -d
+    p_1 = -b + sqrt(b^2 - 4ac) / 2a
+
+    range: (t - p) - p + 1
     """
-    for p in range(d):
-        if p * (t - p) > d:
-            #            print(t, d, p, t-p)
-            return (t - p) - p + 1
+    return t - 2 * floor((t - sqrt(t**2 - 4 * d)) / 2) - 1
 
 
 def part1(lines):
@@ -32,8 +34,8 @@ def part2(lines):
     >>> part2(load_example(__file__, "6"))
     71503
     """
-    t = int("".join(lines[0].split()[1:]))
-    d = int("".join(lines[1].split()[1:]))
+    t = int(lines[0].replace(" ", "").split(":")[1])
+    d = int(lines[1].replace(" ", "").split(":")[1])
     return find_best_p(t, d)
 
 
