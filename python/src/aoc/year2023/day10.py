@@ -38,7 +38,6 @@ def wander(tiles, start_position, direction="S"):
     py, px = start_position
     tile = tiles[py][px]
     while True:
-        print(tile, py, px)
         i += 1
         direction = M[direction, tile]
         dy, dx = H[direction]
@@ -46,7 +45,6 @@ def wander(tiles, start_position, direction="S"):
         px += dx
         tile = tiles[py][px]
         if tile == "S":
-            print("stop", tile, py, px)
             return i
 
 
@@ -58,18 +56,17 @@ def part1(lines):
     8
     """
     s = position_of_s(lines)
-    print(s)
     return wander(lines, s) // 2
 
 
 def part2(lines):
     """
-    #    >>> part2(load_example(__file__, "10"))
+    >>> part2(load_example(__file__, "10a"))
     """
+    ...
 
 
 if __name__ == "__main__":
     data = load_input(__file__, 2023, "10")
-    #    data = load_example(__file__, "10b")
     print(part1(data))
-#    print(part2(data))
+    # print(part2(data))
