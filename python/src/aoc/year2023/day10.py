@@ -34,18 +34,22 @@ H = {
 
 
 def wander(tiles, start_position, direction="S"):
-    i = 0
     py, px = start_position
     tile = tiles[py][px]
+    loop = set()
+    inner_border = set()
     while True:
-        i += 1
-        direction, _ = M[direction, tile]
+        direction, inner_border_positions = M[direction, tile]
         dy, dx = H[direction]
+        for ibp in inner_border_positions:
+            iy, ix = H[ibp]
+            inner_border.add((py + iy, px + ix))
         py += dy
         px += dx
         tile = tiles[py][px]
+        loop.add((py, px))
         if tile == "S":
-            return i
+            return loop, inner_border
 
 
 def part1(lines):
@@ -56,28 +60,8 @@ def part1(lines):
     8
     """
     s = position_of_s(lines)
-    return wander(lines, s) // 2
-
-
-def wander2(tiles, start_position, direction="S"):
-    i = 0
-    py, px = start_position
-    tile = tiles[py][px]
-    border = set()
-    inner_area = set()
-    while True:
-        i += 1
-        direction, ia_pos = M[direction, tile]
-        dy, dx = H[direction]
-        for ia in ia_pos:
-            iy, ix = H[ia]
-            inner_area.add((py + iy, px + ix))
-        py += dy
-        px += dx
-        tile = tiles[py][px]
-        border.add((py, px))
-        if tile == "S":
-            return border, inner_area
+    loop, _ = wander(lines, s)
+    return len(loop) // 2
 
 
 def neighbors(pos):
@@ -85,16 +69,17 @@ def neighbors(pos):
     return (py - 1, px), (py + 1, px), (py, px - 1), (py, px + 1)
 
 
-def flooding(border, inner_area):
-    open_set = inner_area.difference(border)
+def flooding(loop, inner_border):
+    open_set = inner_border.difference(loop)
     real_inner_area = set()
     while open_set:
         if len(open_set) > 1000:
+            # oops, outer area
             return None
         pos = open_set.pop()
         real_inner_area.add(pos)
         for neighbor in neighbors(pos):
-            if neighbor in border:
+            if neighbor in loop:
                 continue
             if neighbor in real_inner_area:
                 continue
@@ -110,10 +95,8 @@ def part2(lines):
     10
     """
     s = position_of_s(lines)
-    b, ia = wander2(lines, s)
-    f = flooding(b, ia)
-    if f is not None:
-        return len(f)
+    loop, inner_border = wander(lines, s)
+    return len(flooding(loop, inner_border))
 
 
 if __name__ == "__main__":
