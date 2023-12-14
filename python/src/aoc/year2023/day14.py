@@ -11,9 +11,18 @@ def read_data(lines):
     return w, h, rocks
 
 
-def roll_rocks_north_once(w, h, rocks):
+DIRECTION = {
+    "NORTH": (0, -1),
+    "WEST": (-1, 0),
+    "SOUTH": (0, 1),
+    "EAST": (1, 0),
+}
+
+
+def roll_rocks_once(w, h, rocks, direction):
     result = {}
     rolls = 0
+    dx, dy = DIRECTION[direction]
     for y in range(h):
         for x in range(w):
             if (x, y) not in rocks:
@@ -21,12 +30,19 @@ def roll_rocks_north_once(w, h, rocks):
             if rocks[x, y] == "#":
                 result[x, y] = "#"
             if rocks[x, y] == "O":
-                if y > 0 and (x, y - 1) not in rocks:
-                    result[x, y - 1] = "O"
+                if 0 <= x + dx < w and 0 <= y + dy < h and (x + dx, y + dy) not in rocks:
+                    result[x + dx, y + dy] = "O"
                     rolls += 1
                 else:
                     result[x, y] = "O"
     return result, rolls
+
+
+def roll_rocks(w, h, rocks, direction="NORTH"):
+    rolls = 1
+    while rolls > 0:
+        rocks, rolls = roll_rocks_once(w, h, rocks, direction)
+    return rocks
 
 
 def total_load(w, h, rocks):
@@ -44,23 +60,41 @@ def part1(lines):
     136
     """
     w, h, rocks = read_data(lines)
-    rolls = 1
-    while rolls > 0:
-        rocks, rolls = roll_rocks_north_once(w, h, rocks)
-        print(rolls)
+    rocks = roll_rocks(w, h, rocks)
     return total_load(w, h, rocks)
+
+
+def spin_cycle(w, h, rocks):
+    rocks = roll_rocks(w, h, rocks, "NORTH")
+    rocks = roll_rocks(w, h, rocks, "WEST")
+    rocks = roll_rocks(w, h, rocks, "SOUTH")
+    rocks = roll_rocks(w, h, rocks, "EAST")
+    return rocks
 
 
 def part2(lines):
     """
     >>> part2(load_example(__file__, "14"))
-    ...
+    64
     """
-    ...
+    total_cycles = 1_000_000_000
+    w, h, rocks = read_data(lines)
+    i = 1
+    seen = {}
+    modulo, target = None, None
+    while True:
+        rocks = spin_cycle(w, h, rocks)
+        hashed_rocks = hash(frozenset(rocks.items()))
+        if hashed_rocks in seen:
+            modulo = i - seen[hashed_rocks]
+            target = total_cycles % modulo
+        if modulo is not None and i % modulo == target:
+            return total_load(w, h, rocks)
+        seen[hashed_rocks] = i
+        i += 1
 
 
 if __name__ == "__main__":
     data = load_input(__file__, 2023, "14")
-    # data = load_example(__file__, "14")
     print(part1(data))
-    # print(part2(data))
+    print(part2(data))
