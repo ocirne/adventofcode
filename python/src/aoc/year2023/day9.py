@@ -1,19 +1,19 @@
 from aoc.util import load_input, load_example
 
 
-def next_value(a, d):
-    return a[-1] + rec(d, next_value)
+def next_value(a, r):
+    return a[-1] + r
 
 
-def previous_value(a, d):
-    return a[0] - rec(d, previous_value)
+def previous_value(a, r):
+    return a[0] - r
 
 
 def rec(a, f):
     if all(n == 0 for n in a):
         return 0
     d = [s - p for p, s in zip(a[:-1], a[1:])]
-    return f(a, d)
+    return f(a, rec(d, f))
 
 
 def sum_adjacent_values(lines, f):
