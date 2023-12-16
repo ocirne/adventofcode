@@ -34,10 +34,8 @@ class CaveWalker:
         if not (0 <= px < self.w and 0 <= py < self.h):
             return
         if (px, py) in self.visited and self.visited[px, py] == d:
-            print("loop?")
             return
         self.visited[px, py] = d
-        print(px, py, d)
         if self.cave[px, py] == ".":
             self.rec(px, py, d)
         elif self.cave[px, py] == "/":
@@ -73,23 +71,38 @@ class CaveWalker:
 
 
 def part1(lines):
-    """
-    >>> part1(load_example(__file__, "16"))
-    46
-    """
     walker = CaveWalker(lines)
     walker.rec(-1, 0, ">")
     return len(walker.visited)
 
 
+def try_out(lines):
+    w, h = len(lines[0]), len(lines)
+    for sx in range(w):
+        walker = CaveWalker(lines)
+        walker.rec(sx, -1, "v")
+        yield len(walker.visited)
+        walker = CaveWalker(lines)
+        walker.rec(sx, h, "^")
+        yield len(walker.visited)
+    for sy in range(h):
+        walker = CaveWalker(lines)
+        walker.rec(-1, sy, ">")
+        yield len(walker.visited)
+        walker = CaveWalker(lines)
+        walker.rec(w, sy, "<")
+        yield len(walker.visited)
+
+
 def part2(lines):
     """
     >>> part2(load_example(__file__, "16"))
+    51
     """
+    return max(try_out(lines))
 
 
 if __name__ == "__main__":
     data = load_input(__file__, 2023, "16")
-    #    data = load_example(__file__, "16")
     print(part1(data))
-#    print(part2(data))
+    print(part2(data))
