@@ -124,9 +124,6 @@ class HeatCityUltra:
                 else:
                     yield ((nx, ny), last_directions[-(self.MAX - f) :] + f * nd, count_same), heat_loss
 
-    def score(self, cx, cy, tx, ty):
-        return abs(cx - tx) + abs(cy - ty)
-
     def a_star(self):
         start2 = ((0, 0), ">", 1)
         start1 = ((0, 0), "v", 1)
@@ -135,23 +132,19 @@ class HeatCityUltra:
         closed_set = set()
         heappush(open_heap, (0, start1))
         heappush(open_heap, (0, start2))
-        g = defaultdict(lambda: 0)
         while open_heap:
-            best_g, current_node = heappop(open_heap)
-            print("oh", len(open_heap), "->", best_g, current_node)
+            gg, current_node = heappop(open_heap)
+            print("oh", len(open_heap), "->", gg, current_node)
             if current_node[0] == target and current_node[2] >= self.MIN:
-                print("result:", g[current_node])
-                return g[current_node]
+                print("result:", gg)
+                return gg
+            if current_node in closed_set:
+                continue
             closed_set.add(current_node)
             for next_node, delta_g in self.neighbors(current_node):
                 if next_node in closed_set:
                     continue
-                tentative_g = g[current_node] + delta_g
-                if tentative_g < g[next_node] or next_node not in [i[1] for i in open_heap]:
-                    g[next_node] = tentative_g
-                    h = self.score(*next_node[0], *target)
-                    f = tentative_g + h
-                    heappush(open_heap, (f, next_node))
+                heappush(open_heap, (gg + delta_g, next_node))
 
 
 def part2(lines, MIN, MAX):
@@ -170,6 +163,6 @@ if __name__ == "__main__":
     assert part2(load_example(__file__, "17b"), 4, 10) == 71
 
     # data = load_example(__file__, "17b")
-    # data = load_input(__file__, 2023, "17")
+    data = load_input(__file__, 2023, "17")
     # print(part2(data, 0, 3))
-    # print(part2(data, 4, 10))
+    print(part2(data, 4, 10))
