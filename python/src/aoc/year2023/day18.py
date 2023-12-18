@@ -1,11 +1,17 @@
+import re
+
 from aoc.util import load_input, load_example
 
 
 MOVES = {
-    "U": (-1, 0),
-    "D": (+1, 0),
-    "L": (0, -1),
+    "0": (0, +1),
     "R": (0, +1),
+    "1": (+1, 0),
+    "D": (+1, 0),
+    "2": (0, -1),
+    "L": (0, -1),
+    "3": (-1, 0),
+    "U": (-1, 0),
 }
 
 
@@ -56,28 +62,74 @@ def part1(lines):
     """
     edge = wander(lines)
     foo = flooding(edge, (1, 1))
-    min_x = min(x for _, x in foo)
-    max_x = max(x for _, x in foo)
-    min_y = min(y for y, _ in foo)
-    max_y = max(y for y, _ in foo)
-    for y in range(min_y, max_y + 1):
-        for x in range(min_x, max_x + 1):
-            if (y, x) in edge:
-                print("#", end="")
-            else:
-                print(".", end="")
-        print()
+    #    min_x = min(x for _, x in foo)
+    #    max_x = max(x for _, x in foo)
+    #    min_y = min(y for y, _ in foo)
+    #    max_y = max(y for y, _ in foo)
+    #    for y in range(min_y, max_y + 1):
+    #        for x in range(min_x, max_x + 1):
+    #            if (y, x) in edge:
+    #                print("#", end="")
+    #            else:
+    #                print(".", end="")
+    #        print()
     return len(foo)
+
+
+def extract_1(lines):
+    """
+    >>> next(extract_1(["R 6 (#70c710)"]))
+    (0, 1, 6)
+    >>> next(extract_1(["D 5 (#0dc571)"]))
+    (1, 0, 5)
+    """
+    for line in lines:
+        direction, count, _ = line.split()
+        dy, dx = MOVES[direction]
+        yield dy, dx, int(count)
+
+
+def extract_2(lines):
+    """
+    >>> next(extract_2(["R 6 (#70c710)"]))
+    (0, 1, 461937)
+    >>> next(extract_2(["D 5 (#0dc571)"]))
+    (1, 0, 56407)
+    """
+    pattern = re.compile(r".*\(#([a-f0-9]{5})(\d)\)")
+    for line in lines:
+        count, direction = pattern.match(line).groups()
+        dy, dx = MOVES[direction]
+        yield dy, dx, int(count, 16)
+
+
+def wander2(lines):
+    py, px = 0, 0
+    ys, xs = set(), set()
+    for dy, dx, count in extract_1(lines):
+        py += count * dy
+        px += count * dx
+        ys.add(py)
+        xs.add(px)
+    print("ys", sorted(ys))
+    print("xs", sorted(xs))
 
 
 def part2(lines):
     """
     >>> part2(load_example(__file__, "18"))
+    952408144115
     """
+    edge = wander2(lines)
+    print(edge)
+
+
+#    foo = flooding(edge, (1, 1))
+#    return len(foo)
 
 
 if __name__ == "__main__":
-    # print(part1(load_example(__file__, "18")))
-    data = load_input(__file__, 2023, "18")
-    print(part1(data))
+    print(part2(load_example(__file__, "18")))
+    # data = load_input(__file__, 2023, "18")
+    # print(part2(data))
     # print(part2(data))
