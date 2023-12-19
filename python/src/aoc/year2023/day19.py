@@ -19,7 +19,10 @@ class LessThanRule:
         return part.foo[self.variable] < self.value
 
     def __str__(self) -> str:
-        return self.variable + " less than: " + self.value + " -> " + self.next_workflow
+        return self.variable + " less than: " + str(self.value) + " -> " + self.next_workflow
+
+    def anti(self):
+        return GreaterThanRule(self.variable, self.value - 1, "anti")
 
 
 class GreaterThanRule:
@@ -32,7 +35,10 @@ class GreaterThanRule:
         return part.foo[self.variable] > self.value
 
     def __str__(self) -> str:
-        return self.variable + " greater than: " + self.value + " -> " + self.next_workflow
+        return self.variable + " greater than: " + str(self.value) + " -> " + self.next_workflow
+
+    def anti(self):
+        return LessThanRule(self.variable, self.value + 1, "anti")
 
 
 class DirectRule:
@@ -63,7 +69,7 @@ class Workflow:
                 raise
 
     def __str__(self) -> str:
-        return str(self.rules)
+        return "; ".join(str(s) for s in self.rules)
 
     def process(self, part):
         for rule in self.rules:
@@ -115,14 +121,84 @@ def part1(lines):
     return total
 
 
+def upper_bound(collected_rules, variable):
+    values = [rule.value for rule in collected_rules if isinstance(rule, LessThanRule) and rule.variable == variable]
+    return min(values) if values else 4001
+
+
+def lower_bound(collected_rules, variable):
+    values = [rule.value for rule in collected_rules if isinstance(rule, GreaterThanRule) and rule.variable == variable]
+    return max(values) if values else 0
+
+
+def bar(collected_rules):
+    total = 1
+    for v in "xmas":
+        lb, ub = lower_bound(collected_rules, v), upper_bound(collected_rules, v)
+        assert lb < ub
+        p = ub - lb - 1
+        print(v, lb, ub, p)
+        total *= p
+    return total
+
+
+def rec(workflows, current_node, i=0, collected_rules=[]):
+    if current_node == "A":
+        print("; ".join(str(s) for s in collected_rules))
+        return bar(collected_rules)
+    if current_node == "R":
+        return 0
+    current_workflow = workflows[current_node]
+    if i >= len(current_workflow.rules):
+        raise
+    current_rule = current_workflow.rules[i]
+    # match
+    total = rec(workflows, current_rule.next_workflow, 0, collected_rules + [current_rule])
+    # no match
+    if i + 1 < len(current_workflow.rules):
+        total += rec(workflows, current_node, i + 1, collected_rules + [current_rule.anti()])
+    return total
+
+
 def part2(lines):
     """
     >>> part2(load_example(__file__, "19"))
+    167409079868000
     """
+    it = iter(lines)
+
+    workflows = {}
+    for line in it:
+        if not line:
+            break
+        g = WORKFLOW_PATTERN.match(line)
+        name, rules = g.groups()
+        workflows[name] = Workflow(rules)
+    #        print("workflow", workflows[name])
+
+    while True:
+        direct = {}
+        for name, workflow in workflows.items():
+            targets = [rule.next_workflow for rule in workflow.rules]
+            if len(set(targets)) == 1:
+                direct[name] = targets[0]
+        if not direct:
+            break
+        for name, workflow in workflows.items():
+            for rule in workflow.rules:
+                if rule.next_workflow in direct:
+                    rule.next_workflow = direct[rule.next_workflow]
+        for name in direct:
+            workflows.pop(name)
+    for name, wf in workflows.items():
+        print(name, "; ".join(str(s) for s in wf.rules))
+
+    print()
+    # analyze workflow tree
+    return rec(workflows, "in")
 
 
 if __name__ == "__main__":
-    # print(part1(load_example(__file__, "19")))
     data = load_input(__file__, 2023, "19")
     print(part1(data))
-    # print(part2(data))
+    print(part2(data))
