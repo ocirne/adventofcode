@@ -38,14 +38,27 @@ def part1(lines, steps=64):
     return foo(garden, start, steps)
 
 
-def part2(lines):
+def part2(lines, steps=26501365):
     """
-    >>> part2(load_example(__file__, "21"))
+    >>> part2(load_example(__file__, "21"), steps=6)
+    16
+    >>> part2(load_example(__file__, "21"), steps=10)
+    50
+    >>> part2(load_example(__file__, "21"), steps=50)
+    1594
+    >>> part2(load_example(__file__, "21"), steps=100)
+    6536
+    >>> part2(load_example(__file__, "21"), steps=500)
+    167004
+    >>> part2(load_example(__file__, "21"), steps=1000)
+    668697
+    >>> part2(load_example(__file__, "21"), steps=5000)
+    16733044
     """
 
 
 if __name__ == "__main__":
-    print(part1(load_example(__file__, "21"), steps=6))
-    data = load_input(__file__, 2023, "21")
-    print(part1(data))
+    print(part2(load_example(__file__, "21"), steps=6))
+    # data = load_input(__file__, 2023, "21")
+    # print(part1(data))
     # print(part2(data))
