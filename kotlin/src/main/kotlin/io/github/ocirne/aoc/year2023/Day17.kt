@@ -1,7 +1,6 @@
 package io.github.ocirne.aoc.year2023
 
 import io.github.ocirne.aoc.AocChallenge
-import java.util.PriorityQueue
 
 class Day17(val lines: List<String>) : AocChallenge(2023, 17) {
 
@@ -10,9 +9,9 @@ class Day17(val lines: List<String>) : AocChallenge(2023, 17) {
     }
 
     fun aStar(heatBlocks: Array<IntArray>): Int {
-        val start = (0, 0, a)
-        val openHeap = PriorityQueue()
-        while
+//        val start = (0, 0, a)
+//        val openHeap = PriorityQueue()
+//        while
         return -1
     }
 
