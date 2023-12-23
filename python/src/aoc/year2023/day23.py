@@ -68,14 +68,45 @@ def part1(lines):
     return max(foo(trail, start, end))
 
 
+def neighbors2(trail, current_node):
+    (x, y), d, g, visited = current_node
+    for next_pos, nd in (((x - 1, y), "<"), ((x + 1, y), ">"), ((x, y - 1), "^"), ((x, y + 1), "v")):
+        if nd == A[d]:
+            continue
+        if next_pos not in trail:
+            continue
+        #        if trail[x, y] != "." and trail[x, y] != nd:
+        #            continue
+        if str(next_pos) in visited:
+            continue
+        yield next_pos, nd, g + 1, visited + str(next_pos)
+
+
+result = 0
+
+
+def dfs(trail, end, current_node):
+    global result
+    if current_node[0] == end:
+        result = max(result, current_node[2])
+        print(current_node[2], result)
+    for next_node in neighbors2(trail, current_node):
+        dfs(trail, end, next_node)
+
+
 def part2(lines):
     """
     >>> part2(load_example(__file__, "23"))
+    154
     """
+    trail, start, end = read_trail(lines)
+    start_node = (start, "v", 0, "")
+    dfs(trail, end, start_node)
+    return result
 
 
 if __name__ == "__main__":
-    # print(part1(load_example(__file__, "23")))
+    # print(part2(load_example(__file__, "23")))
     data = load_input(__file__, 2023, "23")
-    print(part1(data))
-    # print(part2(data))
+    # print(part1(data))
+    print(part2(data))
