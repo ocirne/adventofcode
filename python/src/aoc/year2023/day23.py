@@ -1,8 +1,5 @@
+from functools import lru_cache
 from aoc.util import load_input, load_example
-
-import sys
-
-sys.setrecursionlimit(142 * 142)
 
 
 def read_trail(lines):
@@ -75,23 +72,72 @@ def neighbors2(trail, current_node):
             continue
         if next_pos not in trail:
             continue
-        #        if trail[x, y] != "." and trail[x, y] != nd:
-        #            continue
+        # if trail[x, y] != "." and trail[x, y] != nd:
+        #    continue
         if str(next_pos) in visited:
             continue
         yield next_pos, nd, g + 1, visited + str(next_pos)
 
 
-result = 0
+def simple_neighbors(trail, current_pos):
+    x, y = current_pos
+    return (pos for pos in ((x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)) if pos in trail)
 
 
-def dfs(trail, end, current_node):
-    global result
-    if current_node[0] == end:
-        result = max(result, current_node[2])
-        print(current_node[2], result)
-    for next_node in neighbors2(trail, current_node):
-        dfs(trail, end, next_node)
+def find_graph_neighbors(trail, vertices, start):
+    open_set = {start}
+    visited = set()
+    g = {start: 0}
+    while open_set:
+        current_pos = open_set.pop()
+        if current_pos in visited:
+            continue
+        visited.add(current_pos)
+        for next_pos in simple_neighbors(trail, current_pos):
+            if next_pos in visited:
+                continue
+            if next_pos in vertices:
+                yield next_pos, g[current_pos] + 1
+            else:
+                g[next_pos] = g[current_pos] + 1
+                open_set.add(next_pos)
+
+
+def simplify_trail(lines, trail, start, end):
+    w, h = len(lines[0]), len(lines)
+    vertices = {start, end}
+    for y in range(h):
+        for x in range(w):
+            if (x, y) in trail:
+                s = sum(1 for pos in simple_neighbors(trail, (x, y)))
+                if s > 2:
+                    vertices.add((x, y))
+    graph = {v: [] for v in vertices}
+    for vertex_start in vertices:
+        for vertex_neighbor in find_graph_neighbors(trail, vertices, vertex_start):
+            graph[vertex_start].append(vertex_neighbor)
+    for v, e in graph.items():
+        print(v, e)
+    return graph
+
+
+class Foo:
+    def __init__(self, graph, end):
+        self.graph = graph
+        self.end = end
+        self.result = -1
+
+    @lru_cache
+    def dfs(self, current, steps=0, visited=""):
+        if current == self.end:
+            if self.result < steps:
+                self.result = steps
+                print(steps)
+        else:
+            for neighbor, edge in self.graph[current]:
+                if str(current) in visited:
+                    continue
+                self.dfs(neighbor, steps + edge, visited + str(current))
 
 
 def part2(lines):
@@ -100,13 +146,18 @@ def part2(lines):
     154
     """
     trail, start, end = read_trail(lines)
-    start_node = (start, "v", 0, "")
-    dfs(trail, end, start_node)
-    return result
+    # start_node = (start, "v", 0, "")
+    #    return max(foo2(trail, start_node, end))
+    graph = simplify_trail(lines, trail, start, end)
+    foo3 = Foo(graph, end)
+    foo3.dfs(start)
+    return foo3.result
 
 
 if __name__ == "__main__":
     # print(part2(load_example(__file__, "23")))
-    data = load_input(__file__, 2023, "23")
+    print(part2(load_input(__file__, 2023, "23")))
+
+    # data = load_input(__file__, 2023, "23")
     # print(part1(data))
-    print(part2(data))
+    # print(part2(data))
