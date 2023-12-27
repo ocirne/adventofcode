@@ -14,13 +14,22 @@ def read_graph(lines):
     return graph
 
 
-def find_random_paths(graph, candidates):
+def find_random_path(graph, candidates):
     start = random.choice(list(graph.keys()))
+    end = random.choice(list(graph.keys()))
     open_set = [start]
     visited = set()
     parent = {}
     while open_set:
-        current_node = open_set.pop()
+        current_node = open_set.pop(0)
+        if current_node == end:
+            path_node = end
+            path = []
+            while path_node in parent:
+                next_node = parent[path_node]
+                path.append((min(path_node, next_node), max(path_node, next_node)))
+                path_node = next_node
+            return None, path
         if current_node in visited:
             continue
         visited.add(current_node)
@@ -33,11 +42,11 @@ def find_random_paths(graph, candidates):
                 continue
             parent[neighbor_node] = current_node
             open_set.append(neighbor_node)
+    # no path from start to end possible
     total = len(graph)
     half = len(visited)
     if half < total:
         return (total - half) * half, None
-    return None, [(min(n1, n2), max(n1, n2)) for n1, n2 in parent.items()]
 
 
 def part1(lines):
@@ -49,7 +58,7 @@ def part1(lines):
     counter = Counter()
     candidates = []
     while True:
-        result, path_edges = find_random_paths(graph, candidates)
+        result, path_edges = find_random_path(graph, candidates)
         if result is not None:
             return result
         counter.update(path_edges)
