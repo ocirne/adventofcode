@@ -30,6 +30,9 @@ def wander(lines):
 
 def neighbors(pos):
     py, px = pos
+    if py < 0 or px < 0:
+        print("outer area")
+        raise
     return (py - 1, px), (py + 1, px), (py, px - 1), (py, px + 1)
 
 
@@ -38,9 +41,6 @@ def flooding(edge, start):
     open_set = {start}
     real_inner_area = set()
     while open_set:
-        if len(open_set) > 1000:
-            # oops, outer area
-            return None
         pos = open_set.pop()
         real_inner_area.add(pos)
         for neighbor in neighbors(pos):
@@ -61,19 +61,30 @@ def part1(lines):
     62
     """
     edge = wander(lines)
-    foo = flooding(edge, (1, 1))
-    #    min_x = min(x for _, x in foo)
-    #    max_x = max(x for _, x in foo)
-    #    min_y = min(y for y, _ in foo)
-    #    max_y = max(y for y, _ in foo)
-    #    for y in range(min_y, max_y + 1):
-    #        for x in range(min_x, max_x + 1):
-    #            if (y, x) in edge:
-    #                print("#", end="")
-    #            else:
-    #                print(".", end="")
-    #        print()
-    return len(foo)
+    #    foo = flooding(edge, (20, 152))
+
+    min_x = min(x for _, x in edge)
+    max_x = max(x for _, x in edge)
+    min_y = min(y for y, _ in edge)
+    max_y = max(y for y, _ in edge)
+
+    print(min_x, max_x, min_y, max_y)
+
+    min_x, max_x = -60, 120
+    min_y, max_y = -200, -160
+    for y in range(min_y, max_y + 1):
+        for x in range(min_x, max_x + 1):
+            if (y, x) == (20, 152):
+                print("%", end="")
+            elif (y, x) in edge:
+                print("#", end="")
+            else:
+                print(".", end="")
+        print()
+
+    print(min_x, max_x, min_y, max_y)
+
+    return len(edge)
 
 
 def extract_1(lines):
@@ -103,16 +114,74 @@ def extract_2(lines):
         yield dy, dx, int(count, 16)
 
 
+def reverse_index(values, left, right):
+    if left > right:
+        left, right = right, left
+    for index, w in enumerate(values):
+        if left <= w <= right:
+            yield index
+
+
+def reverse_index2(values, value):
+    for index, w in enumerate(values):
+        if value == w:
+            return index
+    #    print(values, value)
+    raise
+
+
+def solution2(iys, ixs, flooded_edge):
+    total_area = 0
+    for iy, ix in flooded_edge:
+        dy = iys[iy + 1] - iys[iy]
+        dx = ixs[ix + 1] - ixs[ix]
+        total_area += dy * dx
+    return total_area
+
+
 def wander2(lines):
+    """
+    Kante 0,0 -> 0,5 (vertikal)
+    x: Breite: 1
+    y: Höhe: 6
+
+    x: [-oo..0][0:1][1..+oo]
+    y: [-oo..0][0:6][6..+oo]
+
+    :param lines:
+    :return:
+    """
     py, px = 0, 0
     ys, xs = set(), set()
-    for dy, dx, count in extract_1(lines):
+    for dy, dx, count in extract_2(lines):
         py += count * dy
         px += count * dx
         ys.add(py)
+        ys.add(py + 1)
         xs.add(px)
-    print("ys", sorted(ys))
-    print("xs", sorted(xs))
+        xs.add(px + 1)
+    ys = sorted(ys)
+    xs = sorted(xs)
+
+    py, px = 0, 0
+    edge = set()
+    for dy, dx, count in extract_2(lines):
+        #        print('dy', dy, 'dx', dx, 'count', count, 'px', px, 'py', py)
+        if dy == 0:
+            iy = reverse_index2(ys, py)
+            npx = px + count * dx
+            for ix in reverse_index(xs, px, npx):
+                edge.add((iy, ix))
+            px = npx
+            ix = reverse_index2(xs, px)
+        if dx == 0:
+            ix = reverse_index2(xs, px)
+            npy = py + count * dy
+            for iy in reverse_index(ys, py, npy):
+                edge.add((iy, ix))
+            py = npy
+            iy = reverse_index2(ys, py)
+    return ys, xs, edge
 
 
 def part2(lines):
@@ -120,16 +189,39 @@ def part2(lines):
     >>> part2(load_example(__file__, "18"))
     952408144115
     """
-    edge = wander2(lines)
-    print(edge)
+    ys, xs, edge = wander2(lines)
+    #    print('ys', ys)
+    #    print('xs', xs)
+    #    print('edge', edge)
 
+    edge = flooding(edge, (20, 152))
 
-#    foo = flooding(edge, (1, 1))
-#    return len(foo)
+    min_x = min(x for _, x in edge)
+    max_x = max(x for _, x in edge)
+    min_y = min(y for y, _ in edge)
+    max_y = max(y for y, _ in edge)
+
+    print(min_x, max_x, min_y, max_y)
+
+    min_x, max_x = 0, 180
+    min_y, max_y = 0, 40
+    for y in range(min_y, max_y + 1):
+        for x in range(min_x, max_x + 1):
+            if (y, x) == (20, 152):
+                print("%", end="")
+            elif (y, x) in edge:
+                print("#", end="")
+            else:
+                print(".", end="")
+        print()
+
+    print(min_x, max_x, min_y, max_y)
+
+    return solution2(ys, xs, edge)
 
 
 if __name__ == "__main__":
-    print(part2(load_example(__file__, "18")))
-    # data = load_input(__file__, 2023, "18")
-    # print(part2(data))
-    # print(part2(data))
+    # print(part2(load_example(__file__, "18")))
+    data = load_input(__file__, 2023, "18")
+    print(part1(data))
+    print(part2(data))
