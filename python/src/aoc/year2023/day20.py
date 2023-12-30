@@ -107,9 +107,17 @@ def part1(lines):
 
 
 def part2(lines):
-    """
-    >>> part2(load_example(__file__, "20a"))
-    """
+    #    print('digraph D {')
+
+    #    for line in lines:
+    #        src, dest = line.split(" -> ")
+    #        if src == "broadcaster":
+    #            print(line)
+    #        else:
+    #            print(line[1:])
+    #    print('}')
+    #    return
+
     modules = {"output": Output(), "rx": Output()}
     for line in lines:
         src, dest = line.split(" -> ")
@@ -132,26 +140,36 @@ def part2(lines):
                 continue
             modules[destination].most_recent[source] = 0
 
-    total_pulses = {0: 0, 1: 0}
-    for i in range(1000):
+    # source, target = 'xr', 'sg'
+    # source, target = 'mn', 'dh'
+    # source, target = 'pl', 'lm'
+    # source, target = 'xc', 'db'
+    for i in range(40):
         pulses = [("button", "broadcaster", 0)]
         modules["broadcaster"].pulse(None, 0)
-        total_pulses[0] += 1
         while pulses:
             src, dest, value = pulses.pop(0)
             #            print(src, "-", value, "->", dest)
             for d, v in modules[dest].pulse(src, value):
-                total_pulses[v] += 1
                 pulses.append((dest, d, v))
-        if modules["rx"].state == 0 and modules["rx"].count == 1:
-            return i
-        modules["rx"].count = 0
-        print(" ".join("%s:%s" % (key, module.state) for key, module in modules.items()))
-    return total_pulses
+        if modules["sg"].state == 1:
+            return i, modules["sg"].count
+        for t in ("sg", "dh", "lm", "db"):  # , 'rx'):
+            # if modules[t].state == 1:
+            print("%s: state: %s, %s times" % (t, modules[t].state, modules[t].count), end=" | ")
+            modules[t].count = 0
+        print()
+
+
+#        print(" ".join("%s:%s" % (key, module.state) for key, module in modules.items()))
+#    return target, total_pulses
 
 
 if __name__ == "__main__":
     # print(part1(load_example(__file__, "20b")))
     data = load_input(__file__, 2023, "20")
-    print(part1(data))
+    # print(part1(data))
     print(part2(data))
+
+#  python3 day20.py > 20.dot
+#  dot -Tpng 20.dot > output.png
