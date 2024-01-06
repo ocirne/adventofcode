@@ -3,9 +3,16 @@ import re
 from aoc.util import load_input, load_example
 
 
-WORKFLOW_PATTERN = re.compile(r"([a-z]+)\{(.*)}")
-LESS_THAN_PATTERN = re.compile(r"([xmas])<(\d+):([ARa-z]+)")
-GREATER_THAN_PATTERN = re.compile(r"([xmas])>(\d+):([ARa-z]+)")
+class Part:
+
+    PART_PATTERN = re.compile(r"\{x=(\d+),m=(\d+),a=(\d+),s=(\d+)}")
+
+    def __init__(self, line):
+        x, m, a, s = map(int, self.PART_PATTERN.match(line).groups())
+        self.registers = {"x": x, "m": m, "a": a, "s": s}
+
+    def rating(self):
+        return sum(self.registers.values())
 
 
 class LessThanRule:
@@ -15,10 +22,7 @@ class LessThanRule:
         self.next_workflow = next_workflow
 
     def match(self, part):
-        return part.foo[self.variable] < self.value
-
-    def __str__(self) -> str:
-        return self.variable + " less than: " + str(self.value) + " -> " + self.next_workflow
+        return part.registers[self.variable] < self.value
 
     def anti(self):
         return GreaterThanRule(self.variable, self.value - 1, "anti")
@@ -31,10 +35,7 @@ class GreaterThanRule:
         self.next_workflow = next_workflow
 
     def match(self, part):
-        return part.foo[self.category] > self.value
-
-    def __str__(self) -> str:
-        return self.category + " greater than: " + str(self.value) + " -> " + self.next_workflow
+        return part.registers[self.category] > self.value
 
     def anti(self):
         return LessThanRule(self.category, self.value + 1, "anti")
@@ -47,27 +48,25 @@ class DirectRule:
     def match(self, _):
         return True
 
-    def __str__(self) -> str:
-        return "Direct: " + self.next_workflow
-
 
 class Workflow:
+
+    LESS_THAN_PATTERN = re.compile(r"([xmas])<(\d+):([ARa-z]+)")
+    GREATER_THAN_PATTERN = re.compile(r"([xmas])>(\d+):([ARa-z]+)")
+
     def __init__(self, rules):
         self.rules = []
         for rule in rules.split(","):
-            if LESS_THAN_PATTERN.match(rule):
-                self.rules.append(LessThanRule(*LESS_THAN_PATTERN.match(rule).groups()))
-            elif GREATER_THAN_PATTERN.match(rule):
-                self.rules.append(GreaterThanRule(*GREATER_THAN_PATTERN.match(rule).groups()))
+            if self.LESS_THAN_PATTERN.match(rule):
+                self.rules.append(LessThanRule(*self.LESS_THAN_PATTERN.match(rule).groups()))
+            elif self.GREATER_THAN_PATTERN.match(rule):
+                self.rules.append(GreaterThanRule(*self.GREATER_THAN_PATTERN.match(rule).groups()))
             elif rule == "A" or rule == "R":
                 self.rules.append(DirectRule(rule))
             elif re.match(r"[a-z]+", rule):
                 self.rules.append(DirectRule(rule))
             else:
                 raise
-
-    def __str__(self) -> str:
-        return "; ".join(str(s) for s in self.rules)
 
     def process(self, part):
         for rule in self.rules:
@@ -76,41 +75,70 @@ class Workflow:
         raise
 
 
-class Part:
+class Workflows:
 
-    PART_PATTERN = re.compile(r"\{x=(\d+),m=(\d+),a=(\d+),s=(\d+)}")
+    WORKFLOW_PATTERN = re.compile(r"([a-z]+)\{(.*)}")
 
-    def __init__(self, line):
-        x, m, a, s = map(int, self.PART_PATTERN.match(line).groups())
-        self.foo = {"x": x, "m": m, "a": a, "s": s}
+    def __init__(self, lines):
+        it = iter(lines)
 
-    def rating(self):
-        return sum(self.foo.values())
+        self.workflows = {}
+        for line in it:
+            if not line:
+                break
+            g = self.WORKFLOW_PATTERN.match(line)
+            name, rules = g.groups()
+            self.workflows[name] = Workflow(rules)
 
+        self.parts = [Part(line) for line in it]
 
-def handle_part(workflows, part):
-    current_workflow = workflows["in"]
-    while True:
-        result = current_workflow.process(part)
-        if result in ("A", "R"):
-            return result
-        current_workflow = workflows[result]
+    def _handle_part(self, part):
+        current_workflow = self.workflows["in"]
+        while True:
+            result = current_workflow.process(part)
+            if result in ("A", "R"):
+                return result
+            current_workflow = self.workflows[result]
 
+    def sum_accepted_parts(self):
+        return sum(part.rating() for part in self.parts if self._handle_part(part) == "A")
 
-def read_workflows_parts(lines):
-    it = iter(lines)
+    @staticmethod
+    def _upper_bound(constraints, category):
+        values = [rule.value for rule in constraints if isinstance(rule, LessThanRule) and rule.variable == category]
+        return min(values) if values else 4001
 
-    workflows = {}
-    for line in it:
-        if not line:
-            break
-        g = WORKFLOW_PATTERN.match(line)
-        name, rules = g.groups()
-        workflows[name] = Workflow(rules)
+    @staticmethod
+    def _lower_bound(constraints, category):
+        values = [rule.value for rule in constraints if isinstance(rule, GreaterThanRule) and rule.category == category]
+        return max(values) if values else 0
 
-    parts = [Part(line) for line in it]
+    def _collect_result(self, collected_rules):
+        total = 1
+        for v in "xmas":
+            lb, ub = self._lower_bound(collected_rules, v), self._upper_bound(collected_rules, v)
+            assert lb < ub
+            p = ub - lb - 1
+            total *= p
+        return total
 
-    return workflows, parts
+    def dfs(self, current_node="in", i=0, constraints=None):
+        if constraints is None:
+            constraints = []
+        if current_node == "A":
+            return self._collect_result(constraints)
+        if current_node == "R":
+            return 0
+        current_workflow = self.workflows[current_node]
+        if i >= len(current_workflow.rules):
+            raise
+        current_rule = current_workflow.rules[i]
+        # match
+        total = self.dfs(current_rule.next_workflow, 0, constraints + [current_rule])
+        # no match
+        if i + 1 < len(current_workflow.rules):
+            total += self.dfs(current_node, i + 1, constraints + [current_rule.anti()])
+        return total
 
 
 def part1(lines):
@@ -118,45 +146,8 @@ def part1(lines):
     >>> part1(load_example(__file__, "19"))
     19114
     """
-    workflows, parts = read_workflows_parts(lines)
-    return sum(part.rating() for part in parts if handle_part(workflows, part) == "A")
-
-
-def upper_bound(constraints, category):
-    values = [rule.value for rule in constraints if isinstance(rule, LessThanRule) and rule.variable == category]
-    return min(values) if values else 4001
-
-
-def lower_bound(constraints, category):
-    values = [rule.value for rule in constraints if isinstance(rule, GreaterThanRule) and rule.category == category]
-    return max(values) if values else 0
-
-
-def bar(collected_rules):
-    total = 1
-    for v in "xmas":
-        lb, ub = lower_bound(collected_rules, v), upper_bound(collected_rules, v)
-        assert lb < ub
-        p = ub - lb - 1
-        total *= p
-    return total
-
-
-def dfs(workflows, current_node, i=0, constraints=[]):
-    if current_node == "A":
-        return bar(constraints)
-    if current_node == "R":
-        return 0
-    current_workflow = workflows[current_node]
-    if i >= len(current_workflow.rules):
-        raise
-    current_rule = current_workflow.rules[i]
-    # match
-    total = dfs(workflows, current_rule.next_workflow, 0, constraints + [current_rule])
-    # no match
-    if i + 1 < len(current_workflow.rules):
-        total += dfs(workflows, current_node, i + 1, constraints + [current_rule.anti()])
-    return total
+    workflows = Workflows(lines)
+    return workflows.sum_accepted_parts()
 
 
 def part2(lines):
@@ -164,8 +155,8 @@ def part2(lines):
     >>> part2(load_example(__file__, "19"))
     167409079868000
     """
-    workflows, _ = read_workflows_parts(lines)
-    return dfs(workflows, "in")
+    workflows = Workflows(lines)
+    return workflows.dfs()
 
 
 if __name__ == "__main__":
