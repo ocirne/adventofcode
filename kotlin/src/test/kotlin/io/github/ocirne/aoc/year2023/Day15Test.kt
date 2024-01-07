@@ -9,7 +9,7 @@ internal class Day15Test: AocTest(Day15::class, 1320, 145) {
     @Test
     fun `examples year 2023 day 15 part 1`() {
         subject as Day15
-       subject.aocHash("rn=1") shouldBe 30
+        subject.aocHash("rn=1") shouldBe 30
         subject.aocHash("cm-") shouldBe 253
         subject.aocHash("qp=3") shouldBe 97
         subject.aocHash("cm=2") shouldBe 47
