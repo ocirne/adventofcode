@@ -1,12 +1,13 @@
 package io.github.ocirne.aoc.year2019
 
 import io.github.ocirne.aoc.AocChallenge
-import java.lang.Integer.compare
 import kotlin.math.absoluteValue
 
 class Day12(val lines: List<String>) : AocChallenge(2019, 12) {
 
-    private val MOON_PATTERN = """<x=(-?\d+), y=(-?\d+), z=(-?\d+)>""".toRegex()
+    companion object {
+        private val MOON_PATTERN = """<x=(-?\d+), y=(-?\d+), z=(-?\d+)>""".toRegex()
+    }
 
     data class Vector(val x: Int, val y: Int, val z: Int) {
 
@@ -28,18 +29,16 @@ class Day12(val lines: List<String>) : AocChallenge(2019, 12) {
             val (px, py, pz) = MOON_PATTERN.find(line)!!.destructured
             Moon(Vector(px.toInt(), py.toInt(), pz.toInt()), Vector(0, 0, 0))
         }
-        IntRange(1, steps).forEach {
+        IntRange(1, steps).forEach { _ ->
             // gravity
             moons = moons.map { moon ->
                 var nx = 0
                 var ny = 0
                 var nz = 0
                 moons.forEach { otherMoon ->
-                    if (moon != otherMoon) {
-                        nx += otherMoon.position.x.compareTo(moon.position.x)
-                        ny += otherMoon.position.y.compareTo(moon.position.y)
-                        nz += otherMoon.position.z.compareTo(moon.position.z)
-                    }
+                    nx += otherMoon.position.x.compareTo(moon.position.x)
+                    ny += otherMoon.position.y.compareTo(moon.position.y)
+                    nz += otherMoon.position.z.compareTo(moon.position.z)
                 }
                 Moon(moon.position, moon.velocity + Vector(nx, ny, nz))
             }
@@ -53,7 +52,60 @@ class Day12(val lines: List<String>) : AocChallenge(2019, 12) {
         return foo(1000)
     }
 
-    override fun part2(): Int {
-        return -1
+    private fun readMoons(): List<Moon> {
+        return lines.map { line ->
+            val (px, py, pz) = MOON_PATTERN.find(line)!!.destructured
+            Moon(Vector(px.toInt(), py.toInt(), pz.toInt()), Vector(0, 0, 0))
+        }
+    }
+
+    data class SingleMoon(var position: Int, var velocity: Int) {
+
+        fun addVelocity(delta: Int) {
+            velocity += delta
+        }
+        fun applyVelocity() {
+            position += velocity
+        }
+    }
+
+    private fun simulate(moons: List<SingleMoon>): Long {
+        var index = 0L
+        val seen = mutableMapOf<String, Long>()
+        while (true) {
+            val key = moons.toString()
+            if (seen.contains(key)) {
+                assert(seen[key] == 0L)
+                return index
+            }
+            seen[key] = index
+            index++
+            // gravity
+            moons.forEach { moon ->
+                var delta = 0
+                moons.forEach { otherMoon ->
+                    delta += otherMoon.position.compareTo(moon.position)
+                }
+                moon.addVelocity(delta)
+            }
+            // velocity
+            moons.forEach(SingleMoon::applyVelocity)
+        }
+    }
+
+    private fun gcd(a: Long, b: Long): Long {
+        return if (b > 0) gcd(b, a % b) else a
+    }
+
+    private fun lcm(a: Long, b: Long): Long {
+        return a / gcd(a, b) * b
+    }
+
+    override fun part2(): Long {
+        val moons = readMoons()
+        val mx = simulate(moons.map { moon -> SingleMoon(moon.position.x, moon.velocity.x) })
+        val my = simulate(moons.map { moon -> SingleMoon(moon.position.y, moon.velocity.y) })
+        val mz = simulate(moons.map { moon -> SingleMoon(moon.position.z, moon.velocity.z) })
+        return listOf(mx, my, mz).reduce { acc, v -> lcm(acc, v) }
     }
 }

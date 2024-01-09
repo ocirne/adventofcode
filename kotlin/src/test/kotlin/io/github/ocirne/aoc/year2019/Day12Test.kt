@@ -15,5 +15,7 @@ internal class Day12Test : AocTest(Day12::class, loadExample = false) {
 
     @Test
     fun `examples year 2019 day 12 part 2`() {
+        Day12(loadExample(2019, "12a")).part2() shouldBe 2772
+        Day12(loadExample(2019, "12b")).part2() shouldBe 4686774924
     }
 }
