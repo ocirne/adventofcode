@@ -9,8 +9,8 @@ internal class Day12Test : AocTest(Day12::class, loadExample = false) {
 
     @Test
     fun `examples year 2019 day 12 part 1`() {
-        Day12(loadExample(2019, "12a")).foo(steps=10) shouldBe 179
-        Day12(loadExample(2019, "12b")).foo(steps=100) shouldBe 1940
+        Day12(loadExample(2019, "12a")).simulateMoons(steps=10) shouldBe 179
+        Day12(loadExample(2019, "12b")).simulateMoons(steps=100) shouldBe 1940
     }
 
     @Test

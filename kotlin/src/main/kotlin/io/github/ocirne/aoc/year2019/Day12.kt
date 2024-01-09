@@ -9,49 +9,6 @@ class Day12(val lines: List<String>) : AocChallenge(2019, 12) {
         private val MOON_PATTERN = """<x=(-?\d+), y=(-?\d+), z=(-?\d+)>""".toRegex()
     }
 
-    data class Vector(val x: Int, val y: Int, val z: Int) {
-
-        operator fun plus(o: Vector): Vector = Vector(x + o.x, y + o.y, z + o.z)
-
-        fun getEnergy(): Int = x.absoluteValue + y.absoluteValue + z.absoluteValue
-
-    }
-
-    data class Moon(var position: Vector, var velocity: Vector) {
-
-        fun applyVelocity(): Moon = Moon(position + velocity, velocity)
-
-        fun getTotalEnergy(): Int = position.getEnergy() * velocity.getEnergy()
-    }
-
-    fun foo(steps: Int): Int {
-        var moons = lines.map { line ->
-            val (px, py, pz) = MOON_PATTERN.find(line)!!.destructured
-            Moon(Vector(px.toInt(), py.toInt(), pz.toInt()), Vector(0, 0, 0))
-        }
-        IntRange(1, steps).forEach { _ ->
-            // gravity
-            moons = moons.map { moon ->
-                var nx = 0
-                var ny = 0
-                var nz = 0
-                moons.forEach { otherMoon ->
-                    nx += otherMoon.position.x.compareTo(moon.position.x)
-                    ny += otherMoon.position.y.compareTo(moon.position.y)
-                    nz += otherMoon.position.z.compareTo(moon.position.z)
-                }
-                Moon(moon.position, moon.velocity + Vector(nx, ny, nz))
-            }
-            // velocity
-            moons = moons.map(Moon::applyVelocity)
-        }
-        return moons.sumOf { it.getTotalEnergy() }
-    }
-
-    override fun part1(): Int {
-        return foo(1000)
-    }
-
     private fun readMoons(): List<Moon> {
         return lines.map { line ->
             val (px, py, pz) = MOON_PATTERN.find(line)!!.destructured
@@ -59,7 +16,49 @@ class Day12(val lines: List<String>) : AocChallenge(2019, 12) {
         }
     }
 
-    data class SingleMoon(var position: Int, var velocity: Int) {
+    data class Vector(val x: Int, val y: Int, val z: Int) {
+
+        operator fun plus(o: Vector): Vector = Vector(x + o.x, y + o.y, z + o.z)
+
+        fun getEnergy(): Int = x.absoluteValue + y.absoluteValue + z.absoluteValue
+    }
+
+    data class Moon(var position: Vector, var velocity: Vector) {
+
+        fun addVelocity(delta: Vector) {
+            velocity += delta
+        }
+
+        fun applyVelocity() {
+            position += velocity
+        }
+
+        fun getTotalEnergy(): Int {
+            return position.getEnergy() * velocity.getEnergy()
+        }
+    }
+
+    fun simulateMoons(steps: Int): Int {
+        val moons = readMoons()
+        IntRange(1, steps).forEach { _ ->
+            // gravity
+            moons.forEach { moon ->
+                val dx = moons.sumOf { otherMoon -> otherMoon.position.x.compareTo(moon.position.x) }
+                val dy = moons.sumOf { otherMoon -> otherMoon.position.y.compareTo(moon.position.y) }
+                val dz = moons.sumOf { otherMoon -> otherMoon.position.z.compareTo(moon.position.z) }
+                moon.addVelocity(Vector(dx, dy, dz))
+            }
+            // velocity
+            moons.forEach(Moon::applyVelocity)
+        }
+        return moons.sumOf { it.getTotalEnergy() }
+    }
+
+    override fun part1(): Int {
+        return simulateMoons(1000)
+    }
+
+    data class SingleDimension(var position: Int, var velocity: Int) {
 
         fun addVelocity(delta: Int) {
             velocity += delta
@@ -69,7 +68,7 @@ class Day12(val lines: List<String>) : AocChallenge(2019, 12) {
         }
     }
 
-    private fun simulate(moons: List<SingleMoon>): Long {
+    private fun findCycleCount(moons: List<SingleDimension>): Long {
         var index = 0L
         val seen = mutableMapOf<String, Long>()
         while (true) {
@@ -82,14 +81,10 @@ class Day12(val lines: List<String>) : AocChallenge(2019, 12) {
             index++
             // gravity
             moons.forEach { moon ->
-                var delta = 0
-                moons.forEach { otherMoon ->
-                    delta += otherMoon.position.compareTo(moon.position)
-                }
-                moon.addVelocity(delta)
+                moon.addVelocity(moons.sumOf { otherMoon -> otherMoon.position.compareTo(moon.position) })
             }
             // velocity
-            moons.forEach(SingleMoon::applyVelocity)
+            moons.forEach(SingleDimension::applyVelocity)
         }
     }
 
@@ -103,9 +98,9 @@ class Day12(val lines: List<String>) : AocChallenge(2019, 12) {
 
     override fun part2(): Long {
         val moons = readMoons()
-        val mx = simulate(moons.map { moon -> SingleMoon(moon.position.x, moon.velocity.x) })
-        val my = simulate(moons.map { moon -> SingleMoon(moon.position.y, moon.velocity.y) })
-        val mz = simulate(moons.map { moon -> SingleMoon(moon.position.z, moon.velocity.z) })
-        return listOf(mx, my, mz).reduce { acc, v -> lcm(acc, v) }
+        val ix = findCycleCount(moons.map { moon -> SingleDimension(moon.position.x, moon.velocity.x) })
+        val iy = findCycleCount(moons.map { moon -> SingleDimension(moon.position.y, moon.velocity.y) })
+        val iz = findCycleCount(moons.map { moon -> SingleDimension(moon.position.z, moon.velocity.z) })
+        return listOf(ix, iy, iz).reduce { acc, v -> lcm(acc, v) }
     }
 }
