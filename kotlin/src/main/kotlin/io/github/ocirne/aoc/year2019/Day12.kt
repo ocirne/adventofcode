@@ -1,6 +1,7 @@
 package io.github.ocirne.aoc.year2019
 
 import io.github.ocirne.aoc.AocChallenge
+import io.github.ocirne.aoc.lcmList
 import kotlin.math.absoluteValue
 
 class Day12(val lines: List<String>) : AocChallenge(2019, 12) {
@@ -88,19 +89,11 @@ class Day12(val lines: List<String>) : AocChallenge(2019, 12) {
         }
     }
 
-    private fun gcd(a: Long, b: Long): Long {
-        return if (b > 0) gcd(b, a % b) else a
-    }
-
-    private fun lcm(a: Long, b: Long): Long {
-        return a / gcd(a, b) * b
-    }
-
     override fun part2(): Long {
         val moons = readMoons()
         val ix = findCycleCount(moons.map { moon -> SingleDimension(moon.position.x, moon.velocity.x) })
         val iy = findCycleCount(moons.map { moon -> SingleDimension(moon.position.y, moon.velocity.y) })
         val iz = findCycleCount(moons.map { moon -> SingleDimension(moon.position.z, moon.velocity.z) })
-        return listOf(ix, iy, iz).reduce { acc, v -> lcm(acc, v) }
+        return listOf(ix, iy, iz).lcmList()
     }
 }

@@ -1,6 +1,9 @@
 package io.github.ocirne.aoc.year2019
 
 import io.github.ocirne.aoc.AocChallenge
+import io.github.ocirne.aoc.combinationsOfTwo
+import io.github.ocirne.aoc.exclusiveRange
+import io.github.ocirne.aoc.gcd
 import kotlin.math.*
 
 class Day10(val lines: List<String>) : AocChallenge(2019, 10) {
@@ -21,21 +24,6 @@ class Day10(val lines: List<String>) : AocChallenge(2019, 10) {
         }
         return mutableAsteroids.toList()
     }
-
-    private fun combinations(): Sequence<Pair<Asteroid, Asteroid>> =
-        sequence {
-            asteroids.forEachIndexed { i, a ->
-                asteroids.subList(0, i).forEach { b ->
-                    yield(a to b)
-                }
-            }
-        }
-
-    private fun gcd(a: Int, b: Int): Int {
-        return if (b > 0) gcd(b, a % b) else a
-    }
-
-    private fun exclusiveRange(f: Int, t: Int): IntRange = if (f < t) IntRange(f+1, t-1) else IntRange(t+1, f-1)
 
     private fun isVisible(a: Asteroid, b: Asteroid): Boolean {
         val dx = b.x - a.x
@@ -67,7 +55,7 @@ class Day10(val lines: List<String>) : AocChallenge(2019, 10) {
 
     private fun findBestPosition(): Pair<Asteroid, Int> {
         val visibleAsteroids = mutableMapOf<Asteroid, Int>()
-        combinations().forEach { (a, b) ->
+        asteroids.combinationsOfTwo().forEach { (a, b) ->
             val v = isVisible(a, b)
             if (v) {
                 inc(visibleAsteroids, a)
