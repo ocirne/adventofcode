@@ -41,7 +41,7 @@ class Day12(val lines: List<String>) : AocChallenge(2019, 12) {
 
     fun simulateMoons(steps: Int): Int {
         val moons = readMoons()
-        IntRange(1, steps).forEach { _ ->
+        repeat(steps) { _ ->
             // gravity
             moons.forEach { moon ->
                 val dx = moons.sumOf { otherMoon -> otherMoon.position.x.compareTo(moon.position.x) }

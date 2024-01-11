@@ -89,6 +89,17 @@ class IntCodeEmulator2019(programStr: String, noun: Long? = null, verb: Long? = 
         }
     }
 
+    fun getNextOutput(): Long? {
+        if (tick()) {
+            return null
+        }
+        return getLastOutput()
+    }
+
+    fun getNextOutputs(n: Int): List<Long>? {
+        return IntRange(1, n).map { getNextOutput() ?: return null }
+    }
+
     fun getLastOutput(): Long {
         return output.last()
     }

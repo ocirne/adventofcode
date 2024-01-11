@@ -7,18 +7,13 @@ class Day13(val lines: List<String>) : AocChallenge(2019, 13) {
     private class Arcade(program: String) {
 
         val arcade = IntCodeEmulator2019(program)
-        val screen = mutableMapOf<Pair<Int, Int>, Int>()
+        val screen = mutableMapOf<Pair<Long, Long>, Long>()
 
         fun paint(): Arcade {
-            while (!arcade.tick()) {
-                val x = arcade.getLastOutput().toInt()
-                arcade.tick()
-                val y = arcade.getLastOutput().toInt()
-                arcade.tick()
-                val tileId = arcade.getLastOutput().toInt()
+            while (true) {
+                val (x, y, tileId) = arcade.getNextOutputs(3) ?: return this
                 screen[x to y] = tileId
             }
-            return this
         }
 
         companion object {
@@ -33,7 +28,7 @@ class Day13(val lines: List<String>) : AocChallenge(2019, 13) {
     }
 
     override fun part1(): Int {
-        return Arcade(lines.first()).paint().screen.values.filter { it == 2 }.size
+        return Arcade(lines.first()).paint().screen.values.filter { it == 2L }.size
     }
 
     override fun part2(): String {
