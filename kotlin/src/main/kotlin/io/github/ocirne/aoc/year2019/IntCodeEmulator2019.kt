@@ -89,7 +89,36 @@ class IntCodeEmulator2019(programStr: String, noun: Long? = null, verb: Long? = 
         }
     }
 
-    fun getNextOutput(): Long? {
+    /** runs the emulation until the next generated output */
+    fun tick2(): ReturnCode {
+        while (true) {
+            when (val opcode = currentOpcode()) {
+                STOP -> return ReturnCode.STOP
+                ADD -> mathInstruction { v1, v2 -> v1 + v2 }
+                MUL -> mathInstruction { v1, v2 -> v1 * v2 }
+                INPUT -> {
+                    if (inputList.isEmpty()) {
+                        return ReturnCode.NEED_INPUT
+                    }
+                    ioInstruction(immediate = true) { program[it] = inputList.removeFirst() }
+                }
+                OUTPUT -> {
+                    ioInstruction(immediate = false) {
+                        output.add(it)
+                    }
+                    return ReturnCode.HAS_OUTPUT
+                }
+                JMP_TRUE -> jumpInstruction { it != 0L }
+                JMP_FALSE -> jumpInstruction { it == 0L }
+                LESS_THAN -> mathInstruction { v1, v2 -> if (v1 < v2) 1 else 0 }
+                EQUALS -> mathInstruction { v1, v2 -> if (v1 == v2) 1 else 0 }
+                ADJUST_BASE -> ioInstruction(immediate = false) { base += it }
+                else -> throw IllegalArgumentException("unknown opcode $opcode (pp: $pp)")
+            }
+        }
+    }
+
+    private fun getNextOutput(): Long? {
         if (tick()) {
             return null
         }
@@ -104,7 +133,7 @@ class IntCodeEmulator2019(programStr: String, noun: Long? = null, verb: Long? = 
         return output.last()
     }
 
-    fun getOutput(): String {
+    fun joinCollectedOutput(): String {
         return output.joinToString(",") { it.toString() }
     }
 
@@ -127,5 +156,11 @@ class IntCodeEmulator2019(programStr: String, noun: Long? = null, verb: Long? = 
         const val LESS_THAN = 7
         const val EQUALS = 8
         const val ADJUST_BASE = 9
+
+        enum class ReturnCode {
+            NEED_INPUT,
+            HAS_OUTPUT,
+            STOP
+        }
     }
 }
