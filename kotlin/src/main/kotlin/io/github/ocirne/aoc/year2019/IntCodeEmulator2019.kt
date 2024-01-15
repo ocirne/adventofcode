@@ -66,31 +66,12 @@ class IntCodeEmulator2019(programStr: String, noun: Long? = null, verb: Long? = 
 
     fun run(vararg inputs: Long): IntCodeEmulator2019 {
         inputList.addAll(inputs.toList())
-        while (!tick()) { /* */ }
+        while (tick() != ReturnCode.STOP) { /* */ }
         return this
     }
 
     /** runs the emulation until the next generated output */
-    fun tick(): Boolean {
-        while (true) {
-            when (val opcode = currentOpcode()) {
-                STOP -> return true
-                ADD -> mathInstruction { v1, v2 -> v1 + v2 }
-                MUL -> mathInstruction { v1, v2 -> v1 * v2 }
-                INPUT -> ioInstruction(immediate = true) { program[it] = inputList.removeFirst() }
-                OUTPUT -> { ioInstruction(immediate = false) { output.add(it) }; return false }
-                JMP_TRUE -> jumpInstruction { it != 0L }
-                JMP_FALSE -> jumpInstruction { it == 0L }
-                LESS_THAN -> mathInstruction { v1, v2 -> if (v1 < v2) 1 else 0 }
-                EQUALS -> mathInstruction { v1, v2 -> if (v1 == v2) 1 else 0 }
-                ADJUST_BASE -> ioInstruction(immediate = false) { base += it }
-                else -> throw IllegalArgumentException("unknown opcode $opcode (pp: $pp)")
-            }
-        }
-    }
-
-    /** runs the emulation until the next generated output */
-    fun tick2(): ReturnCode {
+    fun tick(): ReturnCode {
         while (true) {
             when (val opcode = currentOpcode()) {
                 STOP -> return ReturnCode.STOP
@@ -103,9 +84,7 @@ class IntCodeEmulator2019(programStr: String, noun: Long? = null, verb: Long? = 
                     ioInstruction(immediate = true) { program[it] = inputList.removeFirst() }
                 }
                 OUTPUT -> {
-                    ioInstruction(immediate = false) {
-                        output.add(it)
-                    }
+                    ioInstruction(immediate = false) { output.add(it) }
                     return ReturnCode.HAS_OUTPUT
                 }
                 JMP_TRUE -> jumpInstruction { it != 0L }
@@ -119,7 +98,7 @@ class IntCodeEmulator2019(programStr: String, noun: Long? = null, verb: Long? = 
     }
 
     private fun getNextOutput(): Long? {
-        if (tick()) {
+        if (tick() == ReturnCode.STOP) {
             return null
         }
         return getLastOutput()

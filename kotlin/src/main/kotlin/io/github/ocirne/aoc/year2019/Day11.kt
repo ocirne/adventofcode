@@ -1,6 +1,7 @@
 package io.github.ocirne.aoc.year2019
 
 import io.github.ocirne.aoc.AocChallenge
+import io.github.ocirne.aoc.year2019.IntCodeEmulator2019.Companion.ReturnCode
 
 class Day11(val lines: List<String>) : AocChallenge(2019, 11) {
 
@@ -14,7 +15,7 @@ class Day11(val lines: List<String>) : AocChallenge(2019, 11) {
 
         fun paint(startPanel: Long): Robot {
             robot.addInput(startPanel)
-            while (!robot.tick()) {
+            while (robot.tick() != ReturnCode.STOP) {
                 panels[Pair(x, y)] = robot.getLastOutput()
                 robot.tick()
                 move(robot.getLastOutput().toInt())

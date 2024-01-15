@@ -25,7 +25,7 @@ class Day13(val lines: List<String>) : AocChallenge(2019, 13) {
         fun loopOutput(): Sequence<Long> {
             return sequence {
                 while (true) {
-                    when (arcade.tick2()) {
+                    when (arcade.tick()) {
                         NEED_INPUT -> arcade.addInput(ballX.compareTo(paddleX).toLong())
                         HAS_OUTPUT -> yield(arcade.getLastOutput())
                         STOP -> break

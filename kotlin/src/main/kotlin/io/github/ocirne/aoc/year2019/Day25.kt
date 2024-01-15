@@ -1,12 +1,14 @@
 package io.github.ocirne.aoc.year2019
 
+import io.github.ocirne.aoc.year2019.IntCodeEmulator2019.Companion.ReturnCode
+
 class Droid {
 
     private val droid = IntCodeEmulator2019(loadProgram())
 
     fun play(input: String) {
         input.forEach { droid.addInput(it.code.toLong()) }
-        while (!droid.tick()) {
+        while (droid.tick() != ReturnCode.STOP) {
             print(droid.getLastOutput().toInt().toChar())
             if (droid.getLastOutput() == '?'.code.toLong()) {
                 return

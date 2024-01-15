@@ -2,6 +2,7 @@ package io.github.ocirne.aoc.year2019
 
 import io.github.ocirne.aoc.AocChallenge
 import io.github.ocirne.aoc.permutations
+import io.github.ocirne.aoc.year2019.IntCodeEmulator2019.Companion.ReturnCode
 
 class Day7(val lines: List<String>) : AocChallenge(2019, 7) {
 
@@ -12,7 +13,7 @@ class Day7(val lines: List<String>) : AocChallenge(2019, 7) {
             for (amp in amplifiers) {
                 amp.addInput(t)
                 val done = amp.tick()
-                if (done) {
+                if (done == ReturnCode.STOP) {
                     return amplifiers.last().getLastOutput()
                 }
                 t = amp.getLastOutput()
