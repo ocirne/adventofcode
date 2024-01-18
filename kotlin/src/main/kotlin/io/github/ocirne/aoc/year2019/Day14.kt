@@ -4,6 +4,8 @@ import io.github.ocirne.aoc.AocChallenge
 
 private const val CARGO_ORE = 1000000000000L
 
+fun MutableMap<String, Long>.update(key: String, delta: Long) { this[key] = getValue(key) + delta }
+
 class Day14(val lines: List<String>) : AocChallenge(2019, 14) {
 
     data class Reaction(val name: String, val count: Long, val chemicals: Map<String, Long>)
@@ -25,28 +27,25 @@ class Day14(val lines: List<String>) : AocChallenge(2019, 14) {
     private fun findMinimalOre(target: Long): Long {
         var chemicals = mapOf("FUEL" to target)
         while (chemicals.values.filter { it > 0 }.size > 1 || !chemicals.containsKey("ORE")) {
-            val newChemicals = mutableMapOf<String, Long>()
-            for ((rightName, rightCount) in chemicals.entries) {
-                if (rightName == "ORE") {
-                    val base = newChemicals.getOrDefault(rightName, 0)
-                    newChemicals[rightName] = base + rightCount
-                } else {
-                    val r = reactions.single { it.name == rightName }
-                    var factor = rightCount / r.count
-                    var rest = rightCount % r.count
-                    if (rest > 0) {
-                        factor++
-                        rest -= r.count
+            chemicals = mutableMapOf<String, Long>().withDefault { 0 }.apply {
+                chemicals.entries.forEach { (rightName, rightCount) ->
+                    if (rightName == "ORE") {
+                        update(rightName, rightCount)
+                    } else {
+                        val r = reactions.single { it.name == rightName }
+                        var factor = rightCount / r.count
+                        var rest = rightCount % r.count
+                        if (rest > 0) {
+                            factor++
+                            rest -= r.count
+                        }
+                        r.chemicals.entries.forEach { (leftName, leftCount) ->
+                            update(leftName, factor * leftCount)
+                        }
+                        update(rightName, rest)
                     }
-                    for ((leftName, leftCount) in r.chemicals.entries) {
-                        val base = newChemicals.getOrDefault(leftName, 0)
-                        newChemicals[leftName] = base + factor * leftCount
-                    }
-                    val base = newChemicals.getOrDefault(rightName, 0)
-                    newChemicals[rightName] = base + rest
                 }
             }
-            chemicals = newChemicals
         }
         return chemicals["ORE"]!!
     }
