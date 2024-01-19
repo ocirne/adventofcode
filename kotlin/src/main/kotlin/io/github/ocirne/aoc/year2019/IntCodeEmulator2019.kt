@@ -2,12 +2,11 @@ package io.github.ocirne.aoc.year2019
 
 import kotlin.math.pow
 
-class IntCodeEmulator2019(programStr: String, noun: Long? = null, verb: Long? = null) {
+class IntCodeEmulator2019(val program: MutableMap<Long, Long>, noun: Long? = null, verb: Long? = null) {
 
-    val program =
-        programStr.split(',')
-            .mapIndexed { index, value -> index.toLong() to value.toLong() }
-            .toMap().toMutableMap()
+    constructor(programStr: String): this(deserializeProgram(programStr))
+
+    constructor(programStr: String, noun: Long? = null, verb: Long? = null): this(deserializeProgram(programStr), noun, verb)
 
     init {
         if (noun != null) program[1] = noun
@@ -19,9 +18,18 @@ class IntCodeEmulator2019(programStr: String, noun: Long? = null, verb: Long? = 
 
     private var base = 0L
 
-    private val inputList = mutableListOf<Long>()
+    private var inputList = mutableListOf<Long>()
 
-    private val output = mutableListOf<Long>()
+    private var output = mutableListOf<Long>()
+
+    fun copy(): IntCodeEmulator2019 {
+        val copy = IntCodeEmulator2019(program.toMutableMap())
+        copy.pp = pp
+        copy.base = base
+        copy.inputList = inputList.toMutableList()
+        copy.output = output.toMutableList()
+        return copy
+    }
 
     private fun currentOpcode(): Int {
         return (program[pp]!! % 100).toInt()
@@ -140,6 +148,12 @@ class IntCodeEmulator2019(programStr: String, noun: Long? = null, verb: Long? = 
             NEED_INPUT,
             HAS_OUTPUT,
             STOP
+        }
+
+        private fun deserializeProgram(programStr: String): MutableMap<Long, Long> {
+            return programStr.split(',')
+                .mapIndexed { index, value -> index.toLong() to value.toLong() }
+                .toMap().toMutableMap()
         }
     }
 }
