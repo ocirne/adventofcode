@@ -38,15 +38,14 @@ class Day15(val lines: List<String>) : AocChallenge(2019, 15) {
             }
         }
 
-        fun findOxygenSystem(): Int {
+        fun exploreMap(): Node {
             val openHeap = PriorityQueue<Node>()
             val visited = mutableSetOf<Position>()
-
             openHeap.add(Node(0, Position(0, 0), IntCodeEmulator2019(program)))
             while (openHeap.isNotEmpty()) {
                 val node = openHeap.remove()
                 if (node.isEnd()) {
-                    return node.steps
+                    return node
                 }
                 visited.add(node.position)
                 for (neighbor in node.neighbors()) {
@@ -58,13 +57,31 @@ class Day15(val lines: List<String>) : AocChallenge(2019, 15) {
             }
             throw IllegalStateException()
         }
+
+        fun fillMap2(node: Node): Int {
+            val openHeap = PriorityQueue<Node>()
+            val visited = mutableMapOf<Position, Int>()
+            openHeap.add(Node(0, node.position, node.program))
+            while (openHeap.isNotEmpty()) {
+                val node = openHeap.remove()
+                visited[node.position] = node.steps
+                for (neighbor in node.neighbors()) {
+                    if (visited.contains(neighbor.position)) {
+                        continue
+                    }
+                    openHeap.add(neighbor)
+                }
+            }
+            return visited.values.max()
+        }
     }
 
     override fun part1(): Int {
-        return Droid(lines.first()).findOxygenSystem()
+        return Droid(lines.first()).exploreMap().steps
     }
 
-    override fun part2(): Long {
-        return -1
+    override fun part2(): Int {
+        val oxygenSystem = Droid(lines.first()).exploreMap()
+        return Droid(lines.first()).fillMap2(oxygenSystem)
     }
 }
