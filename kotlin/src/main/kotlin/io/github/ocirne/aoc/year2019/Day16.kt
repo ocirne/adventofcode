@@ -28,15 +28,18 @@ class Day16(val lines: List<String>) : AocChallenge(2019, 16) {
     override fun part1(): String {
         return foo(lines.first())
     }
-
+    
     fun foo2(signalString: String, phases: Int=100): String {
         val skip = signalString.take(7).toInt()
-        var signal = signalString.repeat(10000).toCharArray().map { it.digitToInt() }
-        repeat(phases) {
-            println("phase: $it")
-            signal = newSignal(signal)
+        val signal = signalString.repeat(10000).toCharArray().drop(skip).map { it.digitToInt() }.reversed().toIntArray()
+        repeat(100) {
+            var s = 0
+            for (i in 0 until signal.size) {
+                s += signal[i]
+                signal[i] = s % 10
+            }
         }
-        return signal.drop(skip).take(8).joinToString("")
+        return signal.reversed().take(8).joinToString("")
     }
 
     override fun part2(): String {
