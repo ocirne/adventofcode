@@ -39,10 +39,11 @@ abstract class AocTest(
     }
 }
 
-fun loadExample(year: Int, filename: String): List<String> {
+fun loadExample(year: Int, filename: String, trim: Boolean=true): List<String> {
     return AocTest::class.java.classLoader
         .getResourceAsStream("examples/$year/$filename.txt")!!
         .bufferedReader()
         .readLines()
-        .map { it.trim() }
+        // TODO to trim or not to trim?
+        .map { if (trim) it.trim() else it }
 }

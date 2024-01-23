@@ -25,7 +25,7 @@ class Day15(val lines: List<String>) : AocChallenge(2019, 15) {
                     copy.addInput(direction)
                     copy.tick()
                     if (copy.getLastOutput() != 0L) {
-                        yield(Node(steps + 1, Position(x + dx, y - dy), copy))
+                        yield(Node(steps + 1, Position(x + dx, y + dy), copy))
                     }
                 }
             }
