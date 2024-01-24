@@ -12,4 +12,10 @@ internal class Day20Test : AocTest(Day20::class, loadExample = false) {
         Day20(loadExample(2019, "20a", trim = false)).part1() shouldBe 23
         Day20(loadExample(2019, "20b", trim = false)).part1() shouldBe 58
     }
+
+    @Test
+    fun `examples year 2019 day 20 part 2`() {
+        Day20(loadExample(2019, "20a", trim = false)).part2() shouldBe 26
+        Day20(loadExample(2019, "20c", trim = false)).part2() shouldBe 396
+    }
 }
