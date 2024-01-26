@@ -9,7 +9,9 @@ class Day20(val lines: List<String>) : AocChallenge(2019, 20) {
 
     data class Position(val x: Int, val y: Int)
 
-    data class Portal(val label: String, val position: Position, val circle: Int)
+    data class Portal(val label: String, val position: Position, val circleDelta: Int)
+
+    data class PortalCircle(val portal: Portal, val circle: Int)
 
     private fun isPortal(y: Int, x: Int, c: Char): String? {
         if (c != '.') {
@@ -44,7 +46,9 @@ class Day20(val lines: List<String>) : AocChallenge(2019, 20) {
         lines.forEachIndexed { y, line ->
             line.forEachIndexed { x, c ->
                 isPortal(y, x, c)?.let {label ->
-                    if (isOuterPortal(x, y, width, height)) {
+                    if (label == "AA" || label == "ZZ") {
+                        m.add(Portal(label, Position(x, y), 0))
+                    } else if (isOuterPortal(x, y, width, height)) {
                         m.add(Portal(label, Position(x, y), -1))
                     } else {
                         m.add(Portal(label, Position(x, y), +1))
@@ -81,7 +85,7 @@ class Day20(val lines: List<String>) : AocChallenge(2019, 20) {
         while (openHeap.isNotEmpty()) {
             val node = openHeap.remove()
             if (node.position in anders && node.steps > 0) {
-                println("  ${anders[node.position]} in ${node.steps}")
+                // println("  ${anders[node.position]} in ${node.steps}")
                 neighbors.put(anders[node.position]!!, node.steps)
             }
             visited[node.position] = node
@@ -94,7 +98,7 @@ class Day20(val lines: List<String>) : AocChallenge(2019, 20) {
         }
         assert(!neighbors.contains(startPortal))
         if (startPortal.label != "AA" && startPortal.label != "ZZ") {
-            val otherPortal = portals.single { it.label == startPortal.label && it.circle != startPortal.circle }
+            val otherPortal = portals.single { it.label == startPortal.label && it.circleDelta != startPortal.circleDelta }
             neighbors[otherPortal] = 1
         }
         return neighbors
@@ -143,6 +147,70 @@ class Day20(val lines: List<String>) : AocChallenge(2019, 20) {
         return g[endPortal]!!
     }
 
+    class NodePart2(val g: Int, val portalCircle: PortalCircle): Comparable<NodePart2> {
+
+        override fun compareTo(other: NodePart2): Int {
+            return g.compareTo(other.g)
+        }
+    }
+
+    private fun neighborPart2(graph: Map<Portal, Map<Portal, Int>>, current: PortalCircle): Map<PortalCircle, Int> {
+        val result = mutableMapOf<PortalCircle, Int>()
+        for ((target, distance) in graph[current.portal]!!) {
+            if (target.label == current.portal.label) {
+                // hop to another level
+                if (current.circle + current.portal.circleDelta < 0) {
+                    continue
+                }
+                assert(target.circleDelta == -current.portal.circleDelta)
+                assert(target.label != "AA")
+                assert(target.label != "ZZ")
+                result[PortalCircle(target, current.circle + current.portal.circleDelta)] = distance
+            } else {
+                // same level
+                if (current.circle > 0 && (target.label == "AA" || target.label == "ZZ")) {
+                    continue
+                }
+                if (current.circle == 0 && target.label != "AA" && target.label != "ZZ" && target.circleDelta < 0) {
+                    continue
+                }
+                result[PortalCircle(target, current.circle)] = distance
+            }
+        }
+        return result
+    }
+
+    private fun exploreMapPart2(graph: Map<Portal, Map<Portal, Int>>, startPortal: PortalCircle, endPortal: PortalCircle): Int {
+        val openHeap = PriorityQueue<NodePart2>()
+        val closedSet = mutableSetOf<PortalCircle>()
+        val g = mutableMapOf(startPortal to 0, endPortal to Int.MAX_VALUE)
+        openHeap.add(NodePart2(0, startPortal))
+        while (openHeap.isNotEmpty()) {
+            val current = openHeap.remove()
+            if (current.g > g[endPortal]!!) {
+                break
+            }
+            val currentPortal = current.portalCircle
+            if (currentPortal == endPortal) {
+                println("g ${currentPortal} ${g[currentPortal]}")
+            }
+            closedSet.add(currentPortal)
+            println("expand $currentPortal")
+            for ((neighborPortal, distance) in neighborPart2(graph, currentPortal)) {
+                val tg = g[currentPortal]!! + distance
+                println("consider neighbor ${neighborPortal}, ${tg}")
+                if (neighborPortal in closedSet && tg >= g[neighborPortal]!!) {
+                    continue
+                }
+                if (tg < g.getOrDefault(neighborPortal, 0) || ! openHeap.map { it.portalCircle }.contains(neighborPortal)) {
+                    g[neighborPortal] = tg
+                    openHeap.add(NodePart2(tg, neighborPortal))
+                }
+            }
+        }
+        return g[endPortal]!!
+    }
+
     override fun part1(): Int {
         val portals = findPortals()
         println(portals)
@@ -155,10 +223,17 @@ class Day20(val lines: List<String>) : AocChallenge(2019, 20) {
 
     override fun part2(): Int {
         val portals = findPortals()
-        println(portals)
+//        println(portals)
         val graph = compactifyGraph(portals)
-        println("compact graph: $graph")
-//        return exploreMap(graph)
-        return -1
+        println("compact graph:")
+        for ((node, neighbors) in graph) {
+            println("node: ${node.label} ${node.circleDelta}")
+            for ((n, distance) in neighbors) {
+                println("    ${n.label} ${n.circleDelta} -- ${distance}")
+            }
+        }
+        val startPortal = portals.single { it.label == "AA" }
+        val endPortal = portals.single { it.label == "ZZ" }
+        return exploreMapPart2(graph, PortalCircle(startPortal, 0), PortalCircle(endPortal, 0))
     }
 }
