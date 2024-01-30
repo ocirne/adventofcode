@@ -4,69 +4,93 @@ import io.github.ocirne.aoc.AocChallenge
 
 class Day22(val lines: List<String>) : AocChallenge(2019, 22) {
 
-    private fun dealIntoNewStack(deck: List<Int>): List<Int> {
-        return deck.reversed()
-    }
+    abstract class Shuffler<T> {
 
-    private fun cutN(deck: List<Int>, n: Int): List<Int> {
-        assert(n != 0)
-        return if (n > 0) {
-            deck.drop(n) + deck.take(n)
-        } else {
-            deck.drop(deck.size+n) + deck.take(deck.size+n)
-        }
-    }
+        abstract fun dealIntoNewStack(acc: T): T
 
-    private fun dealWithIncrementP(deck: List<Int>, p: Int): List<Int> {
-        val newDeck = deck.toList().toMutableList()
-        deck.indices.forEach { i ->
-            newDeck[(i*p) % deck.size] = deck[i]
-        }
-        return newDeck
-    }
+        abstract fun cutN(acc: T, n: Int): T
 
-    fun bar2(shuffle: String, deck: List<Int>): List<Int> {
-        return when {
-            shuffle == "deal into new stack" -> dealIntoNewStack(deck)
-            shuffle.startsWith("cut") -> {
-                val n = shuffle.split(' ').last().toInt()
-                cutN(deck, n)
+        abstract fun dealWithIncrementP(acc: T, p: Int): T
+
+        fun applyOneLine(shuffle: String, acc: T): T {
+            return when {
+                shuffle == "deal into new stack" -> dealIntoNewStack(acc)
+                shuffle.startsWith("cut") -> {
+                    val n = shuffle.split(' ').last().toInt()
+                    cutN(acc, n)
+                }
+
+                shuffle.startsWith("deal with increment") -> {
+                    val p = shuffle.split(' ').last().toInt()
+                    dealWithIncrementP(acc, p)
+                }
+                else -> throw IllegalArgumentException(shuffle)
             }
-            shuffle.startsWith("deal with increment") -> {
-                val p = shuffle.split(' ').last().toInt()
-                dealWithIncrementP(deck, p)
+        }
+
+        fun shuffle(lines: List<String>, accIn: T): T {
+            var acc = accIn
+            for (line in lines) {
+                acc = applyOneLine(line, acc)
             }
-            else -> throw IllegalArgumentException(shuffle)
+            return acc
         }
     }
 
-    fun bar(shuffle: String, deck: IntRange): List<Int> {
-        return bar2(shuffle, deck.toList())
-    }
+    private class NaiveShuffler: Shuffler<List<Int>>() {
 
-    fun checkIntegrity(deck: List<Int>) {
-        val m = mutableSetOf<Int>()
-        for (n in deck) {
-            if (m.contains(n)) {
-                throw IllegalStateException()
+        override fun dealIntoNewStack(acc: List<Int>): List<Int> {
+            return acc.reversed()
+        }
+
+        override fun cutN(acc: List<Int>, n: Int): List<Int> {
+            assert(n != 0)
+            return if (n > 0) {
+                acc.drop(n) + acc.take(n)
+            } else {
+                acc.drop(acc.size + n) + acc.take(acc.size + n)
             }
-            m.add(n)
+        }
+
+        override fun dealWithIncrementP(acc: List<Int>, p: Int): List<Int> {
+            val nextDeck = acc.toList().toMutableList()
+            acc.indices.forEach { i ->
+                nextDeck[(i * p) % acc.size] = acc[i]
+            }
+            return nextDeck
         }
     }
 
-    fun foo(deckRange: IntRange): List<Int> {
-        var deck = deckRange.toList()
-        for (line in lines) {
-            deck = bar2(line, deck)
-            checkIntegrity(deck)
+    private class MathShuffler(val m: Int): Shuffler<Int>() {
+
+        override fun dealIntoNewStack(acc: Int): Int {
+            return m - acc - 1
         }
-        return deck
+
+        override fun cutN(acc: Int, n: Int): Int {
+            return (acc - n).mod(m)
+        }
+
+        override fun dealWithIncrementP(acc: Int, p: Int): Int {
+            return (acc * p).mod(m)
+        }
+    }
+
+    fun naiveOneLine(shuffle: String, deck: IntRange): List<Int> {
+        return NaiveShuffler().applyOneLine(shuffle, deck.toList())
+    }
+
+    fun naiveShuffler(deck: IntRange): List<Int> {
+        return NaiveShuffler().shuffle(lines, deck.toList())
     }
 
     override fun part1(): Int {
-        val deck = foo(0..10_006)
-        return deck.indexOf(2019)
+        // return naiveShuffler(0..10_006).indexOf(2019)
+        return MathShuffler(10_007).shuffle(lines, 2019)
     }
+
+    val countCards = 119315717514047
+    val countShuffle = 101741582076661
 
     override fun part2(): Int {
         return -1
