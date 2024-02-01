@@ -1,5 +1,8 @@
 package io.github.ocirne.aoc
 
+import java.math.BigInteger
+import java.math.BigInteger.*
+
 fun exclusiveRange(f: Int, t: Int): IntRange = if (f < t) IntRange(f+1, t-1) else IntRange(t+1, f-1)
 
 fun <T> Collection<T>.permutations(): Iterable<List<T>> {
@@ -44,3 +47,19 @@ fun lcm(a: Long, b: Long): Long = a / gcd(a, b) * b
 fun List<Int>.lcmList(): Int = this.reduce { acc, value -> lcm(acc, value) }
 
 fun List<Long>.lcmList(): Long = this.reduce { acc, value -> lcm(acc, value) }
+
+fun egcd(a: Long, b: Long): Triple<Long, Long, Long> {
+    if (b == 0L) {
+        return Triple(a, 1, 0)
+    }
+    val (d, s, t) = egcd(b, a % b)
+    return Triple(d, t, s - (a / b) * t)
+}
+
+fun invMod(a: Long, n: Long): Long? {
+    val (d, s, _) = egcd(a, n)
+    if (d != 1L) {
+        return null
+    }
+    return s.mod(n)
+}

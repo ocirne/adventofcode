@@ -42,4 +42,6 @@ internal class Day22Test : AocTest(Day22::class, loadExample = false) {
         Day22(loadExample(2019, "22c")).naiveShuffler(0..9) shouldBe listOf(6, 3, 0, 7, 4, 1, 8, 5, 2, 9)
         Day22(loadExample(2019, "22d")).naiveShuffler(0..9) shouldBe listOf(9, 2, 5, 8, 1, 4, 7, 0, 3, 6)
     }
+
+// a b   3190 180
 }
