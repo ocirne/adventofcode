@@ -26,10 +26,11 @@ class Day18(val lines: List<String>) : AocChallenge(2019, 18) {
 
     private fun findNodes(): Map<Position, Node> {
         val m = mutableMapOf<Position, Node>()
+        var i = 1
         lines.forEachIndexed { y, line ->
             line.forEachIndexed { x, c ->
                 when {
-                    c == '@' -> m[Position(x, y)] = Node(c, KEY)
+                    c == '@' -> m[Position(x, y)] = Node((i++).digitToChar(), KEY)
                     c.isLowerCase() -> m[Position(x, y)] = Node(c, KEY)
                     c.isUpperCase() -> m[Position(x, y)] = Node(c.lowercaseChar(), DOOR)
                 }
@@ -148,7 +149,56 @@ class Day18(val lines: List<String>) : AocChallenge(2019, 18) {
         return navigateVault(graph, KeyPathNode('@', setOf('@')))
     }
 
-    override fun part2(): Int {
+    private data class KeyPathNode2(val labels: Set<Char>, val foundKeys: Set<Char>)
+
+    private data class Node2(val droid: Char, val label: Char, val type: NodeType)
+
+    private fun reachableKeys2(graph: VaultGraph, keyPathNode: KeyPathNode2): Sequence<Pair<KeyPathNode2, Int>> {
+        return sequence {
+            for (label in keyPathNode.labels) {
+                for ((k, d) in reachableKeys(graph, KeyPathNode(label, keyPathNode.foundKeys))) {
+                    yield(KeyPathNode2(keyPathNode.labels - label + k.label, keyPathNode.foundKeys + k.label) to d)
+                }
+            }
+        }
+    }
+
+    private fun navigateVault2(graph: VaultGraph, startKeyPathNode: KeyPathNode2): Int {
+        val totalKeys = graph.filter { (k, _) -> k.type == KEY }.size
+        val openHeap = PriorityQueue<ComparableNode<KeyPathNode2>>()
+        val closedSet = mutableSetOf<KeyPathNode2>()
+        val g = mutableMapOf(startKeyPathNode to 0)
+        openHeap.add(ComparableNode(0, startKeyPathNode))
+        while (openHeap.isNotEmpty()) {
+            val current = openHeap.remove()
+//            println("heap ${openHeap.size}, g ${current.g}, pos ${current.node} keys ${current.node.foundKeys} total ${totalKeys}")
+            if (totalKeys == current.node.foundKeys.size) {
+                return current.g
+            }
+            closedSet.add(current.node)
+            for ((neighborKeyNode, distance) in reachableKeys2(graph, current.node)) {
+                val tg = g[current.node]!! + distance
+                if (neighborKeyNode in closedSet && tg >= g[neighborKeyNode]!!) {
+                    continue
+                }
+                if (tg < g.getOrDefault(neighborKeyNode, 0) || !openHeap.map { it.node }.contains(neighborKeyNode)) {
+                    g[neighborKeyNode] = tg
+                    openHeap.add(ComparableNode(tg, neighborKeyNode))
+                }
+            }
+        }
         return -1
+    }
+
+    override fun part2(): Int {
+        val graph = generateVaultGraph()
+        for ((n, es) in graph) {
+            println("$n:")
+            for ((e, d) in es) {
+                println("  $e: $d")
+            }
+            println()
+        }
+        return navigateVault2(graph, KeyPathNode2(setOf('1', '2', '3', '4'), setOf('1', '2', '3', '4')))
     }
 }

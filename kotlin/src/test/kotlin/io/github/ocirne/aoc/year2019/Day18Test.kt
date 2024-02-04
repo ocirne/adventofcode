@@ -18,5 +18,9 @@ internal class Day18Test : AocTest(Day18::class, loadExample = false) {
 
     @Test
     fun `examples year 2019 day 18 part 2`() {
+        Day18(loadExample(2019, "18f")).part2() shouldBe 8
+        Day18(loadExample(2019, "18g")).part2() shouldBe 24
+        Day18(loadExample(2019, "18h")).part2() shouldBe 32
+        Day18(loadExample(2019, "18i")).part2() shouldBe 72
     }
 }
