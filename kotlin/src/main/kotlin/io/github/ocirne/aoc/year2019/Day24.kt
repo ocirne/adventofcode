@@ -1,6 +1,7 @@
 package io.github.ocirne.aoc.year2019
 
 import io.github.ocirne.aoc.AocChallenge
+import io.github.ocirne.aoc.NSWE
 
 data class Bug(val x: Int, val y: Int, val z: Int)
 
@@ -55,8 +56,6 @@ class Day24(val lines: List<String>) : AocChallenge(2019, 24) {
     }
 
     private class SimpleBugLife(lines: List<String>): BugLife(lines) {
-
-        private val NSWE = listOf(0 to -1, 0 to 1, -1 to 0, 1 to 0)
 
         override fun countAdjacentBugs(b: Bug): Int {
             return NSWE.filter { (dx, dy) -> bugs.contains(Bug(b.x+dx, b.y+dy, 0)) }.size

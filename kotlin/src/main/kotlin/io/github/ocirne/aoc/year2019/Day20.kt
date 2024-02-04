@@ -1,39 +1,10 @@
 package io.github.ocirne.aoc.year2019
 
 import io.github.ocirne.aoc.AocChallenge
+import io.github.ocirne.aoc.ComparableNode
+import io.github.ocirne.aoc.NSWE
+import io.github.ocirne.aoc.dijkstra
 import java.util.*
-
-private class ComparableNode<N>(val g: Int, val node: N): Comparable<ComparableNode<N>> {
-
-    override fun compareTo(other: ComparableNode<N>): Int {
-        return g.compareTo(other.g)
-    }
-}
-
-private fun <N> dijkstra(startNode: N, endNode: N, neighbors: (N) -> Map<N, Int>): Int {
-    val openHeap = PriorityQueue<ComparableNode<N>>()
-    val closedSet = mutableSetOf<N>()
-    val g = mutableMapOf(startNode to 0, endNode to Int.MAX_VALUE)
-    openHeap.add(ComparableNode(0, startNode))
-    while (openHeap.isNotEmpty()) {
-        val current = openHeap.remove()
-        if (current.g > g[endNode]!!) {
-            break
-        }
-        closedSet.add(current.node)
-        for ((neighborNode, distance) in neighbors(current.node)) {
-            val tg = g[current.node]!! + distance
-            if (neighborNode in closedSet && tg >= g[neighborNode]!!) {
-                continue
-            }
-            if (tg < g.getOrDefault(neighborNode, 0) || ! openHeap.map { it.node }.contains(neighborNode)) {
-                g[neighborNode] = tg
-                openHeap.add(ComparableNode(tg, neighborNode))
-            }
-        }
-    }
-    return g[endNode]!!
-}
 
 class Day20(val lines: List<String>) : AocChallenge(2019, 20) {
 
@@ -89,8 +60,6 @@ class Day20(val lines: List<String>) : AocChallenge(2019, 20) {
         return m.toMap()
     }
 
-    private val NSWE = listOf(0 to -1, 0 to 1, -1 to 0, 1 to 0)
-
     private fun neighborPositions(position: Position): Sequence<Position> {
         val (x, y) = position
         return sequence {
@@ -137,45 +106,54 @@ class Day20(val lines: List<String>) : AocChallenge(2019, 20) {
         return Graph(m)
     }
 
-    private fun oneSpaceNeighbors(graph: Graph<Portal>, current: Portal): Map<Portal, Int> {
-        return graph.edges(current)
+    private fun oneSpaceNeighbors(graph: Graph<Portal>, current: Portal): Sequence<Pair<Portal, Int>> {
+        return sequence {
+            for ((portal, distance) in graph.edges(current)) {
+                yield(portal to distance)
+            }
+        }
     }
 
     override fun part1(): Int {
         val graph = generateCompactGraph()
         val startPortal = graph.find { it.label == "AA" }
         val endPortal = graph.find { it.label == "ZZ" }
-        return dijkstra(startPortal, endPortal) { oneSpaceNeighbors(graph, it) }
+        return dijkstra(startPortal,
+            { _, node -> node == endPortal },
+            { oneSpaceNeighbors(graph, it) })
     }
 
     private data class RecursivePortal(val portal: Portal, val circle: Int)
 
-    private fun recursiveSpacesNeighbors(graph: Graph<Portal>, current: RecursivePortal): Map<RecursivePortal, Int> {
-        val result = mutableMapOf<RecursivePortal, Int>()
-        graph.edges(current.portal).forEach { (target, distance) ->
-            if (target.label == current.portal.label) {
-                // hop to another level
-                if (current.circle + current.portal.circleDelta >= 0) {
-                    assert(target.circleDelta == -current.portal.circleDelta)
-                    assert(target.label != "AA")
-                    assert(target.label != "ZZ")
-                    result[RecursivePortal(target, current.circle + current.portal.circleDelta)] = distance
-                }
-            } else {
-                // same level
-                if (!(current.circle > 0 && (target.label == "AA" || target.label == "ZZ")) &&
-                    !(current.circle == 0 && target.label != "AA" && target.label != "ZZ" && target.circleDelta < 0)) {
-                    result[RecursivePortal(target, current.circle)] = distance
+    private fun recursiveSpacesNeighbors(graph: Graph<Portal>, current: RecursivePortal): Sequence<Pair<RecursivePortal, Int>> {
+        return sequence {
+            graph.edges(current.portal).forEach { (target, distance) ->
+                if (target.label == current.portal.label) {
+                    // hop to another level
+                    if (current.circle + current.portal.circleDelta >= 0) {
+                        assert(target.circleDelta == -current.portal.circleDelta)
+                        assert(target.label != "AA")
+                        assert(target.label != "ZZ")
+                        yield(RecursivePortal(target, current.circle + current.portal.circleDelta) to distance)
+                    }
+                } else {
+                    // same level
+                    if (!(current.circle > 0 && (target.label == "AA" || target.label == "ZZ")) &&
+                        !(current.circle == 0 && target.label != "AA" && target.label != "ZZ" && target.circleDelta < 0)
+                    ) {
+                        yield(RecursivePortal(target, current.circle) to distance)
+                    }
                 }
             }
         }
-        return result
     }
 
     override fun part2(): Int {
         val graph = generateCompactGraph()
         val startPortal = RecursivePortal(graph.find { it.label == "AA" }, 0)
         val endPortal = RecursivePortal(graph.find { it.label == "ZZ" }, 0)
-        return dijkstra(startPortal, endPortal) { recursiveSpacesNeighbors(graph, it) }
+        return dijkstra(startPortal,
+            { _, node -> node == endPortal },
+            { recursiveSpacesNeighbors(graph, it) })
     }
 }
