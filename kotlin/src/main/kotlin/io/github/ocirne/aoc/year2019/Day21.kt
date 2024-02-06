@@ -49,7 +49,14 @@ class Day21(val lines: List<String>) : AocChallenge(2019, 21) {
 
     override fun part2(): Long {
         val script = """
-            ...
+            NOT T T
+            AND B T
+            AND C T
+            NOT T T
+            AND D T
+            AND H T
+            NOT A J
+            OR T J
             RUN
 
         """.trimIndent()
