@@ -1,25 +1,33 @@
 package io.github.ocirne.aoc.year2019
 
-import io.github.ocirne.aoc.year2019.IntCodeEmulator2019.Companion.ReturnCode
+import io.github.ocirne.aoc.AocChallenge
 
-class Droid {
+class Day25(val lines: List<String>) : AocChallenge(2019, 25) {
 
-    private val droid = IntCodeEmulator2019(loadProgram())
-
-    fun play(input: String) {
-        input.forEach { droid.addInput(it.code.toLong()) }
-        while (droid.tick() != ReturnCode.STOP) {
-            print(droid.getLastOutput().toInt().toChar())
-            if (droid.getLastOutput() == '?'.code.toLong()) {
-                return
+    private fun runProgram(program: IntCodeEmulator2019): Long {
+        while (true) {
+            val rc = program.tick()
+            when (rc) {
+                IntCodeEmulator2019.Companion.ReturnCode.NEED_INPUT -> {
+                    val stringInput = readln()
+                    stringInput.forEach { program.addInput(it.code.toLong()) }
+                    program.addInput(10)
+                }
+                IntCodeEmulator2019.Companion.ReturnCode.HAS_OUTPUT -> {
+                    print(program.getLastOutput().toInt().toChar())
+                }
+                IntCodeEmulator2019.Companion.ReturnCode.STOP -> {
+                    break
+                }
             }
         }
+        return -1
     }
 
-    companion object {
-        fun loadProgram(): String {
-            return this::class.java.classLoader.getResourceAsStream("inputs/2019/25/input")!!.bufferedReader()
-                .readLines().map { it.trim() }.first()
-        }
+    override fun part1(): Long {
+        val program = IntCodeEmulator2019(lines.first())
+        return runProgram(program)
     }
+
+    override fun part2() {}
 }
