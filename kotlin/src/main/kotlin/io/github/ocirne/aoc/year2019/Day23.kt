@@ -56,6 +56,7 @@ class Day23(val lines: List<String>) : AocChallenge(2019, 23) {
     override fun part2(): Long {
         var nat_x = 0L
         var nat_y = 0L
+        var last_nat = -1L
         val nics = IntRange(0, 49).map {  NIC(lines, it.toLong()) }
         var i = 0
         while (true) {
@@ -78,6 +79,10 @@ class Day23(val lines: List<String>) : AocChallenge(2019, 23) {
                 }
             }
             if (!active && network.isEmpty()) {
+                if (nat_y == last_nat) {
+                    return nat_y
+                }
+                last_nat = nat_y
                 val nic = nics.first()
                 nic.program.addInput(nat_x)
                 nic.program.addInput(nat_y)
