@@ -10,20 +10,24 @@ class Day23(val lines: List<String>) : AocChallenge(2019, 23) {
 
         fun tick(print: Boolean = false): Triple<Long, Long, Long>? {
             val rc = program.tick()
-            if (rc == IntCodeEmulator2019.Companion.ReturnCode.STOP) {
-                throw IllegalStateException("stop")
-            } else if (rc == IntCodeEmulator2019.Companion.ReturnCode.NEED_INPUT) {
-                program.addInput(-1)
-            } else {
-                val da = program.getLastOutput()
-                program.tick()
-                val x = program.getLastOutput()
-                program.tick()
-                val y = program.getLastOutput()
-                println("$networkAddress -> $da $x $y")
-                return Triple(da, x, y)
+            return when (rc) {
+                IntCodeEmulator2019.Companion.ReturnCode.STOP -> {
+                    throw IllegalStateException("stop")
+                }
+                IntCodeEmulator2019.Companion.ReturnCode.NEED_INPUT -> {
+                    program.addInput(-1)
+                    null
+                }
+                else -> {
+                    val da = program.getLastOutput()
+                    program.tick()
+                    val x = program.getLastOutput()
+                    program.tick()
+                    val y = program.getLastOutput()
+//                    println("$networkAddress -> $da $x $y")
+                    Triple(da, x, y)
+                }
             }
-            return null
         }
     }
 
@@ -50,6 +54,39 @@ class Day23(val lines: List<String>) : AocChallenge(2019, 23) {
     }
 
     override fun part2(): Long {
-        return -1
+        var nat_x = 0L
+        var nat_y = 0L
+        val nics = IntRange(0, 49).map {  NIC(lines, it.toLong()) }
+        var i = 0
+        while (true) {
+            var active = false
+            for (nic in nics) {
+                if (network.isNotEmpty() && network.first().first == nic.networkAddress) {
+                    val (_, x, y) = network.removeFirst()
+                    nic.program.addInput(x)
+                    nic.program.addInput(y)
+                }
+                val r = nic.tick(true)
+                if (r != null) {
+                    active = true
+                    if (r.first == 255L) {
+                        nat_x = r.second
+                        nat_y = r.third
+                    } else {
+                        network.add(r)
+                    }
+                }
+            }
+            if (!active && network.isEmpty()) {
+                val nic = nics.first()
+                nic.program.addInput(nat_x)
+                nic.program.addInput(nat_y)
+                println("nat -> 0 $nat_x $nat_y")
+                i++
+                if (i > 50) {
+                    return -1
+                }
+            }
+        }
     }
 }
