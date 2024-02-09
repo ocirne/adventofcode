@@ -1,3 +1,5 @@
+from random import randint
+
 from aoc.util import load_input
 
 
@@ -33,6 +35,11 @@ def reference(lines, inputs):
     return reg["z"]
 
 
+D = [1, 1, 1, 1, 26, 26, 1, 1, 26, 26, 1, 26, 26, 26]
+A = [13, 12, 12, 10, -11, -13, 15, 10, -2, -6, 14, 0, -15, -4]
+B = [8, 13, 8, 10, 12, 1, 13, 5, 10, 3, 2, 2, 12, 7]
+
+
 def deconstructed(inputs):
     z = 0
     for d in range(14):
@@ -44,73 +51,53 @@ def deconstructed(inputs):
     return z
 
 
-#     0,  1,  2,  3,   4,   5,  6,  7,  8,  9, 10, 11, 12,  13
-D = [1, 1, 1, 1, 26, 26, 1, 1, 26, 26, 1, 26, 26, 26]
-A = [13, 12, 12, 10, -11, -13, 15, 10, -2, -6, 14, 0, -15, -4]
-B = [8, 13, 8, 10, 12, 1, 13, 5, 10, 3, 2, 2, 12, 7]
+class ModelNumber:
+    def __init__(self, lines, start, stop, step):
+        self.lines = lines
+        self.start = start
+        self.stop = stop
+        self.step = step
 
+    def _is_valid(self, d, i, z):
+        x = z % 26
+        z //= D[d]
+        x += A[d]
+        if x != i:
+            z = 26 * z + i + B[d]
+        if d == 3:  # < 26**4, 250_000 is good enough
+            return z < 250_000, z
+        if d == 7:  # < 26**4
+            return z < 250_000, z
+        if d == 10:  # < 26**3
+            return z < 10_000, z
+        if d == 11:  # < 26*2
+            return z < 400, z
+        if d == 12:  # < 26**1
+            return z < 15, z
+        return True, z
 
-def is_valid(d, i, z):
-    x = z % 26
-    z //= D[d]
-    x += A[d]
-    if x != i:
-        z = 26 * z + i + B[d]
-    if d == 3:
-        return z < 456977, z
-    if d == 7:
-        return z < 456977, z
-    if d == 10:
-        return z < 17577, z
-    if d == 11:
-        return z < 677, z
-    if d == 12:
-        return z < 27, z
-    return True, z
-
-
-def dfs(d=0, acc=[], z0=0):
-    if d == 14:
-        print("stop", acc, z0)
-        if z0 == 0:
-            raise
-        return
-    for i in range(9, 0, -1):
-        valid, z1 = is_valid(d, i, z0)
-        if valid:
-            dfs(d + 1, acc + [i], z1)
+    def dfs(self, d=0, acc=None, z0=0):
+        if acc is None:
+            acc = []
+        if d == 14:
+            if z0 == 0:
+                assert reference(self.lines, acc) == deconstructed(acc) == 0
+                return "".join(str(c) for c in acc)
+            return
+        for i in range(self.start, self.stop, self.step):
+            valid, z1 = self._is_valid(d, i, z0)
+            if valid:
+                t = self.dfs(d + 1, acc + [i], z1)
+                if t is not None:
+                    return t
 
 
 def part1(lines):
-    #    for _ in range(100):
-    #        inputs = [random.randint(1, 9) for _ in range(14)]
-    #        print(inputs)
-    #        r = reference(lines, inputs)
-    #        d = deconstructed(inputs)
-    #        assert r == d, "r %s d %s" % (r, d)
-    dfs()
-
-
-#    print(deconstructed([9 for _ in range(14)]))
-
-#    print(reference(lines, c))
-#    print(deconstructed(c))
-
-
-def dfs2(d=0, acc=[], z0=0):
-    if d == 14:
-        print("stop", acc, z0)
-        if z0 == 0:
-            raise
-        return
-    for i in range(1, 10):
-        valid, z1 = is_valid(d, i, z0)
-        if valid:
-            dfs2(d + 1, acc + [i], z1)
+    return ModelNumber(lines, 9, 0, -1).dfs()
 
 
 def part2(lines):
-    dfs2()
+    return ModelNumber(lines, 1, 10, 1).dfs()
 
 
 if __name__ == "__main__":
