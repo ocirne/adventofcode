@@ -119,7 +119,7 @@ class Burrow:
                     yield self.move(amphipod, (h_x, 0), (side_room_x, 1))
 
     def __lt__(self, other):
-        return True
+        return self.energy < other.energy
 
     def str_hash(self):
         return str(sorted(self.spot.items()))
@@ -128,27 +128,29 @@ class Burrow:
 def a_star(start_burrow):
     open_heap = []
     closed_set = set()
-    heappush(open_heap, (0, start_burrow))
+    heappush(open_heap, start_burrow)
     while open_heap:
-        current_burrow = heappop(open_heap)[1]
+        current_burrow = heappop(open_heap)
         print("heap", len(open_heap), "energy", current_burrow.energy)
+        if current_burrow.str_hash() in closed_set:
+            continue
         if current_burrow.isTarget():
             return current_burrow.energy
         closed_set.add(current_burrow.str_hash())
         if len(open_heap) > 3000000:
             return -1
-        if current_burrow.energy > 13_000:
+        if current_burrow.energy > 30_000:
             return -2
         for neighbor in current_burrow.valid_moves():
             if neighbor.str_hash() in closed_set:
                 continue
-            heappush(open_heap, (neighbor.energy, neighbor))
+            heappush(open_heap, neighbor)
 
 
 def part1(lines):
     """
     >>> part1(load_example(__file__, "23"))
-    11
+    12521
     """
     burrow = Burrow()
     burrow.spot[2, 1] = "B"
@@ -159,6 +161,15 @@ def part1(lines):
     burrow.spot[6, 2] = "C"
     burrow.spot[8, 1] = "D"
     burrow.spot[8, 2] = "A"
+
+    burrow.spot[2, 1] = "D"
+    burrow.spot[2, 2] = "D"
+    burrow.spot[4, 1] = "A"
+    burrow.spot[4, 2] = "A"
+    burrow.spot[6, 1] = "C"
+    burrow.spot[6, 2] = "B"
+    burrow.spot[8, 1] = "C"
+    burrow.spot[8, 2] = "B"
 
     return a_star(burrow)
 
