@@ -1,3 +1,5 @@
+import math
+
 from aoc.util import load_input, load_example
 
 
@@ -16,7 +18,7 @@ class Monkeys:
         self.monkeys = [Monkey(lines[s : s + 6]) for s in range(0, len(lines), 7)]
 
 
-def round(monkeys: Monkeys, test_print=lambda m: None):
+def round(monkeys: Monkeys, divide_by_three=True, test_print=lambda m: None):
     """
     >>> monkeys = Monkeys(load_example(__file__, "11"))
     >>> round(monkeys, test_print=lambda m: print(m))
@@ -95,6 +97,7 @@ def round(monkeys: Monkeys, test_print=lambda m: None):
         Current worry level is not divisible by 17.
         Item with worry level 1046 is thrown to monkey 1.
     """
+    modulo = math.prod(m.test_divisor for m in monkeys.monkeys)
     for index, monkey in enumerate(monkeys.monkeys):
         test_print("Monkey %d:" % index)
         while monkey.items:
@@ -110,7 +113,8 @@ def round(monkeys: Monkeys, test_print=lambda m: None):
             else:  # op == '+' and n.isnumeric()
                 item += int(monkey.op_value)
                 test_print("    Worry level increases by %s to %d." % (monkey.op_value, item))
-            item //= 3
+            if divide_by_three:
+                item //= 3
             test_print("    Monkey gets bored with item. Worry level is divided by 3 to %d." % item)
             if item % monkey.test_divisor == 0:
                 test_print("    Current worry level is divisible by %d." % monkey.test_divisor)
@@ -119,14 +123,14 @@ def round(monkeys: Monkeys, test_print=lambda m: None):
                 test_print("    Current worry level is not divisible by %d." % monkey.test_divisor)
                 next_monkey = monkey.test_is_false
             test_print("    Item with worry level %d is thrown to monkey %d." % (item, next_monkey))
-            monkeys.monkeys[next_monkey].items.append(item)
+            monkeys.monkeys[next_monkey].items.append(item % modulo)
             monkey.inspected_count += 1
 
 
-def bar(monkeys, test_print=lambda m: None):
+def bar(monkeys, divide_by_three, n, test_print=lambda m: None):
     """
     >>> monkeys = Monkeys(load_example(__file__, "11"))
-    >>> bar(monkeys, test_print=lambda m: print(m))
+    >>> bar(monkeys, True, 20, test_print=lambda m: print(m))
     After round 1, the monkeys are holding items with these worry levels:
     Monkey 0: 20, 23, 27, 26
     Monkey 1: 2080, 25, 167, 207, 401, 1046
@@ -199,8 +203,8 @@ def bar(monkeys, test_print=lambda m: None):
     Monkey 2:
     Monkey 3:
     """
-    for round_index in range(1, 21):
-        round(monkeys)
+    for round_index in range(1, n + 1):
+        round(monkeys, divide_by_three)
         if round_index < 11 or round_index in (15, 20):
             test_print("After round %d, the monkeys are holding items with these worry levels:" % round_index)
             for monkey_index, monkey in enumerate(monkeys.monkeys):
@@ -212,19 +216,92 @@ def bar(monkeys, test_print=lambda m: None):
                 test_print("")
 
 
-def baz(monkeys, test_print=lambda m: None):
+def baz(monkeys, divide_by_three, n, test_print=lambda m: None):
     """
-    >>> monkeys = Monkeys(load_example(__file__, "11"))
-    >>> baz(monkeys, test_print=lambda m: print(m))
-    Monkey 0 inspected items 101 times.
-    Monkey 1 inspected items 95 times.
-    Monkey 2 inspected items 7 times.
-    Monkey 3 inspected items 105 times.
-    10605
+        >>> monkeys = Monkeys(load_example(__file__, "11"))
+        >>> baz(monkeys, 20, test_print=lambda m: print(m))
+        Monkey 0 inspected items 101 times.
+        Monkey 1 inspected items 95 times.
+        Monkey 2 inspected items 7 times.
+        Monkey 3 inspected items 105 times.
+        10605
+
+    == After round 1 ==
+    Monkey 0 inspected items 2 times.
+    Monkey 1 inspected items 4 times.
+    Monkey 2 inspected items 3 times.
+    Monkey 3 inspected items 6 times.
+
+    == After round 20 ==
+    Monkey 0 inspected items 99 times.
+    Monkey 1 inspected items 97 times.
+    Monkey 2 inspected items 8 times.
+    Monkey 3 inspected items 103 times.
+
+    == After round 1000 ==
+    Monkey 0 inspected items 5204 times.
+    Monkey 1 inspected items 4792 times.
+    Monkey 2 inspected items 199 times.
+    Monkey 3 inspected items 5192 times.
+
+    == After round 2000 ==
+    Monkey 0 inspected items 10419 times.
+    Monkey 1 inspected items 9577 times.
+    Monkey 2 inspected items 392 times.
+    Monkey 3 inspected items 10391 times.
+
+    == After round 3000 ==
+    Monkey 0 inspected items 15638 times.
+    Monkey 1 inspected items 14358 times.
+    Monkey 2 inspected items 587 times.
+    Monkey 3 inspected items 15593 times.
+
+    == After round 4000 ==
+    Monkey 0 inspected items 20858 times.
+    Monkey 1 inspected items 19138 times.
+    Monkey 2 inspected items 780 times.
+    Monkey 3 inspected items 20797 times.
+
+    == After round 5000 ==
+    Monkey 0 inspected items 26075 times.
+    Monkey 1 inspected items 23921 times.
+    Monkey 2 inspected items 974 times.
+    Monkey 3 inspected items 26000 times.
+
+    == After round 6000 ==
+    Monkey 0 inspected items 31294 times.
+    Monkey 1 inspected items 28702 times.
+    Monkey 2 inspected items 1165 times.
+    Monkey 3 inspected items 31204 times.
+
+    == After round 7000 ==
+    Monkey 0 inspected items 36508 times.
+    Monkey 1 inspected items 33488 times.
+    Monkey 2 inspected items 1360 times.
+    Monkey 3 inspected items 36400 times.
+
+    == After round 8000 ==
+    Monkey 0 inspected items 41728 times.
+    Monkey 1 inspected items 38268 times.
+    Monkey 2 inspected items 1553 times.
+    Monkey 3 inspected items 41606 times.
+
+    == After round 9000 ==
+    Monkey 0 inspected items 46945 times.
+    Monkey 1 inspected items 43051 times.
+    Monkey 2 inspected items 1746 times.
+    Monkey 3 inspected items 46807 times.
+
+    == After round 10000 ==
+    Monkey 0 inspected items 52166 times.
+    Monkey 1 inspected items 47830 times.
+    Monkey 2 inspected items 1938 times.
+    Monkey 3 inspected items 52013 times.
+
     """
-    bar(monkeys)
+    bar(monkeys, divide_by_three, n)
     for monkey_index, monkey in enumerate(monkeys.monkeys):
-        test_print("Monkey %d inspected items %d times." % (monkey_index, monkey.inspected_count))
+        print("Monkey %d inspected items %d times." % (monkey_index, monkey.inspected_count))
     c = sorted((m.inspected_count for m in monkeys.monkeys), reverse=True)
     return c[0] * c[1]
 
@@ -235,17 +312,19 @@ def part1(lines):
     10605
     """
     monkeys = Monkeys(lines)
-    return baz(monkeys)
+    return baz(monkeys, divide_by_three=True, n=20)
 
 
 def part2(lines):
     """
     >>> part2(load_example(__file__, "11"))
+    2713310158
     """
+    monkeys = Monkeys(lines)
+    return baz(monkeys, divide_by_three=False, n=10_000)
 
 
 if __name__ == "__main__":
     data = load_input(__file__, 2022, "11")
-    #    data = load_example(__file__, "11")
     print(part1(data))
-#    print(part2(data))
+    print(part2(data))
