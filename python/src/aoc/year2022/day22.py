@@ -54,65 +54,6 @@ def part1(lines):
     return 1000 * (y + 1) + 4 * (x + 1) + f
 
 
-"""
-        ...#
-        .#..
-        #...
-        ....
-...#.......#
-........#...
-..#....#....
-..........#.
-        ...#....
-        .....#..
-        .#......
-        ......#.
-
-          (2,0)
-(0,1)(1,1)(2,1)
-          (2,2)(3,2)
-
-RDLU = {
-    0: (+1, 0),  # right
-    1: (0, +1),  # down
-    2: (-1, 0),  # left
-    3: (0, -1),  # up
-}
-
-10R5L5R10L4R5L5
-
-Faltlinien (6 Quadrate * 4)
-
-1: (verlassen!)
-4, y, 0 -> 6: 4, 4-y, 2
-1, y, 2 -> 3: y, 1, 1
-x, 1, 3 ->
-
-2:
-x, 4, 1 ->
-1, y, 2 ->
-x, 1, 3 ->
-
-3:
-x, 4, 1 -> 5: 1, x, 1
-x, 1, 3 -> 1: 1, y, 0
-
-4:
-4, y, 0 -> 6: y, 1, 1
-1, y, 2 -> 3: 4, y, 2
-
-5:
-x, 4, 1 -> 1: x, 1, 1
-1, y, 2 -> 3: 4-y, 4, 2
-
-6:
-4, y, 0 ->
-x, 4, 1 ->
-x, 1, 3 -> 4: 4, 4-x, 2
-
-"""
-
-
 def read_data(lines):
     m = {}
     for y, line in enumerate(lines[:-2]):
@@ -133,7 +74,7 @@ def read_data2(lines, size):
                     m[q] = {}
                 m[q][x % size, y % size] = c
     path = lines[-1]
-    print(m)
+    #    print(m)
     return m, path
 
 
@@ -152,6 +93,15 @@ def neighbor_2d(m, cx, cy, f, dx, dy):
         return cx, cy, f
     return nx, ny, f
 
+
+"""
+          (2,0)
+(0,1)(1,1)(2,1)
+          (2,2)(3,2)
+
+
+
+"""
 
 MASTER_BLASTER_TEST = {
     # q, f: nq, nf, (s, x, y) -> nx, ny
@@ -182,15 +132,51 @@ MASTER_BLASTER_TEST = {
 }
 
 
+"""
+     (1,0)(2,0)
+     (1,1)
+(0,2)(1,2)
+(0,3)
+"""
+
+MASTER_BLASTER = {
+    # q, f: nq, nf, (s, x, y) -> nx, ny
+    ((0, 2), 0): ((1, 2), 0, lambda s, x, y: (0, y)),
+    ((0, 2), 1): ((0, 3), 1, lambda s, x, y: (x, 0)),
+    ((0, 2), 2): ((1, 0), 0, lambda s, x, y: (0, s - y)),
+    ((0, 2), 3): ((1, 1), 0, lambda s, x, y: (0, x)),
+    ((0, 3), 0): ((1, 2), 3, lambda s, x, y: (y, s)),
+    ((0, 3), 1): ((2, 0), 1, lambda s, x, y: (x, 0)),
+    ((0, 3), 2): ((1, 0), 1, lambda s, x, y: (y, 0)),
+    ((0, 3), 3): ((0, 2), 3, lambda s, x, y: (x, s)),
+    ((1, 0), 0): ((2, 0), 0, lambda s, x, y: (0, y)),
+    ((1, 0), 1): ((1, 1), 1, lambda s, x, y: (x, 0)),
+    ((1, 0), 2): ((0, 2), 0, lambda s, x, y: (0, s - y)),
+    ((1, 0), 3): ((0, 3), 0, lambda s, x, y: (0, x)),
+    ((1, 1), 0): ((2, 0), 3, lambda s, x, y: (y, s)),
+    ((1, 1), 1): ((1, 2), 1, lambda s, x, y: (x, 0)),
+    ((1, 1), 2): ((0, 2), 1, lambda s, x, y: (y, 0)),
+    ((1, 1), 3): ((1, 0), 3, lambda s, x, y: (x, s)),
+    ((1, 2), 0): ((2, 0), 2, lambda s, x, y: (s, s - y)),
+    ((1, 2), 1): ((0, 3), 2, lambda s, x, y: (s, x)),
+    ((1, 2), 2): ((0, 2), 2, lambda s, x, y: (s, y)),
+    ((1, 2), 3): ((1, 1), 3, lambda s, x, y: (x, s)),
+    ((2, 0), 0): ((1, 2), 2, lambda s, x, y: (s, s - y)),
+    ((2, 0), 1): ((1, 1), 2, lambda s, x, y: (s, x)),
+    ((2, 0), 2): ((1, 0), 2, lambda s, x, y: (s, y)),
+    ((2, 0), 3): ((0, 3), 3, lambda s, x, y: (x, s)),
+}
+
+
 def neighbor_3d(m, s, cq, cf, cx, cy, dx, dy):
     nq, nf, nx, ny = cq, cf, cx + dx, cy + dy
     if (nx, ny) not in m[cq]:
         print("missing q", nq, "f", nf, "x", nx, "y", ny)
-        nq, nf, f = MASTER_BLASTER_TEST[cq, cf]
+        nq, nf, f = MASTER_BLASTER[cq, cf]
         nx, ny = f(s - 1, cx, cy)
         print("--> nq ", nq, "nxy", nx, ny, "nf", nf)
     if m[nq][nx, ny] == "#":
-        return cq, cf, cx, cy
+        return None
     return nq, nf, nx, ny
 
 
@@ -200,16 +186,19 @@ def part2(lines, size=50):
     5031
     """
     m, path = read_data2(lines, size)
-    print([len(v) for v in m.values()])
-    print(path)
-    q = 2, 0
+    #    print([len(v) for v in m.values()])
+    #    print(path)
+    q = 1, 0  # test: 2,0
     f, x, y = 0, 0, 0
     for t in re.split("([RL])", path):
         if t.isnumeric():
             for _ in range(int(t)):
                 dx, dy = RDLU[f]
-                q, f, x, y = neighbor_3d(m, size, q, f, x, y, dx, dy)
-                print("***", q, "xy", x, y, "f", f)
+                tmp = neighbor_3d(m, size, q, f, x, y, dx, dy)
+                #               print("***", q, "xy", x, y, "f", f)
+                if tmp is None:
+                    break
+                q, f, x, y = tmp
         elif t == "R":
             f = (f + 1) % 4
         elif t == "L":
@@ -217,14 +206,15 @@ def part2(lines, size=50):
         else:
             raise
 
+    print("***", q, "xy", x, y, "f", f)
     qx, qy = q
     return 1000 * (qy * size + y + 1) + 4 * (qx * size + x + 1) + f
 
 
 if __name__ == "__main__":
-    print(5031)
-    print(part2(load_example(__file__, "22"), 4))
+    #    print(5031)
+    #    print(part2(load_example(__file__, "22"), 4))
 
-#    data = load_input(__file__, 2022, "22")
-#    print(part1(data))
-#    print(part2(data))
+    data = load_input(__file__, 2022, "22")
+    #    print(part1(data))
+    print(part2(data))
