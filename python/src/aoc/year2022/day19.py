@@ -130,7 +130,7 @@ class Node:
 
 
 class Foo:
-    def __init__(self, line, cut_points):
+    def __init__(self, line, cut_points, target, relax=0):
         m = BLUEPRINT_PATTERN.match(line)
         (
             self.index,
@@ -145,6 +145,8 @@ class Foo:
         self.best_node = None
         self.cut_points = cut_points
         self.best_geodes = {0: 0}
+        self.target = target
+        self.relax = relax
 
     def dfs(self, minute: int, minerals: Tuple[int, int, int, int], robots: Tuple[int, int, int, int]):
         if minute > 19 and robots[GEODE] < 1:
@@ -229,10 +231,10 @@ class Foo:
         return self.index * self.best_can_do
 
     def find_neighbors(self, node: Node):
-        for cut_minute, material, minimum in self.cut_points:
-            if node.minute > cut_minute and node.robots[material] < minimum:
-                return
-        if node.minute == 24:
+        #        for cut_minute, material, minimum in self.cut_points:
+        #            if node.minute > cut_minute and node.robots[material] < minimum:
+        #                return
+        if node.minute == self.target:
             # print('minute', node.minute, 'heap', 'minerals', node.minerals, 'robots', node.robots, 'forbidden', node.forbidden, 'best', self.best_can_do)
             #            print(', '.join("%s: %s" % (key.value, value) for key, value in minerals.items()))
             if self.best_can_do < node.minerals[GEODE]:
@@ -308,10 +310,10 @@ class Foo:
         heappush(open_heap, Node(0, (0, 0, 0, 0), (0, 0, 0, 1), set()))
         while open_heap:
             current = heappop(open_heap)
-            print(len(open_heap), current.minute)
-            if current.minerals[GEODE] < self.best_geodes[current.minute]:
+            #           print(len(open_heap), current.minute)
+            if current.minerals[GEODE] < self.best_geodes[current.minute] - self.relax:
                 continue
-            if current.minute > 24:
+            if current.minute > self.target:
                 continue
             if current in closed_set:
                 continue
@@ -366,7 +368,7 @@ def part1(lines):
 
     total = 0
     for id, line in enumerate(lines, start=1):
-        t = Foo(line, cut_points).dijkstra()
+        t = Foo(line, cut_points, 24).dijkstra()
         total += id * t
         print("id", id, "t", t)
 
@@ -380,13 +382,32 @@ def part1(lines):
 def part2(lines):
     """
     >>> part2(load_example(__file__, "19"))
-    .
+    56
+    62
+    3472
     """
-    ...
+
+    cut_points = [
+        (18, GEODE, 1),
+        (21, GEODE, 2),
+        (11, OBSIDIAN, 1),
+        (15, OBSIDIAN, 2),
+        (12, CLAY, 4),
+        (5, CLAY, 1),
+        (1, ORE, 1),
+    ]
+
+    total = 1
+    for line in lines[:3]:
+        t = Foo(line, cut_points, 32, relax=2).dijkstra()
+        total *= t
+        print("t", t)
+
+    return total
 
 
 if __name__ == "__main__":
-    data = load_input(__file__, 2022, "19")
-    #    data = load_example(__file__, "19")
+    #    data = load_input(__file__, 2022, "19")
+    data = load_example(__file__, "19")
     print(part1(data))
-#    print(part2(data))
+    print(part2(data))
