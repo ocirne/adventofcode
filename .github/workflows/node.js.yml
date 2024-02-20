@@ -3,6 +3,10 @@
 
 name: Node.js CI
 
+defaults:
+  run:
+    working-directory: ./typescript
+
 on:
   push:
     branches: [ "master" ]
@@ -29,3 +33,4 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+
