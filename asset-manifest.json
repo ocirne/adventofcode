@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/adventofcode/static/css/main.f855e6bc.css",
+    "main.js": "/adventofcode/static/js/main.af6ac5d5.js",
+    "static/js/453.2b34cbe0.chunk.js": "/adventofcode/static/js/453.2b34cbe0.chunk.js",
+    "static/media/logo.svg": "/adventofcode/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/adventofcode/index.html",
+    "main.f855e6bc.css.map": "/adventofcode/static/css/main.f855e6bc.css.map",
+    "main.af6ac5d5.js.map": "/adventofcode/static/js/main.af6ac5d5.js.map",
+    "453.2b34cbe0.chunk.js.map": "/adventofcode/static/js/453.2b34cbe0.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f855e6bc.css",
+    "static/js/main.af6ac5d5.js"
+  ]
+}
