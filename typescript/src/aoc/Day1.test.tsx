@@ -1,4 +1,6 @@
 
+import { expect, test } from 'vitest';
+
 //n opening parenthesis, (, means he should go up one floor, and a closing parenthesis, ), means he should go down one floor.
 
 
