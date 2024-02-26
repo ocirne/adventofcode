@@ -1,12 +1,40 @@
+from collections import defaultdict
+
 from aoc.util import load_example, load_input
 
 
 def identify_guard(line):
-    return line.split("#")[1].split(" ")[0]
+    return int(line.split("#")[1].split(" ")[0])
 
 
 def identify_time(line):
     return int(line.split("]")[0].split(":")[1])
+
+
+def read_sleep_times(lines):
+    all_sleep_times = defaultdict(lambda: [0 for _ in range(60)])
+    asleep_time = 0
+    guard = None
+    for line in sorted(lines):
+        if "Guard" in line:
+            guard = identify_guard(line)
+        elif "falls asleep" in line:
+            asleep_time = identify_time(line)
+        elif "wakes up" in line:
+            wakes_up_time = identify_time(line)
+            for i in range(asleep_time, wakes_up_time):
+                all_sleep_times[guard][i] += 1
+    return all_sleep_times
+
+
+def find_most_sleepy_guard(all_sleep_times):
+    return max(
+        (sum(all_sleep_times[guard][minute] for minute in range(60)), guard) for guard in all_sleep_times.keys()
+    )[1]
+
+
+def find_most_sleepy_minute(all_sleep_times, guard):
+    return max((all_sleep_times[guard][minute], minute) for minute in range(60))[1]
 
 
 def part1(lines):
@@ -14,42 +42,16 @@ def part1(lines):
     >>> part1(load_example(__file__, '4'))
     240
     """
-    most_sleepy = "521"
-    minutes = [0 for _ in range(60)]
-    sleep_times = {}
-    asleep_time = 0
-    guard = None
-    for line in sorted(lines):
-        if "Guard" in line:
-            guard = identify_guard(line)
-            if guard not in sleep_times:
-                sleep_times[guard] = 0
-            # else:
-        # 		raise
-        elif "falls asleep" in line:
-            asleep_time = identify_time(line)
-        elif "wakes up" in line:
-            wakes_up_time = identify_time(line)
-            sleep_times[guard] += wakes_up_time - asleep_time
-            if guard == most_sleepy:
-                for i in range(asleep_time, wakes_up_time):
-                    minutes[i] += 1
-        else:
-            raise
+    all_sleep_times = read_sleep_times(lines)
+    guard = find_most_sleepy_guard(all_sleep_times)
+    minute = find_most_sleepy_minute(all_sleep_times, guard)
+    return guard * minute
 
-    #    for guard, totalSleepTime in sleep_times.items():
-    #        print(guard, "->", totalSleepTime)
 
-    #    print("minutes", minutes)
-
-    max_so_far = -1
-    minute = -1
-    for i in range(60):
-        if minutes[i] > max_so_far:
-            max_so_far = minutes[i]
-            minute = i
-
-    return int(most_sleepy) * minute
+def find_most_frequently_asleep_guard(all_sleep_times):
+    return max(
+        (all_sleep_times[guard][minute], guard, minute) for guard in all_sleep_times.keys() for minute in range(60)
+    )[1:]
 
 
 def part2(lines):
@@ -57,34 +59,9 @@ def part2(lines):
     >>> part2(load_example(__file__, '4'))
     4455
     """
-    all_sleep_times = {}
-    asleep_time = 0
-    guard = None
-    for line in sorted(lines):
-        if "Guard" in line:
-            guard = identify_guard(line)
-            if guard not in all_sleep_times:
-                all_sleep_times[guard] = [0 for _ in range(60)]
-        elif "falls asleep" in line:
-            asleep_time = identify_time(line)
-        elif "wakes up" in line:
-            wakes_up_time = identify_time(line)
-            for i in range(asleep_time, wakes_up_time):
-                all_sleep_times[guard][i] += 1
-        else:
-            raise
-
-    max_so_far = -1
-    guard_so_far = "."
-    index_so_far = -1
-    for guard, sleepTimes in all_sleep_times.items():
-        for i in range(60):
-            if sleepTimes[i] > max_so_far:
-                max_so_far = sleepTimes[i]
-                guard_so_far = guard
-                index_so_far = i
-
-    return int(guard_so_far) * index_so_far
+    all_sleep_times = read_sleep_times(lines)
+    guard, minute = find_most_frequently_asleep_guard(all_sleep_times)
+    return guard * minute
 
 
 if __name__ == "__main__":
