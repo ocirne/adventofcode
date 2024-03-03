@@ -1,6 +1,8 @@
 
 import { expect, test } from 'vitest';
+import { readFileSync } from 'fs';
 import Day1 from './Day1';
+
 
 test('basics', () => {
     const day1 = new Day1('');
@@ -43,11 +45,16 @@ test('examples part2', () => {
 
 test('acceptance part1', () => {
     const day1 = new Day1('');
-    expect(day1.part1('')).toBe(0);
+
+    const data = readFileSync('../../adventofcode-input/resources/2015/1/input', 'utf8');
+
+    expect(day1.part1(data)).toBe(280);
 });
 
 test('acceptance part2', () => {
     const day1 = new Day1('');
 
-    expect(day1.part2('')).toBe(0);
+    const data = readFileSync('../../adventofcode-input/resources/2015/1/input', 'utf8');
+
+    expect(day1.part2(data)).toBe(1797);
 });
