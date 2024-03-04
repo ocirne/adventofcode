@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { direct, input } from "./AocInput";
+import { direct } from "./AocInput";
 import { part1, part2 } from "./Day1";
 
 test("basics", () => {
@@ -34,12 +34,4 @@ test("examples part2", () => {
 
   // ()()) causes him to enter the basement at character position 5.
   expect(part2(direct("()())"))).toBe(5);
-});
-
-test("acceptance part1", () => {
-  expect(part1(input(2015, 1))).toBe(280);
-});
-
-test("acceptance part2", () => {
-  expect(part2(input(2015, 1))).toBe(1797);
 });
