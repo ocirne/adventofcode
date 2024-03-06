@@ -1,5 +1,8 @@
 import AocInput from './AocInput';
 
+const year = 2015;
+const day = 1;
+
 function part1(input: AocInput): number {
   const line = input.firstLine();
   let total = 0;
@@ -29,4 +32,4 @@ function part2(input: AocInput): number {
   return total;
 }
 
-export { part1, part2 };
+export { year, day, part1, part2 };

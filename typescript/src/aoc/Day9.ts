@@ -1,5 +1,8 @@
 import AocInput from './AocInput';
 
+const year = 2015;
+const day = 9;
+
 function readGraph(input: AocInput): { count: number, distances: Map<number, number> } {
   const nodesSet = new Set<string>();
   input.rawData.trim().split("\n").forEach(line => {
@@ -61,7 +64,7 @@ function findDistance(distances: Map<number, number>, count: number, path: Array
   for (let i = 1; i < path.length; i++) {
     total_distance += distances.get(path[i-1] * count + path[i])!;
   }
-  console.log(total_distance);
+ // console.log(total_distance);
   return total_distance;
 }
 
@@ -89,16 +92,16 @@ const xs_ = {
 
 function part1(input: AocInput): number {
   const { count, distances } = readGraph(input);
-  console.log(count);
-  console.log(distances);
+//  console.log(count);
+//  console.log(distances);
   return reduce((acc, p) => Math.min(acc, findDistance(distances, count, p)), 100000, permutations(count));
 }
 
 function part2(input: AocInput): number {
   const { count, distances } = readGraph(input);
-  console.log(count);
-  console.log(distances);
+//  console.log(count);
+//  console.log(distances);
   return reduce((acc, p) => Math.max(acc, findDistance(distances, count, p)), 0, permutations(count));
 }
 
-export { part1, part2 };
+export { year, day, part1, part2 };

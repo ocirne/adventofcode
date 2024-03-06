@@ -1,5 +1,8 @@
 import AocInput from './AocInput';
 
+const year = 2015;
+const day = 2;
+
   function part1_single(line: string): number {
     const [l, w, h] = line
       .split("x")
@@ -33,5 +36,4 @@ import AocInput from './AocInput';
     );
   }
 
-
-export { part1, part2 };
+  export { year, day, part1, part2 };
