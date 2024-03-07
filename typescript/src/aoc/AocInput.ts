@@ -7,13 +7,16 @@ class AocInput {
     this.rawData = data;
   }
 
-  public firstLine(): string {
-    return this.rawData;
+  public onlyLine(): string {
+    return this.rawData.trim();
+  }
+
+  public splitLines(): string[] {
+    return this.rawData.trim().split("\n");
   }
 }
 
 function loadFile(path: string): string {
-  console.log(realpathSync(path));
   return readFileSync(realpathSync(path), "utf8");
 }
 

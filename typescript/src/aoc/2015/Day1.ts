@@ -4,7 +4,7 @@ const year = 2015;
 const day = 1;
 
 function part1(input: AocInput): number {
-  const line = input.firstLine();
+  const line = input.onlyLine();
   let total = 0;
   for (let i = 0; i < line.length; i++) {
     if (line[i] == "(") {
@@ -17,7 +17,7 @@ function part1(input: AocInput): number {
 }
 
 function part2(input: AocInput): number {
-  const line = input.firstLine();
+  const line = input.onlyLine();
   let total = 0;
   for (let i = 0; i < line.length; i++) {
     if (line[i] == "(") {
