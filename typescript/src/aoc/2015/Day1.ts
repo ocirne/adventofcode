@@ -1,4 +1,4 @@
-import AocInput from './AocInput';
+import { AocInput } from "../AocInput";
 
 const year = 2015;
 const day = 1;

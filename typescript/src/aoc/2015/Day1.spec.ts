@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { direct } from "./AocInput";
+import { direct } from "../AocInput";
 import { part1, part2 } from "./Day1";
 
 test("basics", () => {
