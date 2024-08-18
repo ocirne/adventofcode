@@ -1,11 +1,11 @@
 import { Component } from "react";
 
-function Day1(): Component {
-    return (
-        <div>
-            fooday1
-        </div>
-    );
+class Day1 extends Component {
+    render() {
+        return <>
+            <p>fooday1</p>
+        </>
+    }
   }
   
 
