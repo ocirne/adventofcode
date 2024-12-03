@@ -4,23 +4,20 @@ import io.github.ocirne.aoc.AocChallenge
 
 class Day3(val lines: List<String>) : AocChallenge(2024, 3) {
 
-    override fun part1(): Int {
-        val line = lines.joinToString(" ")
+    private val line = lines.joinToString(" ")
 
-        val regex = Regex("mul\\(([0-9]{1,3}),([0-9]{1,3})\\)")
-        val matches = regex.findAll(line)
-        val names = matches.map { it.groupValues }.map { (_, x, y) -> x.toInt() * y.toInt() }.sum()
-        return names
+    override fun part1(): Int {
+        return Regex("mul\\((\\d+),(\\d+)\\)")
+            .findAll(line)
+            .map { it.groupValues }
+            .map { (_, x, y) -> x.toInt() * y.toInt() }
+            .sum()
     }
 
     override fun part2(): Int {
-        val line = lines.joinToString(" ")
-
-        val regex = Regex("do\\(\\)|don't\\(\\)|mul\\(([0-9]{1,3}),([0-9]{1,3})\\)")
-        val matches = regex.findAll(line)
         var result = 0
         var flag = true
-        for (m in matches) {
+        for (m in Regex("do\\(\\)|don't\\(\\)|mul\\((\\d+),(\\d+)\\)").findAll(line)) {
             when (m.groups[0]!!.value.substring(0, 3)) {
                 "do(" -> flag = true
                 "don" -> flag = false
