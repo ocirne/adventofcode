@@ -8,3 +8,5 @@ tests
 build/
 dist/
 
+env/
+
