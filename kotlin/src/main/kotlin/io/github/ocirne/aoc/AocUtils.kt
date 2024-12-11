@@ -1,8 +1,5 @@
 package io.github.ocirne.aoc
 
-import java.math.BigInteger
-import java.math.BigInteger.*
-
 fun exclusiveRange(f: Int, t: Int): IntRange = if (f < t) IntRange(f+1, t-1) else IntRange(t+1, f-1)
 
 fun <T> Collection<T>.permutations(): Iterable<List<T>> {
