@@ -6,7 +6,7 @@ class Day15(val lines: List<String>) : AocChallenge(2024, 15) {
 
     private data class Position(val x: Int, val y: Int)
 
-    private class WarehouseGrid(val lines: List<String>, val twiceAsWide: Boolean = false) {
+    private class WarehouseGrid(val lines: List<String>, val twiceAsWide: Boolean) {
 
         val width = lines.first().length * (if (twiceAsWide) 2 else 1)
         val height = lines.size

@@ -4,82 +4,68 @@ import io.github.ocirne.aoc.AocChallenge
 import io.github.ocirne.aoc.combinationsOfTwo
 import kotlin.math.abs
 
-class Day14(val lines: List<String>) : AocChallenge(2024, 14) {
+class Day14(val lines: List<String>, val width: Int, val height: Int) : AocChallenge(2024, 14) {
 
-    private val start_position = Regex("p=(-?\\d+),(-?\\d+) v=(-?\\d+),(-?\\d+)")
+    constructor(lines: List<String>) : this(lines, width = 101, height = 103)
 
-    private val width = 101 // 11
-    private val hw = (width-1) / 2
-    private val height = 103 // 7
-    private val hh = (height-1) / 2
-    private val seconds = 100L
+    private val startPosition = Regex("p=(-?\\d+),(-?\\d+) v=(-?\\d+),(-?\\d+)")
 
-    override fun part1(): Int {
-        val destinatons = lines.map {line ->
-            val (px, py, vx, vy) = start_position.find(line)!!.destructured
-            println("$px, $py, $vx, $vy")
-            val ex = (px.toLong() + seconds * vx.toLong()).mod(width)
-            val ey = (py.toLong() + seconds * vy.toLong()).mod(height)
-            ex to ey
+    private val hw = (width - 1) / 2
+    private val hh = (height - 1) / 2
+    private val seconds = 100
+
+    private data class Point(val x: Int, val y: Int)
+
+    private data class Robot(val p: Point, val v: Point)
+
+    private fun readRobots(): List<Robot> {
+        return lines.map { line ->
+            val (px, py, vx, vy) = startPosition.find(line)!!.destructured
+            Robot(Point(px.toInt(), py.toInt()), Point(vx.toInt(), vy.toInt()))
         }
-        val q1 = destinatons.filter { (x, y) -> x < hw && y < hh }.count()
-        val q2 = destinatons.filter { (x, y) -> x < hw && y > hh }.count()
-        val q3 = destinatons.filter { (x, y) -> x > hw && y < hh }.count()
-        val q4 = destinatons.filter { (x, y) -> x > hw && y > hh }.count()
-        println(destinatons)
-        println("$q1, $q2, $q3, $q4")
-        return q1*q2*q3*q4
     }
 
-    private fun bonkers(foo: List<Pair<Pair<Int, Int>, Pair<Int, Int>>>, seconds: Int): Int {
-        val destinations = foo.map { (p, v) ->
-            val (px, py) = p
-            val (vx, vy) = v
-            val ex = (px + seconds.mod(width) * vx).mod(width)
-            val ey = (py + seconds.mod(height) * vy).mod(height)
-            ex to ey
+    private fun findDestinations(robots: List<Robot>, seconds: Int): List<Point> {
+        return robots.map { (p, v) ->
+            val ex = (p.x + seconds.mod(width) * v.x).mod(width)
+            val ey = (p.y + seconds.mod(height) * v.y).mod(height)
+            Point(ex, ey)
         }
+    }
+
+    override fun part1(): Int {
+        val destinations = findDestinations(readRobots(), seconds)
+        val q1 = destinations.count { (x, y) -> x < hw && y < hh }
+        val q2 = destinations.count { (x, y) -> x < hw && y > hh }
+        val q3 = destinations.count { (x, y) -> x > hw && y < hh }
+        val q4 = destinations.count { (x, y) -> x > hw && y > hh }
+        return q1 * q2 * q3 * q4
+    }
+
+    private fun countDistanceOne(destinations: List<Point>): Int {
         return destinations.combinationsOfTwo().map { (f, s) ->
-            val (fx, fy) = f
-            val (sx, sy) = s
-            val dx = abs(fx - sx)
-            val dy = abs(fy - sy)
-            dx to dy
+            Point(abs(f.x - s.x), abs(f.y - s.y))
         }.filter { (dx, dy) -> dx < 1 || dy < 1 }.count()
     }
 
-    private fun printlnTree(foo: List<Pair<Pair<Int, Int>, Pair<Int, Int>>>, seconds: Int) {
-        val destinations = foo.map { (p, v) ->
-            val (px, py) = p
-            val (vx, vy) = v
-            val ex = (px + seconds.mod(width) * vx).mod(width)
-            val ey = (py + seconds.mod(height) * vy).mod(height)
-            ex to ey
-        }.toSet()
+    private fun printlnTree(destinations: Set<Point>) {
         for (y in 0 until height) {
             for (x in 0 until width) {
-                if (destinations.contains(x to y))
-                    print('#')
-                else
-                    print('.')
+                print(if (destinations.contains(Point(x, y))) '#' else '.')
             }
             println()
         }
-        println("-------")
     }
 
     override fun part2(): Int {
-        val foo = lines.map {line ->
-            val (px, py, vx, vy) = start_position.find(line)!!.destructured
-            (px.toInt() to py.toInt()) to (vx.toInt() to vy.toInt())
-        }
-        var last = 0
+        val robots = readRobots()
+        // step 101 found by trial and error
         for (s in 230 until 10000 step 101) {
-            val c = bonkers(foo, s)
+            val destinations = findDestinations(robots, s)
+            val c = countDistanceOne(destinations)
+            // threshold 5000 found by trial and error
             if (c > 5000) {
-                printlnTree(foo, s)
-                println("$s $c ${s - last}")
-                last = s
+                printlnTree(destinations.toSet())
                 return s
             }
         }
