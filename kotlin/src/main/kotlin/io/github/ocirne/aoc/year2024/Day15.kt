@@ -1,7 +1,6 @@
 package io.github.ocirne.aoc.year2024
 
 import io.github.ocirne.aoc.AocChallenge
-import io.github.ocirne.aoc.NSWE
 
 class Day15(val lines: List<String>) : AocChallenge(2024, 15) {
 
@@ -57,10 +56,6 @@ class Day15(val lines: List<String>) : AocChallenge(2024, 15) {
             }
         }
 
-        operator fun get(p: Position): Char {
-            return grid[p]!!
-        }
-
         fun print() {
             for (y in 0 until height) {
                 for (x in 0 until width!!) {
@@ -92,7 +87,124 @@ class Day15(val lines: List<String>) : AocChallenge(2024, 15) {
         return grid.gps()
     }
 
+    class Grid2(val lines: List<String>) {
+
+        val width = lines.first().length * 2
+        val height = lines.size
+        val grid = readGrid()
+        var robotPosition = findRobot()
+
+        private fun readGrid(): MutableMap<Position, Char> {
+            val grid = mutableMapOf<Position, Char>()
+            lines.mapIndexed { y, line ->
+                line.mapIndexed { x, value ->
+                    val (left, right) = when (value) {
+                        '#' -> '#' to '#'
+                        'O' -> '[' to ']'
+                        '.' -> '.' to '.'
+                        '@' -> '@' to '.'
+                        else -> throw IllegalArgumentException("Unknown value")
+                    }
+                    grid[Position(2*x, y)] = left
+                    grid[Position(2*x + 1, y)] = right
+                }
+            }
+            return grid
+        }
+
+        private fun findRobot(): Position {
+            return grid.filterValues { it == '@' }.keys.first()
+        }
+
+        fun moveRobotX(p: Position, dx: Int): Boolean {
+            val currentValue = grid[p]!!
+            if (currentValue == '#')
+                return false
+            if (currentValue == '.')
+                return true
+            val nextStraight = Position(p.x + dx, p.y)
+            val canMove = when (currentValue) {
+                '[' -> moveRobotX(nextStraight, dx)
+                ']' -> moveRobotX(nextStraight, dx)
+                '@' -> moveRobotX(nextStraight, dx)
+                else -> throw IllegalArgumentException("Unknown grid element")
+            }
+            if (canMove) {
+                grid[nextStraight] = grid[p]!!
+                grid[p] = '.'
+            }
+            return canMove
+        }
+
+        fun tryMoveY(p: Position, dy: Int): Boolean {
+            val currentValue = grid[p]!!
+            if (currentValue == '#')
+                return false
+            if (currentValue == '.')
+                return true
+            val nextStraight = Position(p.x, p.y + dy)
+            val nextRight = Position(p.x + 1, p.y + dy)
+            val nextLeft = Position(p.x - 1, p.y + dy)
+            val canMove = when (currentValue) {
+                '@' -> tryMoveY(nextStraight, dy)
+                '[' -> tryMoveY(nextStraight, dy) && tryMoveY(nextRight, dy)
+                ']' -> tryMoveY(nextStraight, dy) && tryMoveY(nextLeft, dy)
+                else -> throw IllegalArgumentException("Unknown grid element")
+            }
+            val right = Position(p.x + 1, p.y)
+            val left = Position(p.x - 1, p.y)
+            if (canMove) {
+                if (currentValue == '[') {
+                    grid[nextRight] = grid[right]!!
+                    grid[right] = '.'
+                } else if (currentValue == ']') {
+                    grid[nextLeft] = grid[left]!!
+                    grid[left] = '.'
+                }
+                grid[nextStraight] = grid[p]!!
+                grid[p] = '.'
+            }
+            return canMove
+        }
+
+        fun moveRobot(direction: Char) {
+            val moved = when (direction) {
+                '^' -> tryMoveY(robotPosition, -1)
+                'v' -> tryMoveY(robotPosition, +1)
+                '<' -> moveRobotX(robotPosition, -1)
+                '>' -> moveRobotX(robotPosition, +1)
+                else -> throw IllegalStateException("Unknown: $direction")
+            }
+            if (moved) {
+                robotPosition = findRobot()
+            }
+        }
+
+        fun print() {
+            for (y in 0 until height) {
+                for (x in 0 until width) {
+                    print(grid[Position(x, y)])
+                }
+                println()
+            }
+        }
+
+        fun gps(): Int {
+            return grid
+                .filterValues { it == '[' }
+                .map { (p, _) -> p.x + 100 * p.y }
+                .sum()
+        }
+    }
+
     override fun part2(): Int {
-        return -1
+        val grid = Grid2(lines.takeWhile { it.isNotBlank() })
+        for (m in readMovements()) {
+            grid.moveRobot(m)
+//            grid.print()
+        }
+        grid.print()
+        println("robot: " + grid.robotPosition)
+        return grid.gps()
     }
 }
