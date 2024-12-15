@@ -92,7 +92,6 @@ class Day15(val lines: List<String>) : AocChallenge(2024, 15) {
         val width = lines.first().length * 2
         val height = lines.size
         var grid = readGrid()
-        var oleGrid : Map<Position, Char> = mutableMapOf()
         var robotPosition = findRobot()
 
         private fun readGrid(): MutableMap<Position, Char> {
@@ -118,7 +117,7 @@ class Day15(val lines: List<String>) : AocChallenge(2024, 15) {
         }
 
         fun moveRobotX(p: Position, dx: Int): Boolean {
-            val currentValue = oleGrid[p]!!
+            val currentValue = grid[p]!!
             if (currentValue == '#')
                 return false
             if (currentValue == '.')
@@ -137,42 +136,48 @@ class Day15(val lines: List<String>) : AocChallenge(2024, 15) {
             return canMove
         }
 
-        fun tryMoveY(p: Position, dy: Int): Boolean {
-            val currentValue = oleGrid[p]!!
-            if (currentValue == '#')
+        fun tryMoveY(layer: Set<Position>, dy: Int): Boolean {
+            if (layer.any { p -> grid[p] == '#'})
                 return false
-            if (currentValue == '.')
+            if (layer.all { p -> grid[p] == '.'})
                 return true
-            val nextStraight = Position(p.x, p.y + dy)
-            val nextRight = Position(p.x + 1, p.y + dy)
-            val nextLeft = Position(p.x - 1, p.y + dy)
-            val canMove = when (currentValue) {
-                '@' -> tryMoveY(nextStraight, dy)
-                '[' -> tryMoveY(nextStraight, dy) && tryMoveY(nextRight, dy)
-                ']' -> tryMoveY(nextStraight, dy) && tryMoveY(nextLeft, dy)
-                else -> throw IllegalArgumentException("Unknown grid element")
-            }
-            val right = Position(p.x + 1, p.y)
-            val left = Position(p.x - 1, p.y)
-            if (canMove) {
-                if (currentValue == '[') {
-                    grid[nextRight] = oleGrid[right]!!
-                    grid[right] = '.'
-                } else if (currentValue == ']') {
-                    grid[nextLeft] = oleGrid[left]!!
-                    grid[left] = '.'
+            val nextLayer: MutableSet<Position> = mutableSetOf()
+            for (p in layer) {
+                val nextStraight = Position(p.x, p.y + dy)
+                val value = grid[nextStraight]!!
+//                print("$p $value, ")
+                val nextWest = Position(p.x - 1, p.y + dy)
+                val nextEast = Position(p.x + 1, p.y + dy)
+                when (value) {
+                    ']' -> {
+                        nextLayer.add(nextStraight)
+                        nextLayer.add(nextWest)
+                    }
+                    '[' -> {
+                        nextLayer.add(nextStraight)
+                        nextLayer.add(nextEast)
+                    }
+                    '.' -> {}
+                    '#' -> return false
+                    else -> throw IllegalArgumentException("Unknown grid element $value")
                 }
-                grid[nextStraight] = currentValue
-                grid[p] = '.'
+            }
+ //           println()
+            val canMove = tryMoveY(nextLayer, dy)
+            if (canMove) {
+                for (p in layer) {
+                    val nextPosition = Position(p.x, p.y + dy)
+                    grid[nextPosition] = grid[p]!!
+                    grid[p] = '.'
+                }
             }
             return canMove
         }
 
         fun moveRobot(direction: Char) {
-            oleGrid = grid.toMap()
             val moved = when (direction) {
-                '^' -> tryMoveY(robotPosition, -1)
-                'v' -> tryMoveY(robotPosition, +1)
+                '^' -> tryMoveY(setOf(robotPosition), -1)
+                'v' -> tryMoveY(setOf(robotPosition), +1)
                 '<' -> moveRobotX(robotPosition, -1)
                 '>' -> moveRobotX(robotPosition, +1)
                 else -> throw IllegalStateException("Unknown: $direction")
@@ -202,8 +207,9 @@ class Day15(val lines: List<String>) : AocChallenge(2024, 15) {
     override fun part2(): Int {
         val grid = Grid2(lines.takeWhile { it.isNotBlank() })
         for (m in readMovements()) {
+ //           println(m)
             grid.moveRobot(m)
-//            grid.print()
+ //           grid.print()
         }
         grid.print()
         println("robot: " + grid.robotPosition)
