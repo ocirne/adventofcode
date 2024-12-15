@@ -91,7 +91,8 @@ class Day15(val lines: List<String>) : AocChallenge(2024, 15) {
 
         val width = lines.first().length * 2
         val height = lines.size
-        val grid = readGrid()
+        var grid = readGrid()
+        var oleGrid : Map<Position, Char> = mutableMapOf()
         var robotPosition = findRobot()
 
         private fun readGrid(): MutableMap<Position, Char> {
@@ -117,7 +118,7 @@ class Day15(val lines: List<String>) : AocChallenge(2024, 15) {
         }
 
         fun moveRobotX(p: Position, dx: Int): Boolean {
-            val currentValue = grid[p]!!
+            val currentValue = oleGrid[p]!!
             if (currentValue == '#')
                 return false
             if (currentValue == '.')
@@ -130,14 +131,14 @@ class Day15(val lines: List<String>) : AocChallenge(2024, 15) {
                 else -> throw IllegalArgumentException("Unknown grid element")
             }
             if (canMove) {
-                grid[nextStraight] = grid[p]!!
+                grid[nextStraight] = currentValue
                 grid[p] = '.'
             }
             return canMove
         }
 
         fun tryMoveY(p: Position, dy: Int): Boolean {
-            val currentValue = grid[p]!!
+            val currentValue = oleGrid[p]!!
             if (currentValue == '#')
                 return false
             if (currentValue == '.')
@@ -155,19 +156,20 @@ class Day15(val lines: List<String>) : AocChallenge(2024, 15) {
             val left = Position(p.x - 1, p.y)
             if (canMove) {
                 if (currentValue == '[') {
-                    grid[nextRight] = grid[right]!!
+                    grid[nextRight] = oleGrid[right]!!
                     grid[right] = '.'
                 } else if (currentValue == ']') {
-                    grid[nextLeft] = grid[left]!!
+                    grid[nextLeft] = oleGrid[left]!!
                     grid[left] = '.'
                 }
-                grid[nextStraight] = grid[p]!!
+                grid[nextStraight] = currentValue
                 grid[p] = '.'
             }
             return canMove
         }
 
         fun moveRobot(direction: Char) {
+            oleGrid = grid.toMap()
             val moved = when (direction) {
                 '^' -> tryMoveY(robotPosition, -1)
                 'v' -> tryMoveY(robotPosition, +1)
