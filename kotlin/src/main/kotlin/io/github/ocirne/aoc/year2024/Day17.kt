@@ -40,10 +40,10 @@ class Day17(val lines: List<String>) : AocChallenge(2024, 17) {
             when (opcode) {
                 adv -> a = a shr comboOperand.toInt()
                 bxl -> b = b xor literalOperand
-                bst -> b = comboOperand % 8
+                bst -> b = comboOperand and 7
                 jnz -> if (a != 0L) ip = (literalOperand - 2L).toInt()
                 bxc -> b = b xor c
-                out -> output.add((comboOperand % 8).toString())
+                out -> output.add((comboOperand and 7).toString())
                 bdv -> b = a shr comboOperand.toInt()
                 cdv -> c = a shr comboOperand.toInt()
             }
