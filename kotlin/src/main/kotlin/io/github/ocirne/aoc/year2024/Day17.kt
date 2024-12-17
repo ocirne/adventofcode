@@ -23,11 +23,11 @@ class Day17(val lines: List<String>) : AocChallenge(2024, 17) {
     private val bdv = 6L
     private val cdv = 7L
 
-    override fun part1(): String {
-        var a = lines[0].split(": ").last().toLong()
-        var b = lines[1].split(": ").last().toLong()
-        var c = lines[2].split(": ").last().toLong()
-        val program = lines[4].split(": ").last().split(',').map { it.toLong() }
+    private fun runProgram(programStr: String, initialA: Long, initialB: Long, initialC: Long): String {
+        var a = initialA
+        var b = initialB
+        var c = initialC
+        val program = programStr.split(',').map { it.toLong() }
         var ip = 0
         val output = mutableListOf<String>()
         while (true) {
@@ -51,7 +51,27 @@ class Day17(val lines: List<String>) : AocChallenge(2024, 17) {
         }
     }
 
+    override fun part1(): String {
+        val a = lines[0].split(": ").last().toLong()
+        val b = lines[1].split(": ").last().toLong()
+        val c = lines[2].split(": ").last().toLong()
+        val program = lines[4].split(": ").last()
+        return runProgram(program, a, b, c)
+    }
+
     override fun part2(): Long {
-        return -1
+        val b = lines[1].split(": ").last().toLong()
+        val c = lines[2].split(": ").last().toLong()
+        val program = lines[4].split(": ").last()
+        var a = 0L
+        while (true) {
+            val resultProgram = runProgram(program, a, b, c)
+//            println("$a $program ###")
+//            println("$a $resultProgram")
+            if (resultProgram == program) {
+                return a
+            }
+            a += 1
+        }
     }
 }
