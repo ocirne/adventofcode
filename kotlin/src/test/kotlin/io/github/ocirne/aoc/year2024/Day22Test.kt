@@ -18,9 +18,9 @@ internal class Day22Test: AocTest(Day22::class, expectedPart1 = 37327623) {
     fun `examples year 2024 day 22 part 2 bar`() {
         subject as Day22
         val key = "-2,1,-1,3"
-        subject.bar(1).toMap()[key] shouldBe 7
-        subject.bar(2).toMap()[key] shouldBe 7
-        subject.bar(3).toMap() shouldNotContainKey key
-        subject.bar(2024).toMap()[key] shouldBe 9
+        subject.changesToValue(1).toMap()[key] shouldBe 7
+        subject.changesToValue(2).toMap()[key] shouldBe 7
+        subject.changesToValue(3).toMap() shouldNotContainKey key
+        subject.changesToValue(2024).toMap()[key] shouldBe 9
     }
 }
