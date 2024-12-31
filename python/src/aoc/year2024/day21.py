@@ -1,3 +1,5 @@
+from functools import lru_cache
+
 from aoc.util import load_input, load_example
 
 from itertools import permutations
@@ -32,7 +34,6 @@ NSWE = {
 }
 
 def allowedNumerical(pSrc, pTgt, move):
-    print(pSrc, pTgt, move)
     px, py = pSrc
     for m in move:
         dx, dy = NSWE[m]
@@ -67,7 +68,6 @@ def numericKeyboard(srcChar, tgtChar):
 
 
 def allowedDirectional(pSrc, pTgt, move):
-    print(pSrc, pTgt, move)
     px, py = pSrc
     for m in move:
         dx, dy = NSWE[m]
@@ -98,55 +98,43 @@ def directionalKeyboard(srcChar, tgtChar):
     return (a for a in set(permutations(moves)) if allowedDirectional(pSrc, pTgt, a))
 
 
-def countMovesDirectional2(foo):
-    result = []
+@lru_cache(maxsize=None)
+def bestDirectional(depth, s, t):
+    bestSize = 10000000000000000000000000000
+    for angebot in directionalKeyboard(s, t):
+        if depth == 0:
+            nextLevelSize = len(angebot) + 1
+        else:
+            nextLevelSize = countMovesDirectional1(depth-1, ['A'] + list(angebot) + ['A'])
+        if bestSize > nextLevelSize:
+            bestSize = nextLevelSize
+    return bestSize
+
+
+def countMovesDirectional1(depth, foo):
+    result = 0
     for s, t in zip(foo, foo[1:]):
-        bestSize = 10000
-        for angebot in directionalKeyboard(s, t):
-            if bestSize > len(angebot):
-                bestSize = len(angebot)
-                bestAngebot = angebot
-                bestNextLevel = angebot
-#        print("(%s -> %s) bestAngebot %s bestNL %s" % (s, t, bestAngebot, bestNextLevel))
-        result.extend(bestAngebot)
-        result.append('A')
+        result += bestDirectional(depth, s, t)
     return result
 
+@lru_cache(maxsize=None)
+def bestNumerical(depth, s, t):
+    bestSize = 100000000000000000000000000000
+    for angebot in numericKeyboard(s, t):
+        nextLevelSize = countMovesDirectional1(depth-1, ['A'] + list(angebot) + ['A'])
+        if bestSize > nextLevelSize:
+            bestSize = nextLevelSize
+    return bestSize
 
-def countMovesDirectional1(foo):
-    result = []
+def countMovesNumeric(depth, foo):
+    result = 0
     for s, t in zip(foo, foo[1:]):
-        bestSize = 10000
-        for angebot in directionalKeyboard(s, t):
-            nextLevel = countMovesDirectional2(['A'] + list(angebot) + ['A'])
-            if bestSize > len(nextLevel):
-                bestSize = len(nextLevel)
-                bestAngebot = angebot
-                bestNextLevel = nextLevel
-#        print("(%s -> %s) bestAngebot %s bestNL %s" % (s, t, bestAngebot, bestNextLevel))
-        result.extend(bestNextLevel)
-    return result
-
-
-def countMovesNumeric(foo):
-    result = []
-    for s, t in zip(foo, foo[1:]):
-        bestSize = 10000
-        for angebot in numericKeyboard(s, t):
-            nextLevel = countMovesDirectional1(['A'] + list(angebot) + ['A'])
-            # print("(%s -> %s) angebot %s nL %s" % (s, t, angebot, nextLevel))
-            if bestSize > len(nextLevel):
-                bestSize = len(nextLevel)
-                bestAngebot = angebot
-                bestNextLevel = nextLevel
-#        print("(%s -> %s) bestAngebot %s bestNL %s" % (s, t, bestAngebot, bestNextLevel))
-        result.extend(bestNextLevel)
-        #result.append('A')
+        result += bestNumerical(depth, s, t)
     return result
 
 
 def foo(s):
-    result = countMovesNumeric(['A'] + s)
+    result = countMovesNumeric(2, ['A'] + s)
     print(''.join(result))
     return len(result)
 
@@ -167,10 +155,17 @@ def part1(lines):
 
 
 def part2(lines):
-    ...
+    total = 0
+    for line in lines:
+        length = countMovesNumeric(25, ['A'] + list(line))
+        value = int(line[:-1])
+        print("line", line, "length", length, "value", value)
+        total += length * value
+    return total
 
 if __name__ == "__main__":
     data = load_input(__file__, 2024, "21")
     #data = load_example(__file__, "21")
-    print(part1(data))
-    # print(part2(data))
+    #print(part1(data))
+    print(part2(data))
+    print('1757129124022 (too low)')
