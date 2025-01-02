@@ -62,7 +62,7 @@ def binary_search(grid, size):
 def part2(lines, size=70):
     """
     >>> part2(load_example(__file__, "18"), size=6)
-    6,1
+    '6,1'
     """
     grid = read_grid(lines)
     r = binary_search(grid, size)
