@@ -8,12 +8,11 @@ class Gate:
     def __init__(self, a, b, f, d):
         self.a = a
         self.b = b
-        #        self.c = c
         self.f = f
         self.d = d
 
 
-class Foo:
+class Adder:
 
     def __init__(self, lines):
         self.gates = self.read_gates(lines)
@@ -37,6 +36,19 @@ class Foo:
             result[c] = Gate(a, b, f, d)
         return result
 
+    def graphviz_output(self):
+        """
+        $ python3 day24 > 24.dot
+        $ dot -Tpng 24.dot > output.png
+        """
+        print("digraph foo {")
+        for gate in self.gates:
+            t = '"%s %s %s"' % (gate.a, gate.d, gate.b)
+            print(gate.a, "->", t)
+            print(gate.b, "->", t)
+            print(t, "->", gate.c)
+        print("}")
+
     def read_registers(self, lines):
         registers = {}
         for line in lines:
@@ -58,7 +70,7 @@ class Foo:
             result |= registers[key]
         return result
 
-    def foo(self, registers):
+    def add(self, registers):
         self.run_simulation(registers)
         return self.collect_result(registers)
 
@@ -70,41 +82,33 @@ def part1(lines):
     >>> part1(load_example(__file__, "24b"))
     2024
     """
-    foo = Foo(lines)
-    return foo.foo(foo.initial_registers.copy())
+    adder = Adder(lines)
+    return adder.add(adder.initial_registers.copy())
 
 
 def part2(lines):
-    # wnf, vtj
+    # pen and paper
+    swaps = [("wnf", "vtj"), ("frn", "z05"), ("gmq", "z21"), ("wtt", "z39")]
 
-    foo = Foo(lines)
-    foo.gates["wnf"], foo.gates["vtj"] = foo.gates["vtj"], foo.gates["wnf"]
-    foo.gates["frn"], foo.gates["z05"] = foo.gates["z05"], foo.gates["frn"]
-    foo.gates["gmq"], foo.gates["z21"] = foo.gates["z21"], foo.gates["gmq"]
-    foo.gates["wtt"], foo.gates["z39"] = foo.gates["z39"], foo.gates["wtt"]
+    a = Adder(lines)
+    for r, s in swaps:
+        a.gates[r], a.gates[s] = a.gates[s], a.gates[r]
 
     for index in range(45):
         registers = {}
-        for key in foo.initial_registers:
+        for key in a.initial_registers:
             registers[key] = 0
         registers["x%02d" % index] = 1
         registers["y%02d" % index] = 1
         expect = 1 << (index + 1)
-        actual = foo.foo(registers)
+        actual = a.add(registers)
         if expect != actual:
             print("index", index, "expect", expect, "actual", actual)
 
+    return ",".join(sorted(s for xs in swaps for s in xs))
 
-#    print("digraph foo {")
-#    for gate in foo.gates:
-#        t = '"%s %s %s"' % (gate.a, gate.d, gate.b)
-#        print(gate.a, '->', t)
-#        print(gate.b, '->', t)
-#        print(t, '->', gate.c)
-#    print("}")
 
 if __name__ == "__main__":
     data = load_input(__file__, 2024, "24")
-    # data = load_example(__file__, "24")
-    #    print(part1(data))
+    print(part1(data))
     print(part2(data))

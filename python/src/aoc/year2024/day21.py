@@ -112,7 +112,4 @@ def part2(lines):
 if __name__ == "__main__":
     data = load_input(__file__, 2024, "21")
     print(part1(data))
-    print(134120)
-    print("-----")
     print(part2(data))
-    print(167389793580400)
