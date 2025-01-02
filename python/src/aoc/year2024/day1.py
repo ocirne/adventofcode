@@ -19,7 +19,7 @@ def part1(lines):
     11
     """
     left, right = read_lists(lines)
-    return sum(abs(l-r) for l, r in zip(sorted(left), sorted(right)))
+    return sum(abs(l - r) for l, r in zip(sorted(left), sorted(right)))
 
 
 def part2(lines):

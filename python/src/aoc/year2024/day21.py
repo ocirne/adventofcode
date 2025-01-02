@@ -4,37 +4,37 @@ from collections import namedtuple
 from functools import lru_cache
 from itertools import permutations
 
-Position = namedtuple('Position', ['x', 'y'])
-Direction = namedtuple('Direction', ['dx', 'dy'])
+Position = namedtuple("Position", ["x", "y"])
+Direction = namedtuple("Direction", ["dx", "dy"])
 
 
 positions_numeric_keypad = {
-    '1': Position(0, 2),
-    '2': Position(1, 2),
-    '3': Position(2, 2),
-    '4': Position(0, 1),
-    '5': Position(1, 1),
-    '6': Position(2, 1),
-    '7': Position(0, 0),
-    '8': Position(1, 0),
-    '9': Position(2, 0),
-    '0': Position(1, 3),
-    'A': Position(2, 3),
+    "1": Position(0, 2),
+    "2": Position(1, 2),
+    "3": Position(2, 2),
+    "4": Position(0, 1),
+    "5": Position(1, 1),
+    "6": Position(2, 1),
+    "7": Position(0, 0),
+    "8": Position(1, 0),
+    "9": Position(2, 0),
+    "0": Position(1, 3),
+    "A": Position(2, 3),
 }
 
 positions_directional_keypad = {
-    '^': Position(1, 0),
-    'A': Position(2, 0),
-    '<': Position(0, 1),
-    'v': Position(1, 1),
-    '>': Position(2, 1),
+    "^": Position(1, 0),
+    "A": Position(2, 0),
+    "<": Position(0, 1),
+    "v": Position(1, 1),
+    ">": Position(2, 1),
 }
 
 NSWE = {
-    '<': Direction(-1, 0),
-    '>': Direction(1, 0),
-    '^': Direction(0, -1),
-    'v': Direction(0, 1),
+    "<": Direction(-1, 0),
+    ">": Direction(1, 0),
+    "^": Direction(0, -1),
+    "v": Direction(0, 1),
 }
 
 
@@ -55,14 +55,14 @@ def moves_on_keypad(keypad, src_char, tgt_char):
     dy = p_tgt.y - p_src.y
     moves = []
     if dx < 0:
-        moves.extend(-dx * ['<'])
+        moves.extend(-dx * ["<"])
     elif dx > 0:
-        moves.extend(dx * ['>'])
+        moves.extend(dx * [">"])
     if dy < 0:
-        moves.extend(-dy * ['^'])
+        moves.extend(-dy * ["^"])
     elif dy > 0:
-        moves.extend(dy * ['v'])
-    return (''.join(a) for a in set(permutations(moves)) if allowed(keypad, p_src, a))
+        moves.extend(dy * ["v"])
+    return ("".join(a) for a in set(permutations(moves)) if allowed(keypad, p_src, a))
 
 
 def count_moves_keypad(depth, keypad_sequence, f):
@@ -73,18 +73,22 @@ def count_moves_keypad(depth, keypad_sequence, f):
 def best_directional(depth, s, t):
     if depth == 0:
         return len(next(moves_on_keypad(positions_directional_keypad, s, t))) + 1
-    return min(count_moves_keypad(depth-1, 'A' + angebot + 'A', best_directional)
-               for angebot in moves_on_keypad(positions_directional_keypad, s, t))
+    return min(
+        count_moves_keypad(depth - 1, "A" + angebot + "A", best_directional)
+        for angebot in moves_on_keypad(positions_directional_keypad, s, t)
+    )
 
 
 @lru_cache(maxsize=None)
 def best_numerical(depth, s, t):
-    return min(count_moves_keypad(depth-1, 'A' + angebot + 'A', best_directional)
-               for angebot in moves_on_keypad(positions_numeric_keypad, s, t))
+    return min(
+        count_moves_keypad(depth - 1, "A" + angebot + "A", best_directional)
+        for angebot in moves_on_keypad(positions_numeric_keypad, s, t)
+    )
 
 
 def shortest_button_sequence(line, depth):
-    length = count_moves_keypad(depth, 'A' + line, best_numerical)
+    length = count_moves_keypad(depth, "A" + line, best_numerical)
     value = int(line[:-1])
     return length * value
 

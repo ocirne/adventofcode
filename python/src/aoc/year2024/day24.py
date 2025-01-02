@@ -8,9 +8,10 @@ class Gate:
     def __init__(self, a, b, f, d):
         self.a = a
         self.b = b
-#        self.c = c
+        #        self.c = c
         self.f = f
         self.d = d
+
 
 class Foo:
 
@@ -24,13 +25,13 @@ class Foo:
             ...
         result = {}
         for line in gates:
-            a, op, b, _, c = line.split(' ')
-            if op == 'AND':
-                f, d = operator.and_, 'and'
-            elif op == 'OR':
-                f, d = operator.or_, 'or'
-            elif op == 'XOR':
-                f, d = operator.xor, 'xor'
+            a, op, b, _, c = line.split(" ")
+            if op == "AND":
+                f, d = operator.and_, "and"
+            elif op == "OR":
+                f, d = operator.or_, "or"
+            elif op == "XOR":
+                f, d = operator.xor, "xor"
             else:
                 raise
             result[c] = Gate(a, b, f, d)
@@ -77,21 +78,22 @@ def part2(lines):
     # wnf, vtj
 
     foo = Foo(lines)
-    foo.gates['wnf'], foo.gates['vtj'] = foo.gates['vtj'], foo.gates['wnf']
-    foo.gates['frn'], foo.gates['z05'] = foo.gates['z05'], foo.gates['frn']
-    foo.gates['gmq'], foo.gates['z21'] = foo.gates['z21'], foo.gates['gmq']
-    foo.gates['wtt'], foo.gates['z39'] = foo.gates['z39'], foo.gates['wtt']
+    foo.gates["wnf"], foo.gates["vtj"] = foo.gates["vtj"], foo.gates["wnf"]
+    foo.gates["frn"], foo.gates["z05"] = foo.gates["z05"], foo.gates["frn"]
+    foo.gates["gmq"], foo.gates["z21"] = foo.gates["z21"], foo.gates["gmq"]
+    foo.gates["wtt"], foo.gates["z39"] = foo.gates["z39"], foo.gates["wtt"]
 
     for index in range(45):
         registers = {}
         for key in foo.initial_registers:
             registers[key] = 0
-        registers['x%02d' % index] = 1
-        registers['y%02d' % index] = 1
+        registers["x%02d" % index] = 1
+        registers["y%02d" % index] = 1
         expect = 1 << (index + 1)
         actual = foo.foo(registers)
         if expect != actual:
-            print('index', index, 'expect', expect, 'actual', actual)
+            print("index", index, "expect", expect, "actual", actual)
+
 
 #    print("digraph foo {")
 #    for gate in foo.gates:
@@ -104,5 +106,5 @@ def part2(lines):
 if __name__ == "__main__":
     data = load_input(__file__, 2024, "24")
     # data = load_example(__file__, "24")
-#    print(part1(data))
+    #    print(part1(data))
     print(part2(data))

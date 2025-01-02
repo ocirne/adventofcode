@@ -11,7 +11,7 @@ def check_part1(t):
 def check_part2(t):
     if check_part1(t):
         return True
-    return any(check_part1(t[:i] + t[i+1:]) for i in range(len(t)))
+    return any(check_part1(t[:i] + t[i + 1 :]) for i in range(len(t)))
 
 
 def count_safe_reports(lines, f):

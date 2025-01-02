@@ -19,6 +19,7 @@ def create_rules_comparator(rules):
         if (b, a) in rules:
             return 1
         return 0
+
     return rules_cmp
 
 
@@ -31,14 +32,14 @@ def part1(lines):
     iter_lines = iter(lines)
     while True:
         line = next(iter_lines).strip()
-        if line == '':
+        if line == "":
             break
-        rules.append(tuple(line.split('|')))
+        rules.append(tuple(line.split("|")))
 
     total = 0
     for line in iter_lines:
         if is_valid(rules, line):
-            token = line.split(',')
+            token = line.split(",")
             total += int(token[(len(token) - 1) // 2])
     return total
 
@@ -52,14 +53,14 @@ def part2(lines):
     iter_lines = iter(lines)
     while True:
         line = next(iter_lines).strip()
-        if line == '':
+        if line == "":
             break
-        rules.append(tuple(line.split('|')))
+        rules.append(tuple(line.split("|")))
     rules_cmp = create_rules_comparator(rules)
     total = 0
     for line in iter_lines:
         if not is_valid(rules, line):
-            token = line.strip().split(',')
+            token = line.strip().split(",")
             correct = sorted(token, key=cmp_to_key(rules_cmp))
             total += int(correct[(len(correct) - 1) // 2])
     return total
