@@ -11,7 +11,7 @@ def read_grid(lines):
 
 def part1(lines):
     """
-    >>> part1(load_example(__file__, "5"))
+    >>> part1(load_example(__file__, "12"))
     1930
     """
     grid = read_grid(lines)
@@ -95,7 +95,7 @@ def merge_fences(fences):
 
 def part2(lines):
     """
-    >>> part2(load_example(__file__, "5"))
+    >>> part2(load_example(__file__, "12"))
     1206
     """
     grid = read_grid(lines)
