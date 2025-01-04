@@ -134,6 +134,3 @@ class Day20(val lines: List<String>) : AocChallenge(2024, 20) {
         return count2 + total
     }
 }
-
-
-
