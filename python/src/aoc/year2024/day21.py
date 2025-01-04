@@ -79,7 +79,6 @@ def best_directional(depth, s, t):
     )
 
 
-@lru_cache(maxsize=None)
 def best_numerical(depth, s, t):
     return min(
         count_moves_keypad(depth - 1, "A" + angebot + "A", best_directional)

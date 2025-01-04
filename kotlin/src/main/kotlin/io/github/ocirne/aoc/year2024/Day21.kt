@@ -80,16 +80,21 @@ class Day21(val lines: List<String>) : AocChallenge(2024, 21) {
         return keypadSequence.zipWithNext { s, t -> f(depth, s, t) }.sum()
     }
 
-    // TODO Cache!
+    private val directionalCache = mutableMapOf<Triple<Int, Char, Char>, Long>()
+
     private fun bestDirectional(depth: Int, s: Char, t: Char): Long {
-        if (depth == 0) {
-            return movesOnKeypad(positionsDirectionalKeypad, s, t).first().size + 1L
+        val entry = Triple(depth, s, t)
+        if (entry !in directionalCache) {
+            directionalCache[entry] = if (depth == 0) {
+                movesOnKeypad(positionsDirectionalKeypad, s, t).first().size + 1L
+            } else {
+                movesOnKeypad(positionsDirectionalKeypad, s, t)
+                    .minOf { angebot -> countMovesKeypad(depth - 1, A + angebot + A, ::bestDirectional) }
+            }
         }
-        return movesOnKeypad(positionsDirectionalKeypad, s, t)
-            .minOf { angebot -> countMovesKeypad(depth - 1, A + angebot + A, ::bestDirectional) }
+        return directionalCache[entry]!!
     }
 
-    // TODO Cache!
     private fun bestNumerical(depth: Int, s: Char, t: Char): Long {
         return movesOnKeypad(positionsNumericKeypad, s, t)
             .minOf { angebot -> countMovesKeypad(depth - 1, A + angebot + A, ::bestDirectional) }
