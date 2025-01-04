@@ -6,6 +6,8 @@ class Day9(val lines: List<String>) : AocChallenge(2024, 9) {
 
     val line = lines.firstOrNull()
 
+//    TODO
+
     override fun part1(): Long {
         val disk = mutableListOf<Long?>()
         var flag = true

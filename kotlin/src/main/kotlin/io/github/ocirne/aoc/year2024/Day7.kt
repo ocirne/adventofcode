@@ -4,7 +4,7 @@ import io.github.ocirne.aoc.AocChallenge
 
 class Day7(val lines: List<String>) : AocChallenge(2024, 7) {
 
-    fun check(value: Long, numbers: List<Long>): Boolean {
+    private fun check(value: Long, numbers: List<Long>): Boolean {
         if (numbers.size == 1) {
             return value == numbers.first()
         }
@@ -25,7 +25,7 @@ class Day7(val lines: List<String>) : AocChallenge(2024, 7) {
         return total
     }
 
-    fun check2(value: Long, numbers: List<Long>): Boolean {
+    private fun check2(value: Long, numbers: List<Long>): Boolean {
         if (numbers.size == 1) {
             return value == numbers.first()
         }

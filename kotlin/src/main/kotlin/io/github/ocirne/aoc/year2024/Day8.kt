@@ -20,7 +20,7 @@ class Day8(val lines: List<String>) : AocChallenge(2024, 8) {
             }
         }
         val antinodes = mutableSetOf<Pair<Int, Int>>()
-        antennas.map { (value, positions) ->
+        antennas.map { (_, positions) ->
             positions.combinationsOfTwo().forEach { (p1, p2) ->
                 val (x1, y1) = p1
                 val (x2, y2) = p2
@@ -48,7 +48,7 @@ class Day8(val lines: List<String>) : AocChallenge(2024, 8) {
             }
         }
         val antinodes = mutableSetOf<Pair<Int, Int>>()
-        antennas.map { (value, positions) ->
+        antennas.map { (_, positions) ->
             positions.combinationsOfTwo().forEach { (p1, p2) ->
                 val (x1, y1) = p1
                 val (x2, y2) = p2

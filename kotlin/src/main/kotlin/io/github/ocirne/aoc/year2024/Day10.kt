@@ -39,7 +39,7 @@ class Day10(val lines: List<String>) : AocChallenge(2024, 10) {
         }
     }
 
-    fun search(grid: Grid<Int>, position: Position): Long {
+    private fun search(grid: Grid<Int>, position: Position): Long {
         val value = grid[position]
         if (value == 9) {
             if (!foo.contains(position)) {
@@ -58,9 +58,10 @@ class Day10(val lines: List<String>) : AocChallenge(2024, 10) {
         return total
     }
 
-    val grid = Grid(lines) { value -> value.digitToInt() }
+    private val grid = Grid(lines) { value -> value.digitToInt() }
 
-    var foo = mutableMapOf<Position, Int>()
+    // TODO
+    private var foo = mutableMapOf<Position, Int>()
 
     override fun part1(): Long {
         var total = 0L

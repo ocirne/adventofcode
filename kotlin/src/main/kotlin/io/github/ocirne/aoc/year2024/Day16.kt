@@ -130,6 +130,7 @@ class Day16(val lines: List<String>) : AocChallenge(2024, 16) {
             for (x in 0..140) {
                 val p = Position(x, y)
                 when {
+                    // TODO
                    (p in bestPaths) -> print('O')
                     (p in grid) -> print(grid[p])
                     else -> print(' ')

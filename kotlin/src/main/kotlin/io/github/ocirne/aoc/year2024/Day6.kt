@@ -24,7 +24,6 @@ class Day6(val lines: List<String>) : AocChallenge(2024, 6) {
         }
         val visited = mutableSetOf<Pair<Int, Int>>()
         while (true) {
-            // println("$px $py $direction")
             visited.add(px to py)
             val (dx, dy) = when (direction) {
                 '^' -> (0 to -1)
@@ -59,7 +58,6 @@ class Day6(val lines: List<String>) : AocChallenge(2024, 6) {
         var direction = '^'
         val visited = mutableSetOf<Triple<Int, Int, Char>>()
         while (true) {
-           // println("$px $py $direction")
             if (visited.contains(Triple(px, py, direction))) {
                 return true
             }
@@ -116,7 +114,6 @@ class Day6(val lines: List<String>) : AocChallenge(2024, 6) {
                 }
                 obstacles.add(ox to oy)
                 if (hasLoop(width, height, obstacles, px, py)) {
-                    println("$ox $oy")
                     total++
                 }
                 obstacles.remove(ox to oy)

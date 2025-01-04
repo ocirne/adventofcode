@@ -34,7 +34,6 @@ class Day24(val lines: List<String>) : AocChallenge(2024, 24) {
         }
         var result = 0L
         for (key in registers.keys.filter { it.startsWith("z") }.sorted().reversed()) {
-            println("$key ${registers[key]}")
             result = result shl 1
             result = result or registers[key]!!.toLong()
         }
