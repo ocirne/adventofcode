@@ -43,7 +43,7 @@ class Day12(val lines: List<String>) : AocChallenge(2024, 12) {
 
     override fun part1(): Long {
         val plants = grid.grid.values.toSet()
-        val areas = grid.grid.map { (position, plant) -> plant }.groupingBy { it }.eachCount()
+        val areas = grid.grid.map { (_, plant) -> plant }.groupingBy { it }.eachCount()
         val fences = mutableMapOf<Char, Int>()
         grid.grid.map { (position, plant) ->
             val nonNeigbor = 4 - grid.neighbors4S(position).filter { neighbor -> grid[neighbor] == plant }.count()

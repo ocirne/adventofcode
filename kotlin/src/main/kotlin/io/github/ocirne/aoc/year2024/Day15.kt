@@ -95,7 +95,7 @@ class Day15(val lines: List<String>) : AocChallenge(2024, 15) {
 
         fun print() {
             for (y in 0 until height) {
-                for (x in 0 until width!!) {
+                for (x in 0 until width) {
                     print(grid[Position(x, y)])
                 }
                 println()
