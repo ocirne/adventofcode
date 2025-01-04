@@ -8,9 +8,7 @@ class Day23(val lines: List<String>) : AocChallenge(2024, 23) {
         val pairs = lines.map { it.trim().split('-').toSet() }
         val nList = pairs.flatten().toSet()
         val tList = nList.filter { it.startsWith('t') }.toSet()
-        var result = mutableSetOf<Set<String>>()
-        println(tList.size)
-        println(pairs.size)
+        val result = mutableSetOf<Set<String>>()
         for (t in tList) {
             for (p in pairs) {
                 if (t in p)
@@ -18,7 +16,6 @@ class Day23(val lines: List<String>) : AocChallenge(2024, 23) {
                 val (a, b) = p.toList()
                 if (setOf(a, t) in pairs && setOf(b, t) in pairs) {
                     result.add(setOf(t, a, b))
-                    println("$t $a $b")
                 }
             }
         }
@@ -37,7 +34,6 @@ class Day23(val lines: List<String>) : AocChallenge(2024, 23) {
     }
 
     private fun allTriples(allPairs: Set<Set<String>>, allSets: Set<Set<String>>): String {
-        println("" + allPairs.size + " " + allSets.size)
         if (allSets.size == 1) {
             return allSets.first().sorted().joinToString(",")
         }
