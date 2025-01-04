@@ -2,7 +2,7 @@ package io.github.ocirne.aoc
 
 fun exclusiveRange(f: Int, t: Int): IntRange = if (f < t) IntRange(f+1, t-1) else IntRange(t+1, f-1)
 
-fun <T> Collection<T>.permutations(): Iterable<List<T>> {
+fun <T> Set<T>.permutations(): Iterable<List<T>> {
     if (this.size <= 1) {
         return listOf(this.toList())
     }
@@ -16,10 +16,22 @@ fun <T> Collection<T>.permutations(): Iterable<List<T>> {
     return result
 }
 
-fun <T> Collection<T>.without(value: T): Collection<T> {
+fun <T> Set<T>.without(value: T): Set<T> {
     val copy = this.toMutableSet()
     copy.remove(value)
     return copy.toSet()
+}
+
+fun <T> List<T>.permutations(result: List<T> = listOf()): List<List<T>> =
+    if (isEmpty())
+        listOf(result)
+    else
+        flatMapIndexed { i, c -> withoutAt(i).permutations(result + c) }
+
+fun <T> List<T>.withoutAt(index: Int): List<T> {
+    val copy = this.toMutableList()
+    copy.removeAt(index)
+    return copy.toList()
 }
 
 fun <T> List<T>.combinationsOfTwo(): Sequence<Pair<T, T>> {
