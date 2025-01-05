@@ -12,7 +12,7 @@ class Day15(val lines: List<String>) : AocChallenge(2023, 15) {
         return lines.first().split(',').sumOf { step -> aocHash(step) }
     }
 
-    fun focusingPower(boxes: List<LinkedHashMap<String, Int>>): Int {
+    private fun focusingPower(boxes: List<LinkedHashMap<String, Int>>): Int {
         var result = 0
         boxes.mapIndexed { boxNumber, box ->
             box.onEachIndexed { slotNumber, (_, focalLength) ->

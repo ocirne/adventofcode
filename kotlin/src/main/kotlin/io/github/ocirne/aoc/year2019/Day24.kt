@@ -110,15 +110,15 @@ class Day24(val lines: List<String>) : AocChallenge(2019, 24) {
         )
 
         override fun countAdjacentBugs(b: Bug): Int {
-            return NSWE_PLUTO.map { a ->
+            return NSWE_PLUTO.sumOf { a ->
                 if (a.isLookAtOuterLevel(b.x, b.y)) {
                     if (a.outerLevelBug(b.z) in bugs) 1 else 0
                 } else if (a.isLookAtInnerLevel(b.x, b.y)) {
                     a.innerLevelBugs(b.z).filter { it in bugs }.count()
                 } else { // same level
-                    if (Bug(b.x+a.dx, b.y+a.dy, b.z) in bugs) 1 else 0
+                    if (Bug(b.x + a.dx, b.y + a.dy, b.z) in bugs) 1 else 0
                 }
-            }.sum()
+            }
         }
     }
 

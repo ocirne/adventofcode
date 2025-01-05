@@ -39,7 +39,7 @@ class Day9(val lines: List<String>) : AocChallenge(2024, 9) {
 
     data class File(val size: Int, val id: Long?)
 
-    fun printDisk(disk: List<File>) {
+    private fun printDisk(disk: List<File>) {
         for (file in disk) {
             repeat(file.size) {print(file.id ?: '.')}
         }

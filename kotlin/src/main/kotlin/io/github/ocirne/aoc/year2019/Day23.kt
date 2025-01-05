@@ -31,7 +31,7 @@ class Day23(val lines: List<String>) : AocChallenge(2019, 23) {
         }
     }
 
-    val network = mutableListOf<Triple<Long, Long, Long>>()
+    private val network = mutableListOf<Triple<Long, Long, Long>>()
 
     override fun part1(): Long {
         val nics = IntRange(0, 49).map {  NIC(lines, it.toLong()) }

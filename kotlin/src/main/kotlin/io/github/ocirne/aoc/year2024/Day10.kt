@@ -42,9 +42,7 @@ class Day10(val lines: List<String>) : AocChallenge(2024, 10) {
     private fun search(grid: Grid<Int>, position: Position): Long {
         val value = grid[position]
         if (value == 9) {
-            if (!foo.contains(position)) {
-                foo.put(position, 0)
-            }
+            foo.putIfAbsent(position, 0)
             foo[position] = foo[position]!! + 1
             return 1
         }

@@ -21,7 +21,7 @@ class Day6(val lines: List<String>) : AocChallenge(2019, 6) {
     }
 
     fun commonParent(you: String, san: String): String {
-        var planets_you = mutableSetOf<String>()
+        val planets_you = mutableSetOf<String>()
         var py = you
         while (py != "COM") {
             planets_you.add(py)

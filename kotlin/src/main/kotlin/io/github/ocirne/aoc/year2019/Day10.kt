@@ -107,7 +107,7 @@ class Day10(val lines: List<String>) : AocChallenge(2019, 10) {
                     i += 1
                 }
                 if (i == 200) {
-                    val t = rs.sortedBy { it.first }.get(level).second
+                    val t = rs.sortedBy { it.first }[level].second
                     return 100 * t.x + t.y
                 }
             }

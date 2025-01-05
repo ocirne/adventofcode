@@ -4,9 +4,9 @@ import io.github.ocirne.aoc.AocChallenge
 
 class Day8(val lines: List<String>) : AocChallenge(2019, 8) {
 
-    val BLACK = '0'
-    val WHITE = '1'
-    val TRANSPARENT = '2'
+    private val BLACK = '0'
+    private val WHITE = '1'
+    private val TRANSPARENT = '2'
 
     private fun countDigit(layer: String, digit: Char): Int {
         return layer.count { c -> c == digit }
