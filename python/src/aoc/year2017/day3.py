@@ -8,7 +8,7 @@ def get_edge_length(target):
     result = int(sqrt(target))
     if result % 2 == 0:
         result -= 1
-    if result ** 2 == target:
+    if result**2 == target:
         return result
     return result + 2
 
@@ -18,7 +18,7 @@ def manhattan_distance(x, y, middle):
 
 
 def coordinates(edge, target):
-    bottom_right = edge ** 2
+    bottom_right = edge**2
     bottom_left = bottom_right - (edge - 1)
     top_left = bottom_left - (edge - 1)
     top_right = top_left - (edge - 1)

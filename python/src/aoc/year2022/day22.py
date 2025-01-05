@@ -86,12 +86,10 @@ class Board(ABC):
         self.size = size
 
     @abstractmethod
-    def _read_board(self, lines, size):
-        ...
+    def _read_board(self, lines, size): ...
 
     @abstractmethod
-    def _neighbor(self, cq, cf, cx, cy, dx, dy):
-        ...
+    def _neighbor(self, cq, cf, cx, cy, dx, dy): ...
 
     def follow_path(self, start_quadrant=(0, 0)):
         q, f, x, y = start_quadrant, 0, 0, 0

@@ -98,8 +98,7 @@ def part1(lines):
     return decimal_to_snafu(sum(snafu_to_decimal(line) for line in lines))
 
 
-def part2(lines):
-    ...
+def part2(lines): ...
 
 
 if __name__ == "__main__":

@@ -41,7 +41,7 @@ def part1(lines):
 
 
 def part2(lines):
-    """ decompiled input """
+    """decompiled input"""
     c = 1
     a, b, d = 1, 1, 26
     if c != 0:

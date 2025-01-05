@@ -24,8 +24,7 @@ def part1(lines):
     return count_viable_pairs
 
 
-def part2(lines):
-    ...
+def part2(lines): ...
 
 
 if __name__ == "__main__":

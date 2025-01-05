@@ -81,8 +81,7 @@ def part1(lines):
     return snowverload.result
 
 
-def part2(lines):
-    ...
+def part2(lines): ...
 
 
 if __name__ == "__main__":

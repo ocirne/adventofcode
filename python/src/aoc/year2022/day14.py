@@ -3,14 +3,14 @@ from aoc.util import load_input, load_example
 
 def inclusive_range(a, b):
     if a < b:
-        return range(a, b+1)
+        return range(a, b + 1)
     return range(b, a + 1)
 
 
 def read_cave(lines):
     cave = set()
     for line in lines:
-        pairs = [tuple(map(int, pair.split(','))) for pair in line.split(' -> ')]
+        pairs = [tuple(map(int, pair.split(","))) for pair in line.split(" -> ")]
         cx, cy = pairs[0]
         for nx, ny in pairs:
             for x in inclusive_range(cx, nx):
@@ -28,11 +28,11 @@ def drop_sand(cave, floor_y, with_floor):
                 return sx, sy
             else:
                 return None
-        elif (sx, sy+1) not in cave:
+        elif (sx, sy + 1) not in cave:
             sy += 1
-        elif (sx - 1, sy+1) not in cave:
+        elif (sx - 1, sy + 1) not in cave:
             sx, sy = sx - 1, sy + 1
-        elif (sx + 1, sy+1) not in cave:
+        elif (sx + 1, sy + 1) not in cave:
             sx, sy = sx + 1, sy + 1
         else:
             return sx, sy

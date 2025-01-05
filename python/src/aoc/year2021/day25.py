@@ -50,8 +50,7 @@ def part1(lines):
         steps += 1
 
 
-def part2(lines):
-    ...
+def part2(lines): ...
 
 
 if __name__ == "__main__":

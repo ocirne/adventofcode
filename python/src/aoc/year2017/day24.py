@@ -66,7 +66,7 @@ class Part2(Search):
 
 
 def connect_twice(connectors):
-    """ values which are exactly twice in the list can be used to merge to connectors """
+    """values which are exactly twice in the list can be used to merge to connectors"""
     result = connectors
     while True:
         values = [con.left for con in result] + [con.right for con in result]

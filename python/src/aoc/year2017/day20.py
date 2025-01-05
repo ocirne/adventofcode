@@ -6,7 +6,7 @@ from aoc.util import load_input, load_example
 
 
 def part1(lines):
-    r""" ¯\_(ツ)_/¯ """
+    r"""¯\_(ツ)_/¯"""
     return next(index for index, line in enumerate(lines) if "a=<0,0,0>" in line)
 
 
