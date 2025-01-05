@@ -1,33 +1,34 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    kotlin("jvm") version "1.8.10"
-    id("org.cyclonedx.bom") version "1.7.3"
+    kotlin("jvm") version "2.1.0"
 }
 
 repositories {
     mavenCentral()
 }
 
-tasks.withType<KotlinCompile>().configureEach {
-    kotlinOptions {
-        jvmTarget = "17"
+kotlin {
+    jvmToolchain(17)
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
     }
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    testLogging.showExceptions = true
 }
 
 dependencies {
     implementation(kotlin("stdlib"))
 
-    testImplementation(platform("org.junit:junit-bom:5.9.2"))
+    testImplementation(platform("org.junit:junit-bom:5.11.4"))
     testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("io.kotest:kotest-runner-junit5:5.5.5")
-    testImplementation("io.kotest:kotest-assertions-core:5.5.5")
-    testImplementation("com.opencsv:opencsv:5.7.1")
-    testImplementation("org.jetbrains.kotlin:kotlin-reflect:1.8.10")
+    testImplementation("io.kotest:kotest-runner-junit5:5.9.1")
+    testImplementation("io.kotest:kotest-assertions-core:5.9.1")
+    testImplementation("com.opencsv:opencsv:5.9")
+    testImplementation("org.jetbrains.kotlin:kotlin-reflect:2.1.0")
     testImplementation("org.reflections:reflections:0.10.2")
 }
 
@@ -35,25 +36,4 @@ configurations {
     implementation {
         resolutionStrategy.failOnVersionConflict()
     }
-}
-
-configure<JavaPluginExtension> {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
-}
-
-tasks {
-    test {
-        testLogging.showExceptions = true
-    }
-}
-
-tasks.cyclonedxBom {
-    setIncludeConfigs(listOf("runtimeClasspath"))
-    setProjectType("application")
-    setSchemaVersion("1.4")
-    setDestination(project.file("build/reports"))
-    setOutputName("bom")
-    setOutputFormat("json")
-    setIncludeBomSerialNumber(false)
 }
