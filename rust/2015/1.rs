@@ -1,43 +1,27 @@
 use std::fs;
 
-fn main() {
-    const filename: &str = "../../../adventofcode-input/resources/2015/1/input";
-
-    println!("Hello");
-
-    let data = fs::read_to_string(filename).expect("Should be able to read file");
-    let mut floor = 0;
-    for c in data.chars() {
-        match c {
-            '(' => {
-                //println!("open");
-                floor += 1;
-            }
-            ')' => {
-                //println!("close");
-                floor -= 1;
-            }
-            other => {}
-        }
-    }
-    println!("{floor}");
-
+fn solve(data: &str, part2: bool) -> isize {
     let mut floor = 0;
     for (index, c) in data.chars().enumerate() {
         match c {
             '(' => {
-                println!("open");
                 floor += 1;
             }
             ')' => {
-                println!("close");
                 floor -= 1;
             }
-            other => {}
+            _ => {}
         }
-        if floor < 0 {
-            println!("{}", index + 1);
-            break;
+        if part2 && floor < 0 {
+            return (index + 1) as isize;
         }
     }
+    floor
+}
+
+fn main() {
+    const FILENAME: &str = "../../../adventofcode-input/resources/2015/1/input";
+    let data = fs::read_to_string(FILENAME).expect("file error");
+    println!("{}", solve(&data, false));
+    println!("{}", solve(&data, true));
 }
