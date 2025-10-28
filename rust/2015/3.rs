@@ -1,11 +1,14 @@
 use std::collections::HashSet;
 use std::fs;
 
-fn part1(data: &str) -> usize {
-    let (mut x, mut y) = (0, 0);
-    let mut houses = HashSet::new();
-    houses.insert((x, y));
-    for c in data.chars() {
+#[derive(Copy, Clone)]
+struct Santa {
+    x: isize,
+    y: isize,
+}
+
+impl Santa {
+    fn move_santa(self, c: char) -> Self {
         let (dx, dy) = match c {
             '^' => (0, -1),
             'v' => (0, 1),
@@ -13,33 +16,39 @@ fn part1(data: &str) -> usize {
             '>' => (1, 0),
             _ => (0, 0),
         };
-        x += dx;
-        y += dy;
-        houses.insert((x, y));
+        Santa {
+            x: self.x + dx,
+            y: self.y + dy,
+        }
+    }
+    fn position(self) -> (isize, isize) {
+        (self.x, self.y)
+    }
+}
+
+fn part1(data: &str) -> usize {
+    let mut santa = Santa { x: 0, y: 0 };
+    let mut houses = HashSet::new();
+    houses.insert(santa.position());
+    for c in data.chars() {
+        santa = santa.move_santa(c);
+        houses.insert(santa.position());
     }
     houses.len()
 }
 
 fn part2(data: &str) -> usize {
-    let (mut x, mut y, mut rx, mut ry) = (0, 0, 0, 0);
+    let mut santa = Santa { x: 0, y: 0 };
+    let mut robot_santa = Santa { x: 0, y: 0 };
     let mut houses = HashSet::new();
-    houses.insert((x, y));
+    houses.insert(santa.position());
     for (index, c) in data.chars().enumerate() {
-        let (dx, dy) = match c {
-            '^' => (0, -1),
-            'v' => (0, 1),
-            '<' => (-1, 0),
-            '>' => (1, 0),
-            _ => (0, 0),
-        };
         if index % 2 == 0 {
-            x += dx;
-            y += dy;
-            houses.insert((x, y));
+            santa = santa.move_santa(c);
+            houses.insert(santa.position());
         } else {
-            rx += dx;
-            ry += dy;
-            houses.insert((rx, ry));
+            robot_santa = robot_santa.move_santa(c);
+            houses.insert(robot_santa.position());
         }
     }
     houses.len()
