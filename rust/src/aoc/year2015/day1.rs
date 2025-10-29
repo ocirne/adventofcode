@@ -1,5 +1,3 @@
-use std::fs;
-
 pub fn yd() -> (usize, usize) {
     (2015, 1)
 }

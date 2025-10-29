@@ -2,7 +2,7 @@ use std::fs;
 
 mod aoc;
 
-use aoc::year2015::day1 as current;
+use aoc::year2015::day4 as current;
 
 fn main() {
     let (year, day) = current::yd();

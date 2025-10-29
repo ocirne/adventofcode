@@ -1,5 +1,8 @@
 use md5;
-use std::fs;
+
+pub fn yd() -> (usize, usize) {
+    (2015, 4)
+}
 
 fn solve(data: &str, target: &str) -> usize {
     let mut i = 0;
@@ -12,9 +15,10 @@ fn solve(data: &str, target: &str) -> usize {
     }
 }
 
-fn main() {
-    const FILENAME: &str = "/home/enrico/github/adventofcode-input/resources/2015/4/input";
-    let data = fs::read_to_string(FILENAME).expect("file error");
-    println!("{}", solve(&data, "00000"));
-    println!("{}", solve(&data, "000000"));
+pub fn part1(data: &str) -> usize {
+    solve(&data, "00000")
+}
+
+pub fn part2(data: &str) -> usize {
+    solve(&data, "000000")
 }

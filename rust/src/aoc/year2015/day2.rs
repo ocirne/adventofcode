@@ -1,4 +1,6 @@
-use std::fs;
+pub fn yd() -> (usize, usize) {
+    (2015, 2)
+}
 
 struct Dimensions {
     l: usize,
@@ -16,11 +18,12 @@ impl Dimensions {
     }
 }
 
-fn solve<F>(lines: &Vec<&str>, f: F) -> usize
+fn solve<F>(data: &str, f: F) -> usize
 where
     F: Fn(Dimensions) -> usize,
 {
     let mut total = 0;
+    let lines: Vec<&str> = data.split('\n').collect();
     for line in lines {
         if line.is_empty() {
             continue;
@@ -40,10 +43,10 @@ where
     total
 }
 
-fn main() {
-    const FILENAME: &str = "../../../adventofcode-input/resources/2015/2/input";
-    let data = fs::read_to_string(FILENAME).expect("file error");
-    let lines = data.split('\n').collect();
-    println!("{}", solve(&lines, |d| d.part1()));
-    println!("{}", solve(&lines, |d| d.part2()));
+pub fn part1(data: &str) -> usize {
+    solve(&data, |d| d.part1())
+}
+
+pub fn part2(data: &str) -> usize {
+    solve(&data, |d| d.part2())
 }

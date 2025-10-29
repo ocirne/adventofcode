@@ -1,5 +1,8 @@
 use std::collections::HashSet;
-use std::fs;
+
+pub fn yd() -> (usize, usize) {
+    (2015, 3)
+}
 
 #[derive(Copy, Clone)]
 struct Santa {
@@ -26,7 +29,7 @@ impl Santa {
     }
 }
 
-fn part1(data: &str) -> usize {
+pub fn part1(data: &str) -> usize {
     let mut santa = Santa { x: 0, y: 0 };
     let mut houses = HashSet::new();
     houses.insert(santa.position());
@@ -37,7 +40,7 @@ fn part1(data: &str) -> usize {
     houses.len()
 }
 
-fn part2(data: &str) -> usize {
+pub fn part2(data: &str) -> usize {
     let mut santa = Santa { x: 0, y: 0 };
     let mut robot_santa = Santa { x: 0, y: 0 };
     let mut houses = HashSet::new();
@@ -52,11 +55,4 @@ fn part2(data: &str) -> usize {
         }
     }
     houses.len()
-}
-
-fn main() {
-    const FILENAME: &str = "../../../adventofcode-input/resources/2015/3/input";
-    let data = fs::read_to_string(FILENAME).expect("file error");
-    println!("{}", part1(&data));
-    println!("{}", part2(&data));
 }
