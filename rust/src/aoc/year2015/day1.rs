@@ -1,5 +1,9 @@
 use std::fs;
 
+pub fn yd() -> (usize, usize) {
+    (2015, 1)
+}
+
 fn solve(data: &str, part2: bool) -> isize {
     let mut floor = 0;
     for (index, c) in data.chars().enumerate() {
@@ -15,9 +19,10 @@ fn solve(data: &str, part2: bool) -> isize {
     floor
 }
 
-fn main() {
-    const FILENAME: &str = "../../../adventofcode-input/resources/2015/1/input";
-    let data = fs::read_to_string(FILENAME).expect("file error");
-    println!("{}", solve(&data, false));
-    println!("{}", solve(&data, true));
+pub fn part1(data: &str) -> isize {
+    solve(&data, false)
+}
+
+pub fn part2(data: &str) -> isize {
+    solve(&data, true)
 }
