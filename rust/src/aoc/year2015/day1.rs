@@ -48,7 +48,7 @@ mod tests {
     }
 
     #[test]
-    fn tests_parts() {
+    fn tests_part2() {
         // ) causes him to enter the basement at character position 1
         assert_eq!(part2(")"), 1);
         // ()()) causes him to enter the basement at character position 5
