@@ -2,50 +2,45 @@ pub fn yd() -> (usize, usize) {
     (2025, 1)
 }
 
-pub fn part1(data: &str) -> usize {
-    let mut result = 0;
-    let mut p = 50;
-    for line in data.lines() {
-        if line.starts_with("L") {
-            let d = line.strip_prefix("L").unwrap().parse::<isize>().unwrap();
-            p -= d;
-        } else if line.starts_with("R") {
-            let d = line.strip_prefix("R").unwrap().parse::<isize>().unwrap();
-            p += d;
-        }
-        p %= 100;
-        if p == 0 {
-            result += 1;
-        }
-    }
-    result
+struct Dial {
+    position: isize,
+    total: usize
 }
 
-pub fn part2(data: &str) -> isize {
-    let mut result = 0;
-    let mut p = 50;
-    for line in data.lines() {
-        if line.starts_with("L") {
-            let d = line.strip_prefix("L").unwrap().parse::<isize>().unwrap();
-            for i in 0..d {
-                p -= 1;
-                p %= 100;
-                if p == 0 {
-                    result += 1;
-                }
-            }
-        } else if line.starts_with("R") {
-            let d = line.strip_prefix("R").unwrap().parse::<isize>().unwrap();
-            for i in 0..d {
-                p += 1;
-                p %= 100;
-                if p == 0 {
-                    result += 1;
-                }
-            }
-        }
+impl Dial {
+    fn part1(&self, delta: isize) -> Self {
+        let p1 = (self.position + delta) % 100;
+        let total1 = self.total + (p1 == 0) as usize;
+        Dial { position: p1, total: total1 }
     }
-    result
+
+    fn part2(&self, delta: isize) -> Self {
+        let p1 = (self.position + delta) % 100;
+        let s = (delta.signum() * self.position).rem_euclid(100) + delta.abs();
+        let total1 = self.total + (s / 100) as usize;
+        Dial { position: p1, total: total1 }
+    }
+}
+
+fn solve<F>(data: &str, f: F) -> usize
+where
+    F: Fn(Dial, isize) -> Dial
+{
+    let data = data.replace("L", "-").replace("R", "+");
+    let mut dial = Dial { position: 50, total: 0 };
+    for line in data.lines() {
+        let delta = line.parse::<isize>().unwrap();
+        dial = f(dial, delta)
+    }
+    dial.total
+}
+
+pub fn part1(data: &str) -> usize {
+    solve(data, |dial, delta| dial.part1(delta))
+}
+
+pub fn part2(data: &str) -> usize {
+    solve(data, |dial, delta| dial.part2(delta))
 }
 
 #[cfg(test)]
