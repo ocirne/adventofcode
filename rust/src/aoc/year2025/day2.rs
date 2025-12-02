@@ -1,5 +1,4 @@
-use std::cmp::max;
-use std::collections::{HashMap, HashSet};
+use std::collections::HashSet;
 
 pub fn yd() -> (usize, usize) {
     (2025, 2)
@@ -19,18 +18,26 @@ fn lower_bound(a_str: &str, n: usize) -> usize {
     let len = a_str.len() / n;
     let first = &a_str[..len].parse::<usize>().unwrap();
     let cand = repeat(first, n);
-    if cand < a { first + 1 } else { *first }
+    if cand < a {
+        first + 1
+    } else {
+        *first
+    }
 }
 
 fn upper_bound(b_str: &str, n: usize) -> usize {
     if b_str.len() % n != 0 {
-        return TEN.pow(((b_str.len()-1) / n) as u32) - 1;
+        return TEN.pow(((b_str.len() - 1) / n) as u32) - 1;
     }
     let b = b_str.parse::<usize>().unwrap();
     let len = b_str.len() / n;
     let first = &b_str[..len].parse::<usize>().unwrap();
     let cand = repeat(first, n);
-    if cand > b { first - 1 } else { *first }
+    if cand > b {
+        first - 1
+    } else {
+        *first
+    }
 }
 
 fn count_n(a_str: &str, b_str: &str, n: usize) -> HashSet<usize> {

@@ -25,7 +25,7 @@ fn part1_internal(data: &str, b: u16) -> HashMap<&str, u16> {
     }
     let mut rules: Vec<&str> = data.lines().collect();
     while rules.len() > 0 {
-//        println!("{}", rules.len());
+        //        println!("{}", rules.len());
         let mut next_rules: Vec<&str> = Vec::new();
         for line in rules.iter() {
             match line {
@@ -49,7 +49,7 @@ fn part1_internal(data: &str, b: u16) -> HashMap<&str, u16> {
                     let z = token.get(4).unwrap();
                     if x.is_err() || y.is_err() {
                         next_rules.push(line);
-                    } else  if !wires.contains_key(z) {
+                    } else if !wires.contains_key(z) {
                         wires.insert(z, x.unwrap() | y.unwrap());
                     }
                 }
@@ -61,7 +61,7 @@ fn part1_internal(data: &str, b: u16) -> HashMap<&str, u16> {
                     let q = token.get(4).unwrap();
                     if p.is_err() || value.is_err() {
                         next_rules.push(line);
-                    } else  if !wires.contains_key(q) {
+                    } else if !wires.contains_key(q) {
                         wires.insert(q, p.unwrap() << value.unwrap());
                     }
                 }
@@ -73,7 +73,7 @@ fn part1_internal(data: &str, b: u16) -> HashMap<&str, u16> {
                     let q = token.get(4).unwrap();
                     if p.is_err() || value.is_err() {
                         next_rules.push(line);
-                    } else  if !wires.contains_key(q) {
+                    } else if !wires.contains_key(q) {
                         wires.insert(q, p.unwrap() >> value.unwrap());
                     }
                 }
@@ -84,13 +84,13 @@ fn part1_internal(data: &str, b: u16) -> HashMap<&str, u16> {
                     let f = token.get(3).unwrap();
                     if e.is_err() {
                         next_rules.push(line);
-                    } else if !wires.contains_key(f)  {
+                    } else if !wires.contains_key(f) {
                         wires.insert(f, !e.unwrap());
                     }
                 }
                 // 123 -> x means that the signal 123 is provided to wire x.
                 _ => {
-//                    println!("{line}");
+                    //                    println!("{line}");
                     let token: Vec<&str> = line.split(" ").collect();
                     let t0 = foo(&wires, token.get(0).unwrap());
                     let x = token.get(2).unwrap();

@@ -5,17 +5,19 @@ pub fn yd() -> (usize, usize) {
 }
 
 struct LightGrid {
-    grid: FixedGrid
+    grid: FixedGrid,
 }
 
 impl LightGrid {
     fn new(size: usize) -> LightGrid {
-        LightGrid { grid: FixedGrid::square(size) }
+        LightGrid {
+            grid: FixedGrid::square(size),
+        }
     }
 
     fn light<F>(&mut self, coords: (usize, usize, usize, usize), f: F)
     where
-        F: Fn(usize) -> usize
+        F: Fn(usize) -> usize,
     {
         let (x0, y0, x1, y1) = coords;
         for x in x0..=x1 {
@@ -39,7 +41,10 @@ impl LightGrid {
 
 fn get_xy(xy: &str) -> (usize, usize) {
     let xy: Vec<&str> = xy.split(",").collect();
-    (xy[0].parse::<usize>().unwrap(), xy[1].parse::<usize>().unwrap())
+    (
+        xy[0].parse::<usize>().unwrap(),
+        xy[1].parse::<usize>().unwrap(),
+    )
 }
 
 fn parse_line(line: &str, i0: usize, i1: usize) -> (usize, usize, usize, usize) {
@@ -53,7 +58,7 @@ fn solve<F, G, H>(data: &str, fn_on: F, fn_off: G, fn_toggle: H) -> usize
 where
     F: Fn(usize) -> usize,
     G: Fn(usize) -> usize,
-    H: Fn(usize) -> usize
+    H: Fn(usize) -> usize,
 {
     let mut grid = LightGrid::new(1000);
     for line in data.lines() {
