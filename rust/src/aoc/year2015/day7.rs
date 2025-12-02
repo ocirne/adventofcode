@@ -8,11 +8,11 @@ pub fn yd() -> (usize, usize) {
 fn foo(wires: &HashMap<&str, u16>, token: &str) -> Result<u16, ParseIntError> {
     match token.parse::<u16>() {
         Ok(value) => Ok(value),
-        ParseIntError => {
+        pie => {
             if wires.contains_key(token) {
                 Ok(wires[token])
             } else {
-                ParseIntError
+                pie
             }
         }
     }
