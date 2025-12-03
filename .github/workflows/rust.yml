@@ -1,4 +1,8 @@
-name: Rust
+name: Rust Checks
+
+defaults:
+  run:
+    working-directory: ./rust
 
 on:
   push:
