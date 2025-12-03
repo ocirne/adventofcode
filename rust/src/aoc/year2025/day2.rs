@@ -57,6 +57,7 @@ fn count_two(pair: &str) -> usize {
     count_n(a_str, b_str, 2).into_iter().sum()
 }
 
+// TODO: Test with longer range
 fn count_all(pair: &str) -> usize {
     let mut split = pair.split("-");
     let a_str = split.next().unwrap();
@@ -69,11 +70,11 @@ fn count_all(pair: &str) -> usize {
 }
 
 pub fn part1(data: &str) -> usize {
-    data.trim().split(",").map(|pair| count_two(pair)).sum()
+    data.trim().split(",").map(count_two).sum()
 }
 
 pub fn part2(data: &str) -> usize {
-    data.trim().split(",").map(|pair| count_all(pair)).sum()
+    data.trim().split(",").map(count_all).sum()
 }
 
 #[cfg(test)]
